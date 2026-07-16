@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "audio-controls",
+  "name": "Audio Controls",
+  "icon": "AU",
+  "brightness": 5,
+  "keys": [
+    {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "MUTE"}]},
+    {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_DECREMENT"}]},
+    {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_INCREMENT"}]},
+    {"name": "Previous track", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_PREVIOUS_TRACK"}]},
+    {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]},
+    {"name": "Next track", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_NEXT_TRACK"}]},
+    {"name": "Stop", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "STOP"}]},
+    {"name": "Volume down 5", "oled_label": "VOL--", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_DECREMENT"}, {"type": "consumer", "code": "VOLUME_DECREMENT"}, {"type": "consumer", "code": "VOLUME_DECREMENT"}, {"type": "consumer", "code": "VOLUME_DECREMENT"}, {"type": "consumer", "code": "VOLUME_DECREMENT"}]},
+    {"name": "Volume up 5", "oled_label": "VOL++", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_INCREMENT"}, {"type": "consumer", "code": "VOLUME_INCREMENT"}, {"type": "consumer", "code": "VOLUME_INCREMENT"}, {"type": "consumer", "code": "VOLUME_INCREMENT"}, {"type": "consumer", "code": "VOLUME_INCREMENT"}]},
+    {"name": "Record", "oled_label": "REC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "RECORD"}]},
+    {"name": "Eject", "oled_label": "EJECT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "EJECT"}]},
+    {"name": "Media play pause", "oled_label": "MEDIA", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]}
+  ],
+  "encoder_press": {"name": "Mute", "oled_label": "MUTE", "steps": [{"type": "consumer", "code": "MUTE"}]}
+}

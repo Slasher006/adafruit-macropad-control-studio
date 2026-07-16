@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "terminal-manjaro",
+  "name": "Manjaro Terminal",
+  "icon": "MN",
+  "brightness": 5,
+  "keys": [
+    {"name": "Check updates", "oled_label": "CHECK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac checkupdates -a"}]},
+    {"name": "Upgrade system", "oled_label": "UPDATE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac upgrade -a"}]},
+    {"name": "Pacman full update", "oled_label": "S-SYU", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "sudo pacman -Syu"}]},
+    {"name": "Search packages", "oled_label": "SEARCH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac search "}]},
+    {"name": "Install package", "oled_label": "INSTAL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac install "}]},
+    {"name": "Build AUR package", "oled_label": "AUR", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac build "}]},
+    {"name": "Remove package", "oled_label": "REMOVE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac remove "}]},
+    {"name": "Package info", "oled_label": "INFO", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac info "}]},
+    {"name": "List orphans", "oled_label": "ORPHAN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac list -o"}]},
+    {"name": "Clean package cache", "oled_label": "CLEAN", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac clean --keep 3"}]},
+    {"name": "Service status", "oled_label": "SVC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "systemctl status "}]},
+    {"name": "Boot warnings", "oled_label": "LOG", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "journalctl -b -p warning"}]}
+  ],
+  "encoder_press": {"name": "Cancel command", "oled_label": "CANCEL", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+}

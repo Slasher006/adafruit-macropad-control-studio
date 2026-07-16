@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "discord",
+  "name": "Discord",
+  "icon": "DC",
+  "brightness": 5,
+  "keys": [
+    {"name": "Quick switcher", "oled_label": "QUICK", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]},
+    {"name": "Search channel", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+    {"name": "Search all", "oled_label": "ALL", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "F"]}]},
+    {"name": "Mute microphone", "oled_label": "MIC", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "M"]}]},
+    {"name": "Deafen", "oled_label": "DEAF", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "D"]}]},
+    {"name": "Upload file", "oled_label": "UPLOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "U"]}]},
+    {"name": "Previous channel", "oled_label": "CH-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "UP_ARROW"]}]},
+    {"name": "Next channel", "oled_label": "CH+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "DOWN_ARROW"]}]},
+    {"name": "Emoji picker", "oled_label": "EMOJI", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+    {"name": "Previous server", "oled_label": "SRV-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "LEFT_ARROW"]}]},
+    {"name": "Next server", "oled_label": "SRV+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "RIGHT_ARROW"]}]},
+    {"name": "GIF picker", "oled_label": "GIF", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "G"]}]}
+  ],
+  "encoder_press": {"name": "Quick switcher", "oled_label": "QUICK", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]}
+}

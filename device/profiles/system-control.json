@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "system-control",
+  "name": "System Control",
+  "icon": "PW",
+  "brightness": 5,
+  "keys": [
+    {"name": "Restart i3", "oled_label": "I3-RST", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "R"]}]},
+    {"name": "Reboot computer", "oled_label": "REBOOT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl reboot"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Shutdown in 60 min", "oled_label": "OFF60", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "shutdown +60"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Shutdown now", "oled_label": "OFFNOW", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl poweroff"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Cancel shutdown", "oled_label": "CANCEL", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "shutdown -c"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []}
+  ],
+  "encoder_press": {"name": "Terminal interrupt", "oled_label": "CTRL-C", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+}

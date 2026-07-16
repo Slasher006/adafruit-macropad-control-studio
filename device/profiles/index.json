@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "profiles": [
+    {
+      "id": "editing",
+      "name": "Editing",
+      "file": "editing.json"
+    },
+    {
+      "id": "media",
+      "name": "Media",
+      "file": "media.json"
+    },
+    {
+      "id": "vscode",
+      "name": "VS Code",
+      "file": "vscode.json"
+    },
+    {
+      "id": "firefox",
+      "name": "Firefox",
+      "file": "firefox.json"
+    },
+    {
+      "id": "vlc",
+      "name": "VLC",
+      "file": "vlc.json"
+    },
+    {
+      "id": "i3wm",
+      "name": "i3wm",
+      "file": "i3wm.json"
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "file": "discord.json"
+    },
+    {
+      "id": "lm-studio",
+      "name": "LM Studio",
+      "file": "lm-studio.json"
+    },
+    {
+      "id": "terminal-manjaro",
+      "name": "Manjaro Terminal",
+      "file": "terminal-manjaro.json"
+    },
+    {
+      "id": "comfyui",
+      "name": "ComfyUI",
+      "file": "comfyui.json"
+    },
+    {
+      "id": "ssh",
+      "name": "SSH",
+      "file": "ssh.json"
+    },
+    {
+      "id": "audio-controls",
+      "name": "Audio Controls",
+      "file": "audio-controls.json"
+    },
+    {
+      "id": "quicklaunch",
+      "name": "Quicklaunch",
+      "file": "quicklaunch.json"
+    },
+    {
+      "id": "system-control",
+      "name": "System Control",
+      "file": "system-control.json"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "lm-studio",
+  "name": "LM Studio",
+  "icon": "LM",
+  "brightness": 5,
+  "keys": [
+    {"name": "New chat", "oled_label": "CHAT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+    {"name": "New chat folder", "oled_label": "FOLDER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "N"]}]},
+    {"name": "Discover models", "oled_label": "MODEL", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "TWO"]}]},
+    {"name": "Manage runtimes", "oled_label": "RUN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "R"]}]},
+    {"name": "Open settings", "oled_label": "SET", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "COMMA"]}]},
+    {"name": "Select theme", "oled_label": "THEME", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}, {"type": "delay", "ms": 80}, {"type": "hotkey", "keys": ["T"]}]},
+    {"name": "Copy", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+    {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+    {"name": "Cut", "oled_label": "CUT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "X"]}]},
+    {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+    {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+    {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]}
+  ],
+  "encoder_press": {"name": "New chat", "oled_label": "CHAT", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]}
+}

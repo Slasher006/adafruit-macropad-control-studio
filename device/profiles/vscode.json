@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "vscode",
+  "name": "VS Code",
+  "icon": "VS",
+  "brightness": 5,
+  "keys": [
+    {"name": "Command palette", "oled_label": "CMD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "P"]}]},
+    {"name": "Quick open", "oled_label": "OPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "P"]}]},
+    {"name": "Explorer", "oled_label": "FILES", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "E"]}]},
+    {"name": "Search project", "oled_label": "SEARCH", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "F"]}]},
+    {"name": "Source control", "oled_label": "GIT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "G"]}]},
+    {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+    {"name": "Format document", "oled_label": "FORMAT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "ALT", "F"]}]},
+    {"name": "Go to definition", "oled_label": "DEF", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F12"]}]},
+    {"name": "Rename symbol", "oled_label": "RENAME", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F2"]}]},
+    {"name": "Start debugging", "oled_label": "DEBUG", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+    {"name": "Toggle breakpoint", "oled_label": "BREAK", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F9"]}]},
+    {"name": "Problems panel", "oled_label": "PROBS", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "M"]}]}
+  ],
+  "encoder_press": {"name": "Toggle terminal", "oled_label": "TERM", "steps": [{"type": "hotkey", "keys": ["CONTROL", "GRAVE_ACCENT"]}]}
+}

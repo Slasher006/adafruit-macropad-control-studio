@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "i3wm",
+  "name": "i3wm",
+  "icon": "I3",
+  "brightness": 5,
+  "keys": [
+    {"name": "Open terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}]},
+    {"name": "Application launcher", "oled_label": "MENU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}]},
+    {"name": "Close window", "oled_label": "CLOSE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "Q"]}]},
+    {"name": "Focus left", "oled_label": "F-LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "LEFT_ARROW"]}]},
+    {"name": "Focus up", "oled_label": "F-UP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "UP_ARROW"]}]},
+    {"name": "Focus right", "oled_label": "F-RGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "RIGHT_ARROW"]}]},
+    {"name": "Move left", "oled_label": "M-LEFT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "LEFT_ARROW"]}]},
+    {"name": "Focus down", "oled_label": "F-DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "DOWN_ARROW"]}]},
+    {"name": "Move right", "oled_label": "M-RGHT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "RIGHT_ARROW"]}]},
+    {"name": "Horizontal split", "oled_label": "SP-H", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "H"]}]},
+    {"name": "Vertical split", "oled_label": "SP-V", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "V"]}]},
+    {"name": "Toggle fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "F"]}]}
+  ],
+  "encoder_press": {"name": "Toggle floating", "oled_label": "FLOAT", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "SPACE"]}]}
+}

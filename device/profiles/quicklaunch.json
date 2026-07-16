@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "quicklaunch",
+  "name": "Quicklaunch",
+  "icon": "QL",
+  "brightness": 5,
+  "keys": [
+    {"name": "Launch Firefox", "oled_label": "FIREFX", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Launch Terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}]},
+    {"name": "Launch VS Code", "oled_label": "VSCODE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "code"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Launch Caja", "oled_label": "CAJA", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "caja"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Launch Discord", "oled_label": "DISCRD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "discord"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Launch LM Studio", "oled_label": "LMSTU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "lm-studio"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []}
+  ],
+  "encoder_press": {"name": "Application launcher", "oled_label": "LAUNCH", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}]}
+}

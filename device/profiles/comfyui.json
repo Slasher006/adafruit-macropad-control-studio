@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "comfyui",
+  "name": "ComfyUI",
+  "icon": "CU",
+  "brightness": 5,
+  "keys": [
+    {"name": "Queue prompt", "oled_label": "QUEUE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ENTER"]}]},
+    {"name": "Queue front", "oled_label": "FRONT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "ENTER"]}]},
+    {"name": "Interrupt", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "ENTER"]}]},
+    {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+    {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+    {"name": "Delete nodes", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}]},
+    {"name": "Save workflow", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+    {"name": "Load workflow", "oled_label": "LOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "O"]}]},
+    {"name": "Select all nodes", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+    {"name": "Collapse nodes", "oled_label": "FOLD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "C"]}]},
+    {"name": "Mute nodes", "oled_label": "MUTE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "M"]}]},
+    {"name": "Bypass nodes", "oled_label": "BYPASS", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]}
+  ],
+  "encoder_press": {"name": "Open settings", "oled_label": "SET", "steps": [{"type": "hotkey", "keys": ["CONTROL", "COMMA"]}]}
+}

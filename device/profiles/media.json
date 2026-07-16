@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "id": "media",
+  "name": "Media",
+  "icon": "AV",
+  "brightness": 5,
+  "keys": [
+    {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "MUTE"}]},
+    {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_DECREMENT"}]},
+    {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_INCREMENT"}]},
+    {"name": "Previous", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_PREVIOUS_TRACK"}]},
+    {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]},
+    {"name": "Next", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_NEXT_TRACK"}]},
+    {"name": "Mouse left", "oled_label": "LEFT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "mouse", "action": "click", "button": "LEFT_BUTTON"}]},
+    {"name": "Mouse middle", "oled_label": "MID", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "mouse", "action": "click", "button": "MIDDLE_BUTTON"}]},
+    {"name": "Mouse right", "oled_label": "RIGHT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "mouse", "action": "click", "button": "RIGHT_BUTTON"}]},
+    {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+    {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+    {"name": "Home", "oled_label": "HOME", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]}
+  ],
+  "encoder_press": {
+    "name": "Play pause",
+    "oled_label": "PLAY",
+    "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]
+  }
+}

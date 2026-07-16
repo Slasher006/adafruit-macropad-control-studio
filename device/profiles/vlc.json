@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "vlc",
+  "name": "VLC",
+  "icon": "VL",
+  "brightness": 5,
+  "keys": [
+    {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+    {"name": "Stop", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+    {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+    {"name": "Previous", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["P"]}]},
+    {"name": "Jump backward", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "LEFT_ARROW"]}]},
+    {"name": "Next", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["N"]}]},
+    {"name": "Slower", "oled_label": "SLOW", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "-"}]},
+    {"name": "Normal speed", "oled_label": "1X", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "="}]},
+    {"name": "Faster", "oled_label": "FAST", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "+"}]},
+    {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "DOWN_ARROW"]}]},
+    {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+    {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "UP_ARROW"]}]}
+  ],
+  "encoder_press": {"name": "Play pause", "oled_label": "PLAY", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]}
+}

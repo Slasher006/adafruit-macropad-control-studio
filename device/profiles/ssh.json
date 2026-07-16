@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "ssh",
+  "name": "SSH",
+  "icon": "SH",
+  "brightness": 5,
+  "keys": [
+    {"name": "Connect", "oled_label": "SSH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh user@host"}]},
+    {"name": "Connect on port", "oled_label": "PORT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -p 22 user@host"}]},
+    {"name": "Connect with key", "oled_label": "KEY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -i ~/.ssh/id_ed25519 user@host"}]},
+    {"name": "Jump host", "oled_label": "JUMP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -J jump@host user@host"}]},
+    {"name": "Local tunnel", "oled_label": "L-TUN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -L 8080:localhost:80 user@host"}]},
+    {"name": "Remote tunnel", "oled_label": "R-TUN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -R 8080:localhost:80 user@host"}]},
+    {"name": "Upload with scp", "oled_label": "UPLOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "scp file user@host:/path/"}]},
+    {"name": "Download with scp", "oled_label": "DOWN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "scp user@host:/path/file ."}]},
+    {"name": "SFTP session", "oled_label": "SFTP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "sftp user@host"}]},
+    {"name": "Generate Ed25519 key", "oled_label": "KEYGEN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-keygen -t ed25519 -C user@host"}]},
+    {"name": "Add key to agent", "oled_label": "AGENT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-add ~/.ssh/id_ed25519"}]},
+    {"name": "Show SSH config", "oled_label": "CONFIG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -G user@host"}]}
+  ],
+  "encoder_press": {"name": "Cancel or disconnect", "oled_label": "CANCEL", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+}

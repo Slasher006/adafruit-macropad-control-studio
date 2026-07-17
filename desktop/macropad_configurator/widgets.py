@@ -25,6 +25,10 @@ from PySide6.QtWidgets import (
 from .models import CONSUMER_CODES, MAX_DELAY_MS, MOUSE_BUTTONS, normalize_step
 
 
+def _tooltip(description: str, example: str) -> str:
+    return f"{description}\nExample: {example}"
+
+
 COMMON_KEY_NAMES = (
     "CONTROL", "SHIFT", "ALT", "GUI", "ENTER", "ESCAPE", "TAB", "SPACE", "BACKSPACE", "DELETE",
     "HOME", "END", "PAGE_UP", "PAGE_DOWN", "UP_ARROW", "DOWN_ARROW", "LEFT_ARROW", "RIGHT_ARROW",
@@ -54,8 +58,9 @@ ACTION_PRESETS = (
 
 
 class MacroKeyButton(QToolButton):
-    """A key tile that supports drag-and-drop swapping."""
+    """A key tile that supports drag-and-drop reordering."""
 
+    moveRequested = Signal(int, int)
     swapRequested = Signal(int, int)
     MIME = "application/x-macropad-key"
 
@@ -63,12 +68,25 @@ class MacroKeyButton(QToolButton):
         super().__init__(parent)
         self.key_index = key_index
         self._drag_start = QPoint()
+        self._drop_style = ""
         self.setAcceptDrops(True)
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
+        self.setToolTip(
+            _tooltip(
+                "Select this key for editing, Ctrl-click for multi-select, or drag it to reorder.",
+                "Drag Key 1 onto Key 4 to move it and shift Keys 2 through 4.",
+            )
+        )
 
     def mousePressEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if event.button() == Qt.MouseButton.LeftButton:
             self._drag_start = event.position().toPoint()
+            self.setCursor(Qt.CursorShape.ClosedHandCursor)
         super().mousePressEvent(event)
+
+    def mouseReleaseEvent(self, event: QMouseEvent) -> None:  # noqa: N802
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
+        super().mouseReleaseEvent(event)
 
     def mouseMoveEvent(self, event: QMouseEvent) -> None:  # noqa: N802
         if not event.buttons() & Qt.MouseButton.LeftButton:
@@ -81,19 +99,36 @@ class MacroKeyButton(QToolButton):
         drag.setMimeData(mime)
         drag.setPixmap(self.grab())
         drag.exec(Qt.DropAction.MoveAction)
+        self.setCursor(Qt.CursorShape.OpenHandCursor)
 
     def dragEnterEvent(self, event) -> None:  # noqa: N802
         if event.mimeData().hasFormat(self.MIME):
+            if not self._drop_style:
+                self._drop_style = self.styleSheet()
+                self.setStyleSheet(
+                    self._drop_style
+                    + " QToolButton { border: 4px dashed #00D4FF; }"
+                )
             event.acceptProposedAction()
 
+    def dragLeaveEvent(self, event) -> None:  # noqa: N802
+        self._clear_drop_highlight()
+        super().dragLeaveEvent(event)
+
     def dropEvent(self, event) -> None:  # noqa: N802
+        self._clear_drop_highlight()
         try:
             source = int(bytes(event.mimeData().data(self.MIME)).decode("ascii"))
         except (TypeError, ValueError):
             return
         if source != self.key_index:
-            self.swapRequested.emit(source, self.key_index)
+            self.moveRequested.emit(source, self.key_index)
         event.acceptProposedAction()
+
+    def _clear_drop_highlight(self) -> None:
+        if self._drop_style:
+            self.setStyleSheet(self._drop_style)
+            self._drop_style = ""
 
 
 class OledPreview(QWidget):
@@ -141,10 +176,22 @@ class StepDialog(QDialog):
         self.resize(520, 330)
         self.type_combo = QComboBox()
         self.type_combo.addItems(["hotkey", "text", "consumer", "mouse", "delay"])
+        self.type_combo.setToolTip(
+            _tooltip(
+                "Choose the kind of action this macro step performs.",
+                "Choose delay before entering 800 ms.",
+            )
+        )
         self.preset_combo = QComboBox()
         self.preset_combo.addItem("Custom action", None)
         for label, value in ACTION_PRESETS:
             self.preset_combo.addItem(label, value)
+        self.preset_combo.setToolTip(
+            _tooltip(
+                "Start from a common action or keep a custom step.",
+                "Choose Copy to fill in CONTROL, C.",
+            )
+        )
         self.stack = QStackedWidget()
         self.stack.addWidget(self._hotkey_page())
         self.stack.addWidget(self._text_page())
@@ -163,6 +210,18 @@ class StepDialog(QDialog):
         layout.addLayout(form)
         layout.addWidget(self.stack, 1)
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        buttons.button(QDialogButtonBox.StandardButton.Ok).setToolTip(
+            _tooltip(
+                "Validate and save this macro step.",
+                "Choose OK after entering CONTROL, SHIFT, S.",
+            )
+        )
+        buttons.button(QDialogButtonBox.StandardButton.Cancel).setToolTip(
+            _tooltip(
+                "Discard changes made in this step editor.",
+                "Choose Cancel to keep the original delay.",
+            )
+        )
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
         layout.addWidget(buttons)
@@ -174,13 +233,31 @@ class StepDialog(QDialog):
         layout = QFormLayout(page)
         self.hotkey_edit = QLineEdit()
         self.hotkey_edit.setPlaceholderText("CONTROL, SHIFT, S")
+        self.hotkey_edit.setToolTip(
+            _tooltip(
+                "Enter CircuitPython HID key names separated by commas.",
+                "CONTROL, SHIFT, S sends all three keys together.",
+            )
+        )
         layout.addRow("Keys", self.hotkey_edit)
         picker = QHBoxLayout()
         self.hotkey_key_combo = QComboBox()
         self.hotkey_key_combo.setEditable(True)
         self.hotkey_key_combo.addItems(COMMON_KEY_NAMES)
         self.hotkey_key_combo.setInsertPolicy(QComboBox.InsertPolicy.NoInsert)
+        self.hotkey_key_combo.setToolTip(
+            _tooltip(
+                "Search or select a valid HID key name to append.",
+                "Type PAGE and select PAGE_DOWN.",
+            )
+        )
         add_key = QPushButton("Add key")
+        add_key.setToolTip(
+            _tooltip(
+                "Append the selected HID name to the hotkey.",
+                "Select ENTER, then choose Add key.",
+            )
+        )
         add_key.clicked.connect(self._append_hotkey_key)
         picker.addWidget(self.hotkey_key_combo, 1)
         picker.addWidget(add_key)
@@ -207,6 +284,12 @@ class StepDialog(QDialog):
         layout = QVBoxLayout(page)
         self.text_edit = QPlainTextEdit()
         self.text_edit.setPlaceholderText("Text typed by the MacroPad")
+        self.text_edit.setToolTip(
+            _tooltip(
+                "Enter literal text for the MacroPad to type into the focused application.",
+                "Type 'pamac checkupdates' without adding an Enter step.",
+            )
+        )
         layout.addWidget(self.text_edit)
         return page
 
@@ -215,6 +298,12 @@ class StepDialog(QDialog):
         layout = QFormLayout(page)
         self.consumer_combo = QComboBox()
         self.consumer_combo.addItems(CONSUMER_CODES)
+        self.consumer_combo.setToolTip(
+            _tooltip(
+                "Choose a system media-control code.",
+                "Choose VOLUME_INCREMENT for a volume-up key.",
+            )
+        )
         layout.addRow("Media action", self.consumer_combo)
         return page
 
@@ -223,11 +312,41 @@ class StepDialog(QDialog):
         layout = QFormLayout(page)
         self.mouse_action_combo = QComboBox()
         self.mouse_action_combo.addItems(["click", "move"])
+        self.mouse_action_combo.setToolTip(
+            _tooltip(
+                "Choose between clicking a mouse button and moving or scrolling.",
+                "Choose move to create a one-step downward scroll.",
+            )
+        )
         self.mouse_button_combo = QComboBox()
         self.mouse_button_combo.addItems(MOUSE_BUTTONS)
+        self.mouse_button_combo.setToolTip(
+            _tooltip(
+                "Choose the mouse button used by a click action.",
+                "Choose RIGHT_BUTTON for a context-menu key.",
+            )
+        )
         self.mouse_x = self._signed_spin()
         self.mouse_y = self._signed_spin()
         self.mouse_wheel = self._signed_spin()
+        self.mouse_x.setToolTip(
+            _tooltip(
+                "Set horizontal pointer movement; negative is left and positive is right.",
+                "Use 20 to move the pointer 20 units right.",
+            )
+        )
+        self.mouse_y.setToolTip(
+            _tooltip(
+                "Set vertical pointer movement; negative is up and positive is down.",
+                "Use -20 to move the pointer 20 units up.",
+            )
+        )
+        self.mouse_wheel.setToolTip(
+            _tooltip(
+                "Set wheel movement; positive and negative values scroll in opposite directions.",
+                "Use -1 for one wheel step in the configured direction.",
+            )
+        )
         layout.addRow("Action", self.mouse_action_combo)
         layout.addRow("Button", self.mouse_button_combo)
         layout.addRow("X", self.mouse_x)
@@ -248,6 +367,12 @@ class StepDialog(QDialog):
         self.delay_spin = QSpinBox()
         self.delay_spin.setRange(0, MAX_DELAY_MS)
         self.delay_spin.setSuffix(" ms")
+        self.delay_spin.setToolTip(
+            _tooltip(
+                "Pause the action sequence for the specified milliseconds.",
+                "Use 800 ms after opening a terminal so it can receive focus.",
+            )
+        )
         layout.addRow("Delay", self.delay_spin)
         return page
 

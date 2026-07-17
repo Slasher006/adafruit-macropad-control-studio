@@ -70,6 +70,31 @@
       "id": "system-control",
       "name": "System Control",
       "file": "system-control.json"
+    },
+    {
+      "id": "caja",
+      "name": "Caja",
+      "file": "caja.json"
+    },
+    {
+      "id": "krita",
+      "name": "Krita",
+      "file": "krita.json"
+    },
+    {
+      "id": "libreoffice",
+      "name": "LibreOffice",
+      "file": "libreoffice.json"
+    },
+    {
+      "id": "blender",
+      "name": "Blender",
+      "file": "blender.json"
+    },
+    {
+      "id": "options",
+      "name": "Options",
+      "file": "options.json"
     }
   ]
 }

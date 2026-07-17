@@ -3,6 +3,7 @@
   "id": "system-control",
   "name": "System Control",
   "icon": "PW",
+  "subprofile_name": "Power",
   "brightness": 5,
   "keys": [
     {"name": "Restart i3", "oled_label": "I3-RST", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "R"]}]},
@@ -10,13 +11,72 @@
     {"name": "Shutdown in 60 min", "oled_label": "OFF60", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "shutdown +60"}, {"type": "hotkey", "keys": ["ENTER"]}]},
     {"name": "Shutdown now", "oled_label": "OFFNOW", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl poweroff"}, {"type": "hotkey", "keys": ["ENTER"]}]},
     {"name": "Cancel shutdown", "oled_label": "CANCEL", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "shutdown -c"}, {"type": "hotkey", "keys": ["ENTER"]}]},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []}
+    {"name": "Lock screen", "oled_label": "LOCK", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "i3lock"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Suspend", "oled_label": "SUSP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl suspend"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Hibernate", "oled_label": "HIBER", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl hibernate"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "i3 logout prompt", "oled_label": "LOGOUT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "E"]}]},
+    {"name": "Reload i3 config", "oled_label": "I3-CFG", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "C"]}]},
+    {"name": "Open terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}]},
+    {"name": "Application launcher", "oled_label": "MENU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}]}
   ],
-  "encoder_press": {"name": "Terminal interrupt", "oled_label": "CTRL-C", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Session",
+      "icon": "SE",
+      "brightness": 5,
+      "keys": [
+        {"name": "Lock screen", "oled_label": "LOCK", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "i3lock"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Suspend", "oled_label": "SUSP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl suspend"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Hibernate", "oled_label": "HIBER", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl hibernate"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "i3 logout prompt", "oled_label": "LOGOUT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "E"]}]},
+        {"name": "Restart i3", "oled_label": "I3-RST", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "R"]}]},
+        {"name": "Reload i3 config", "oled_label": "I3-CFG", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "C"]}]},
+        {"name": "Open terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}]},
+        {"name": "Application launcher", "oled_label": "MENU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "MUTE"}]},
+        {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_DECREMENT"}]},
+        {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]},
+        {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_INCREMENT"}]}
+      ]
+    },
+    {
+      "name": "Diagnostics",
+      "icon": "DG",
+      "brightness": 5,
+      "keys": [
+        {"name": "System uptime", "oled_label": "UPTIME", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "uptime"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Disk usage", "oled_label": "DISK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "df -h"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Memory usage", "oled_label": "MEM", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "free -h"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Failed services", "oled_label": "FAILED", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl --failed"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Boot errors", "oled_label": "ERRORS", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "journalctl -b -p err"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Temperatures", "oled_label": "TEMPS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sensors"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "IP addresses", "oled_label": "IP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ip -brief address"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Listening ports", "oled_label": "PORTS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ss -tulpn"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Block devices", "oled_label": "BLOCK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "lsblk -f"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Kernel version", "oled_label": "KERNEL", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "uname -a"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Recent boots", "oled_label": "BOOTS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "journalctl --list-boots"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Network check", "oled_label": "PING", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ping -c 4 1.1.1.1"}, {"type": "hotkey", "keys": ["ENTER"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Up", "oled_label": "UP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Down", "oled_label": "DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Toggle option", "oled_label": "TOGGLE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+        {"name": "Cancel", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Close settings", "oled_label": "CLOSE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "F4"]}]}
+      ]
+    }
+  ]
 }

@@ -3,6 +3,7 @@
 SCHEMA_VERSION = 1
 NUM_KEYS = 12
 MAX_PROFILES = 32
+MAX_SUBPROFILES = 8
 MAX_STEPS = 16
 MAX_TEXT = 512
 MAX_DELAY_MS = 10000
@@ -34,6 +35,73 @@ class EncoderStepper:
         """Absorb movement accumulated during a blocking profile redraw."""
         self.position = position
         self.ready_at = now + self.guard_seconds
+
+
+class SubprofileStore:
+    """Persist one selected subprofile index for each parent profile slot."""
+
+    def __init__(self, nvm, offset=1):
+        self.nvm = nvm
+        self.offset = offset
+
+    def load(self, profile_index, count):
+        if count < 1:
+            return 0
+        try:
+            value = self.nvm[self.offset + profile_index]
+        except Exception:
+            return 0
+        return value if value < count else 0
+
+    def save(self, profile_index, subprofile_index):
+        try:
+            self.nvm[self.offset + profile_index] = subprofile_index
+            return True
+        except Exception:
+            return False
+
+
+class PersistentToggle:
+    """Store a boolean in one NVM byte, with a safe default for blank NVM."""
+
+    def __init__(self, nvm, index, default=True):
+        self.nvm = nvm
+        self.index = index
+        self.default = bool(default)
+
+    def load(self):
+        try:
+            value = self.nvm[self.index]
+        except Exception:
+            return self.default
+        if value == 0:
+            return False
+        if value == 1:
+            return True
+        return self.default
+
+    def save(self, enabled):
+        try:
+            self.nvm[self.index] = 1 if enabled else 0
+            return True
+        except Exception:
+            return False
+
+
+def find_subprofile_index(parent, requested):
+    """Return a layout index by name or number without changing saved state."""
+    count = 1 + len(parent.get("subprofiles", []))
+    if isinstance(requested, int):
+        return requested if 0 <= requested < count else None
+    if not isinstance(requested, str) or not requested.strip():
+        return None
+    wanted = requested.strip().lower()
+    names = [parent.get("subprofile_name", "Main")]
+    names.extend(item.get("name", "") for item in parent.get("subprofiles", []))
+    for index, name in enumerate(names):
+        if str(name).strip().lower() == wanted:
+            return index
+    return None
 
 
 def clamp(value, low, high, fallback):
@@ -130,25 +198,75 @@ def safe_profile(profile_id="default", name="Default"):
         "id": str(profile_id)[:32],
         "name": str(name)[:24],
         "icon": "",
+        "subprofile_name": "Main",
         "brightness": DEFAULT_BRIGHTNESS,
         "keys": [empty_control(index) for index in range(NUM_KEYS)],
         "encoder_press": normalize_control({"name": "Encoder", "oled_label": "KNOB"}, NUM_KEYS, False),
+        "subprofiles": [],
+    }
+
+
+def normalize_subprofile(subprofile, index=0, parent=None):
+    if not isinstance(subprofile, dict):
+        subprofile = {}
+    parent = parent or safe_profile()
+    keys = subprofile.get("keys", [])
+    if not isinstance(keys, list):
+        keys = []
+    keys = list(keys[:NUM_KEYS])
+    while len(keys) < NUM_KEYS:
+        keys.append({})
+    for key_index in range(NUM_KEYS):
+        keys[key_index] = normalize_control(keys[key_index], key_index, True)
+    return {
+        "name": str(subprofile.get("name", "Subprofile {}".format(index + 2)))[:24],
+        "icon": str(subprofile.get("icon", parent.get("icon", "")))[:2],
+        "brightness": clamp(
+            subprofile.get("brightness", parent.get("brightness", DEFAULT_BRIGHTNESS)),
+            0,
+            100,
+            parent.get("brightness", DEFAULT_BRIGHTNESS),
+        ),
+        "keys": keys,
     }
 
 
 def normalize_profile(profile, fallback_id="default"):
     if not isinstance(profile, dict):
         profile = {}
-    result = safe_profile(profile.get("id", fallback_id), profile.get("name", "Default"))
-    result["icon"] = str(profile.get("icon", ""))[:2]
-    result["brightness"] = clamp(
-        profile.get("brightness", DEFAULT_BRIGHTNESS), 0, 100, DEFAULT_BRIGHTNESS
-    )
+    result = {
+        "schema_version": SCHEMA_VERSION,
+        "id": str(profile.get("id", fallback_id))[:32],
+        "name": str(profile.get("name", "Default"))[:24],
+        "icon": str(profile.get("icon", ""))[:2],
+        "subprofile_name": str(profile.get("subprofile_name", "Main"))[:24],
+        "brightness": clamp(
+            profile.get("brightness", DEFAULT_BRIGHTNESS),
+            0,
+            100,
+            DEFAULT_BRIGHTNESS,
+        ),
+        "keys": [],
+        "encoder_press": {},
+        "subprofiles": [],
+    }
     keys = profile.get("keys", [])
     if not isinstance(keys, list):
         keys = []
-    result["keys"] = [normalize_control(keys[i] if i < len(keys) else {}, i, True) for i in range(NUM_KEYS)]
+    keys = list(keys[:NUM_KEYS])
+    while len(keys) < NUM_KEYS:
+        keys.append({})
+    for key_index in range(NUM_KEYS):
+        keys[key_index] = normalize_control(keys[key_index], key_index, True)
+    result["keys"] = keys
     result["encoder_press"] = normalize_control(profile.get("encoder_press", {}), NUM_KEYS, False)
+    subprofiles = profile.get("subprofiles", [])
+    if not isinstance(subprofiles, list):
+        subprofiles = []
+    subprofiles = list(subprofiles[:MAX_SUBPROFILES])
+    for index in range(len(subprofiles)):
+        subprofiles[index] = normalize_subprofile(subprofiles[index], index, result)
+    result["subprofiles"] = subprofiles
     return result
 
 

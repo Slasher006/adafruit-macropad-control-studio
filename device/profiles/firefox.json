@@ -3,6 +3,7 @@
   "id": "firefox",
   "name": "Firefox",
   "icon": "FF",
+  "subprofile_name": "Browse",
   "brightness": 5,
   "keys": [
     {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
@@ -18,5 +19,64 @@
     {"name": "Downloads", "oled_label": "DOWN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "J"]}]},
     {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F11"]}]}
   ],
-  "encoder_press": {"name": "Address bar", "oled_label": "URL", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Tabs",
+      "icon": "TB",
+      "brightness": 5,
+      "keys": [
+        {"name": "New tab", "oled_label": "NEW", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "T"]}]},
+        {"name": "Close tab", "oled_label": "CLOSE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "W"]}]},
+        {"name": "Restore tab", "oled_label": "REOPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "T"]}]},
+        {"name": "Tab 1", "oled_label": "TAB-1", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ONE"]}]},
+        {"name": "Tab 2", "oled_label": "TAB-2", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "TWO"]}]},
+        {"name": "Tab 3", "oled_label": "TAB-3", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "THREE"]}]},
+        {"name": "Tab 4", "oled_label": "TAB-4", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "FOUR"]}]},
+        {"name": "Tab 5", "oled_label": "TAB-5", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "FIVE"]}]},
+        {"name": "Tab 6", "oled_label": "TAB-6", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SIX"]}]},
+        {"name": "Previous tab", "oled_label": "TAB-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Last tab", "oled_label": "LAST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "NINE"]}]},
+        {"name": "Next tab", "oled_label": "TAB+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]}
+      ]
+    },
+    {
+      "name": "Tools",
+      "icon": "TL",
+      "brightness": 5,
+      "keys": [
+        {"name": "History sidebar", "oled_label": "HIST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "H"]}]},
+        {"name": "Bookmarks library", "oled_label": "BOOKS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "O"]}]},
+        {"name": "Bookmark page", "oled_label": "BOOK", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "D"]}]},
+        {"name": "Downloads", "oled_label": "DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "J"]}]},
+        {"name": "Add-ons", "oled_label": "ADDON", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "A"]}]},
+        {"name": "Developer tools", "oled_label": "DEV", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F12"]}]},
+        {"name": "Web console", "oled_label": "CONSOL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "K"]}]},
+        {"name": "Inspector", "oled_label": "INSPEC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "C"]}]},
+        {"name": "Screenshot", "oled_label": "SHOT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "S"]}]},
+        {"name": "Page source", "oled_label": "SOURCE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "U"]}]},
+        {"name": "Print", "oled_label": "PRINT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "P"]}]},
+        {"name": "Save page", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]},
+        {"name": "Forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Page top", "oled_label": "TOP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Previous tab", "oled_label": "TAB-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next tab", "oled_label": "TAB+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "MINUS"]}]},
+        {"name": "Reset zoom", "oled_label": "ZOOM0", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ZERO"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "EQUALS"]}]}
+      ]
+    }
+  ]
 }

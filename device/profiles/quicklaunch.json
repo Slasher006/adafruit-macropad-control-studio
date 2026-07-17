@@ -3,6 +3,7 @@
   "id": "quicklaunch",
   "name": "Quicklaunch",
   "icon": "QL",
+  "subprofile_name": "Apps",
   "brightness": 5,
   "keys": [
     {"name": "Launch Firefox", "oled_label": "FIREFX", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox"}, {"type": "hotkey", "keys": ["ENTER"]}]},
@@ -11,12 +12,52 @@
     {"name": "Launch Caja", "oled_label": "CAJA", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "caja"}, {"type": "hotkey", "keys": ["ENTER"]}]},
     {"name": "Launch Discord", "oled_label": "DISCRD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "discord"}, {"type": "hotkey", "keys": ["ENTER"]}]},
     {"name": "Launch LM Studio", "oled_label": "LMSTU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "lm-studio"}, {"type": "hotkey", "keys": ["ENTER"]}]},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []}
+    {"name": "Launch VLC", "oled_label": "VLC", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "vlc"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Audio mixer", "oled_label": "AUDIO", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "pavucontrol"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "System settings", "oled_label": "SET", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "xfce4-settings-manager"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Calculator", "oled_label": "CALC", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "qalculate-gtk"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Image editor", "oled_label": "GIMP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "gimp"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "System monitor", "oled_label": "MON", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "btop"}, {"type": "hotkey", "keys": ["ENTER"]}]}
   ],
-  "encoder_press": {"name": "Application launcher", "oled_label": "LAUNCH", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Web",
+      "icon": "WB",
+      "brightness": 5,
+      "keys": [
+        {"name": "Open Gmail", "oled_label": "GMAIL", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://mail.google.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open GitHub", "oled_label": "GITHUB", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://github.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open YouTube", "oled_label": "YOUTUB", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://youtube.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open ChatGPT", "oled_label": "CHATGP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://chatgpt.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Hugging Face", "oled_label": "HUGGNG", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://huggingface.co"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Reddit", "oled_label": "REDDIT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://reddit.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Google Drive", "oled_label": "DRIVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://drive.google.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Calendar", "oled_label": "CAL", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://calendar.google.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Maps", "oled_label": "MAPS", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://maps.google.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open Wikipedia", "oled_label": "WIKI", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://wikipedia.org"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open weather", "oled_label": "WEATHR", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox https://weather.com"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Open localhost", "oled_label": "LOCAL", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "firefox http://localhost:8188"}, {"type": "hotkey", "keys": ["ENTER"]}]}
+      ]
+    },
+    {
+      "name": "Tools",
+      "icon": "TL",
+      "brightness": 5,
+      "keys": [
+        {"name": "Launch Terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "alacritty"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Launch Caja", "oled_label": "CAJA", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "caja"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Launch VS Code", "oled_label": "VSCODE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "code"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Launch VLC", "oled_label": "VLC", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "vlc"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Launch Discord", "oled_label": "DISCRD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "discord"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Launch LM Studio", "oled_label": "LMSTU", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "lm-studio"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Audio mixer", "oled_label": "AUDIO", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "pavucontrol"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "System settings", "oled_label": "SET", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "xfce4-settings-manager"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Calculator", "oled_label": "CALC", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "qalculate-gtk"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Image editor", "oled_label": "GIMP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "gimp"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Office suite", "oled_label": "OFFICE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "D"]}, {"type": "delay", "ms": 250}, {"type": "text", "text": "libreoffice"}, {"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "System monitor", "oled_label": "MON", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "btop"}, {"type": "hotkey", "keys": ["ENTER"]}]}
+      ]
+    }
+  ]
 }

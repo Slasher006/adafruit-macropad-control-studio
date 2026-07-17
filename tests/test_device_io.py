@@ -43,6 +43,26 @@ def test_parse_boot_out_and_round_trip(tmp_path):
     assert len(imported["profiles"][0]["keys"]) == 12
 
 
+def test_sync_round_trip_preserves_subprofiles(tmp_path):
+    device = make_device(tmp_path / "CIRCUITPY")
+    project = new_project()
+    project["profiles"][0]["subprofile_name"] = "Primary"
+    project["profiles"][0]["subprofiles"] = [
+        {
+            "name": "Second",
+            "icon": "S2",
+            "brightness": 7,
+            "keys": project["profiles"][0]["keys"],
+        }
+    ]
+    sync_project(device, project)
+    restored = read_device_project(device)
+    profile = restored["profiles"][0]
+    assert profile["subprofile_name"] == "Primary"
+    assert [item["name"] for item in profile["subprofiles"]] == ["Second"]
+    assert profile["subprofiles"][0]["brightness"] == 7
+
+
 def test_sync_commits_index_and_removes_stale_profile(tmp_path):
     device = make_device(tmp_path / "CIRCUITPY")
     stale = device.mount / "profiles" / "stale.json"

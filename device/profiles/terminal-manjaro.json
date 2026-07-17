@@ -3,20 +3,80 @@
   "id": "terminal-manjaro",
   "name": "Manjaro Terminal",
   "icon": "MN",
+  "subprofile_name": "Packages",
   "brightness": 5,
   "keys": [
-    {"name": "Check updates", "oled_label": "CHECK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac checkupdates -a"}]},
-    {"name": "Upgrade system", "oled_label": "UPDATE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac upgrade -a"}]},
-    {"name": "Pacman full update", "oled_label": "S-SYU", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "sudo pacman -Syu"}]},
-    {"name": "Search packages", "oled_label": "SEARCH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac search "}]},
-    {"name": "Install package", "oled_label": "INSTAL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac install "}]},
-    {"name": "Build AUR package", "oled_label": "AUR", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac build "}]},
-    {"name": "Remove package", "oled_label": "REMOVE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac remove "}]},
-    {"name": "Package info", "oled_label": "INFO", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac info "}]},
-    {"name": "List orphans", "oled_label": "ORPHAN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac list -o"}]},
-    {"name": "Clean package cache", "oled_label": "CLEAN", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "pamac clean --keep 3"}]},
-    {"name": "Service status", "oled_label": "SVC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "systemctl status "}]},
-    {"name": "Boot warnings", "oled_label": "LOG", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "journalctl -b -p warning"}]}
+    {"name": "Check updates", "oled_label": "CHECK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac checkupdates -a"}]},
+    {"name": "Upgrade system", "oled_label": "UPDATE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac upgrade -a"}]},
+    {"name": "Pacman full update", "oled_label": "S-SYU", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo pacman -Syu"}]},
+    {"name": "Search packages", "oled_label": "SEARCH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac search "}]},
+    {"name": "Install package", "oled_label": "INSTAL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac install "}]},
+    {"name": "Build AUR package", "oled_label": "AUR", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac build "}]},
+    {"name": "Remove package", "oled_label": "REMOVE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac remove "}]},
+    {"name": "Package info", "oled_label": "INFO", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac info "}]},
+    {"name": "List orphans", "oled_label": "ORPHAN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pamac list -o"}]},
+    {"name": "Clean package cache", "oled_label": "CLEAN", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo paccache -rk3"}]},
+    {"name": "Service status", "oled_label": "SVC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl status "}]},
+    {"name": "Boot warnings", "oled_label": "LOG", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "journalctl -b -p warning"}]}
   ],
-  "encoder_press": {"name": "Cancel command", "oled_label": "CANCEL", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "System",
+      "icon": "SY",
+      "brightness": 5,
+      "keys": [
+        {"name": "Service status", "oled_label": "STATUS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl status "}]},
+        {"name": "Restart service", "oled_label": "RE-ST", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo systemctl restart "}]},
+        {"name": "Stop service", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo systemctl stop "}]},
+        {"name": "Enable service", "oled_label": "ENABLE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo systemctl enable --now "}]},
+        {"name": "Disable service", "oled_label": "DISABL", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "sudo systemctl disable --now "}]},
+        {"name": "Service logs", "oled_label": "SVCLOG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "journalctl -u "}]},
+        {"name": "Boot errors", "oled_label": "ERRORS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "journalctl -b -p err"}]},
+        {"name": "Failed services", "oled_label": "FAILED", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "systemctl --failed"}]},
+        {"name": "System uptime", "oled_label": "UPTIME", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "uptime"}]},
+        {"name": "Memory usage", "oled_label": "MEM", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "free -h"}]},
+        {"name": "Disk usage", "oled_label": "DISK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "df -h"}]},
+        {"name": "Block devices", "oled_label": "BLOCK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "lsblk -f"}]}
+      ]
+    },
+    {
+      "name": "Files and Network",
+      "icon": "FN",
+      "brightness": 5,
+      "keys": [
+        {"name": "Working directory", "oled_label": "PWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "pwd"}]},
+        {"name": "List files", "oled_label": "LIST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ls -lah"}]},
+        {"name": "Change directory", "oled_label": "CD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "cd "}]},
+        {"name": "Create directory", "oled_label": "MKDIR", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "mkdir -p "}]},
+        {"name": "Copy files", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "cp -av "}]},
+        {"name": "Move files", "oled_label": "MOVE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "mv -iv "}]},
+        {"name": "Search text", "oled_label": "RG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "rg '' "}]},
+        {"name": "Find files", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "find . -name ''"}]},
+        {"name": "IP addresses", "oled_label": "IP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ip -brief address"}]},
+        {"name": "Listening ports", "oled_label": "PORTS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ss -tulpn"}]},
+        {"name": "Ping host", "oled_label": "PING", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "ping -c 4 "}]},
+        {"name": "HTTP headers", "oled_label": "HTTP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}, {"type": "delay", "ms": 800}, {"type": "text", "text": "curl -I "}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Interrupt", "oled_label": "INT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "End input", "oled_label": "EOF", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "D"]}]},
+        {"name": "Suspend process", "oled_label": "SUSP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Clear screen", "oled_label": "CLEAR", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]},
+        {"name": "Previous command", "oled_label": "HIST-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Next command", "oled_label": "HIST+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Previous word", "oled_label": "WORD-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "B"]}]},
+        {"name": "Next word", "oled_label": "WORD+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "F"]}]},
+        {"name": "Line start", "oled_label": "HOME", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Line end", "oled_label": "END", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Complete", "oled_label": "TAB", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "V"]}]}
+      ]
+    }
+  ]
 }

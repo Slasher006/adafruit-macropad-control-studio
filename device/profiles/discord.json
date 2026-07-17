@@ -3,6 +3,7 @@
   "id": "discord",
   "name": "Discord",
   "icon": "DC",
+  "subprofile_name": "General",
   "brightness": 5,
   "keys": [
     {"name": "Quick switcher", "oled_label": "QUICK", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]},
@@ -18,5 +19,64 @@
     {"name": "Next server", "oled_label": "SRV+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "RIGHT_ARROW"]}]},
     {"name": "GIF picker", "oled_label": "GIF", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "G"]}]}
   ],
-  "encoder_press": {"name": "Quick switcher", "oled_label": "QUICK", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Navigation",
+      "icon": "NV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous server", "oled_label": "SRV-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "LEFT_ARROW"]}]},
+        {"name": "Quick switcher", "oled_label": "QUICK", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]},
+        {"name": "Next server", "oled_label": "SRV+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "RIGHT_ARROW"]}]},
+        {"name": "Previous channel", "oled_label": "CH-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "UP_ARROW"]}]},
+        {"name": "Next section", "oled_label": "SECT+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F6"]}]},
+        {"name": "Next channel", "oled_label": "CH+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "DOWN_ARROW"]}]},
+        {"name": "History up", "oled_label": "HIST-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "UP_ARROW"]}]},
+        {"name": "Previous section", "oled_label": "SECT-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "F6"]}]},
+        {"name": "History down", "oled_label": "HIST+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "DOWN_ARROW"]}]},
+        {"name": "Previous element", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Next element", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]}
+      ]
+    },
+    {
+      "name": "Messages",
+      "icon": "MS",
+      "brightness": 5,
+      "keys": [
+        {"name": "Edit last message", "oled_label": "EDIT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "UP_ARROW"]}]},
+        {"name": "Reply focused message", "oled_label": "REPLY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "Quote focused message", "oled_label": "QUOTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Q"]}]},
+        {"name": "React to message", "oled_label": "REACT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "EQUALS"]}]},
+        {"name": "Edit focused message", "oled_label": "EDIT-F", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["E"]}]},
+        {"name": "Delete focused message", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["BACKSPACE"]}]},
+        {"name": "Pin focused message", "oled_label": "PIN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["P"]}]},
+        {"name": "Copy message", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Mark unread", "oled_label": "UNREAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "ENTER"]}]},
+        {"name": "Emoji picker", "oled_label": "EMOJI", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "GIF picker", "oled_label": "GIF", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "G"]}]},
+        {"name": "Upload file", "oled_label": "UPLOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "U"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Quick switcher", "oled_label": "QUICK", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}]},
+        {"name": "Previous channel", "oled_label": "CH-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "UP_ARROW"]}]},
+        {"name": "Next channel", "oled_label": "CH+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "DOWN_ARROW"]}]},
+        {"name": "Microphone mute", "oled_label": "MIC", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "M"]}]},
+        {"name": "Deafen", "oled_label": "DEAF", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "D"]}]},
+        {"name": "Upload file", "oled_label": "UPLOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "U"]}]},
+        {"name": "Edit last message", "oled_label": "EDIT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "UP_ARROW"]}]},
+        {"name": "Reply focused message", "oled_label": "REPLY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "React to message", "oled_label": "REACT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "EQUALS"]}]},
+        {"name": "Emoji picker", "oled_label": "EMOJI", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "GIF picker", "oled_label": "GIF", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "G"]}]},
+        {"name": "Mark unread", "oled_label": "UNREAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "ENTER"]}]}
+      ]
+    }
+  ]
 }

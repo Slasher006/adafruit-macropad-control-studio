@@ -3,6 +3,7 @@
   "id": "lm-studio",
   "name": "LM Studio",
   "icon": "LM",
+  "subprofile_name": "General",
   "brightness": 5,
   "keys": [
     {"name": "New chat", "oled_label": "CHAT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
@@ -18,5 +19,64 @@
     {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
     {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]}
   ],
-  "encoder_press": {"name": "New chat", "oled_label": "CHAT", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Chat Editing",
+      "icon": "CE",
+      "brightness": 5,
+      "keys": [
+        {"name": "New chat", "oled_label": "CHAT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+        {"name": "New chat folder", "oled_label": "FOLDER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "N"]}]},
+        {"name": "Find", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Copy", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+        {"name": "Cut", "oled_label": "CUT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "X"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+        {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Settings", "oled_label": "SET", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "COMMA"]}]},
+        {"name": "Runtimes", "oled_label": "RUN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "R"]}]},
+        {"name": "Select theme", "oled_label": "THEME", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "K"]}, {"type": "delay", "ms": 80}, {"type": "hotkey", "keys": ["T"]}]}
+      ]
+    },
+    {
+      "name": "UI Navigation",
+      "icon": "NV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Up", "oled_label": "UP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Down", "oled_label": "DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "First item", "oled_label": "FIRST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Cancel", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Last item", "oled_label": "LAST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["END"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "New chat", "oled_label": "CHAT+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+        {"name": "Find", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Send message", "oled_label": "SEND", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Copy", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+        {"name": "New line", "oled_label": "LINE+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "ENTER"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+        {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Cancel", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]}
+      ]
+    }
+  ]
 }

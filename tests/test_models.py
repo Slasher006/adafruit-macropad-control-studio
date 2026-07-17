@@ -88,3 +88,34 @@ def test_profile_templates_include_icons_and_actions():
     assert media["icon"] == "AV" and media["keys"][0]["steps"][0]["type"] == "consumer"
     assert blank["icon"] == "BL" and all(not key["steps"] for key in blank["keys"])
     assert {editing["brightness"], media["brightness"], blank["brightness"]} == {5}
+
+
+def test_project_preserves_and_normalizes_subprofiles():
+    project = normalize_project(
+        {
+            "profiles": [
+                {
+                    "id": "i3wm",
+                    "name": "i3wm",
+                    "subprofile_name": "Windows",
+                    "subprofiles": [
+                        {
+                            "name": "Workspaces",
+                            "keys": [
+                                {
+                                    "name": "Workspace 1",
+                                    "oled_label": "WS-1",
+                                    "steps": [{"type": "hotkey", "keys": ["GUI", "ONE"]}],
+                                }
+                            ],
+                        }
+                    ],
+                }
+            ]
+        }
+    )
+    profile = validate_project(project)["profiles"][0]
+    assert profile["subprofile_name"] == "Windows"
+    assert [item["name"] for item in profile["subprofiles"]] == ["Workspaces"]
+    assert len(profile["subprofiles"][0]["keys"]) == 12
+    assert profile["subprofiles"][0]["keys"][0]["steps"][0]["keys"] == ["GUI", "ONE"]

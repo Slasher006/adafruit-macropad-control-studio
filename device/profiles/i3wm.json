@@ -3,6 +3,7 @@
   "id": "i3wm",
   "name": "i3wm",
   "icon": "I3",
+  "subprofile_name": "Windows",
   "brightness": 5,
   "keys": [
     {"name": "Open terminal", "oled_label": "TERM", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ENTER"]}]},
@@ -14,9 +15,49 @@
     {"name": "Move left", "oled_label": "M-LEFT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "LEFT_ARROW"]}]},
     {"name": "Focus down", "oled_label": "F-DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "DOWN_ARROW"]}]},
     {"name": "Move right", "oled_label": "M-RGHT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "RIGHT_ARROW"]}]},
-    {"name": "Horizontal split", "oled_label": "SP-H", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "H"]}]},
-    {"name": "Vertical split", "oled_label": "SP-V", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "V"]}]},
+    {"name": "Move up", "oled_label": "M-UP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "UP_ARROW"]}]},
+    {"name": "Move down", "oled_label": "M-DOWN", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "DOWN_ARROW"]}]},
     {"name": "Toggle fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "F"]}]}
   ],
-  "encoder_press": {"name": "Toggle floating", "oled_label": "FLOAT", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "SPACE"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Workspaces",
+      "icon": "WS",
+      "brightness": 5,
+      "keys": [
+        {"name": "Workspace 1", "oled_label": "WS-1", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "ONE"]}]},
+        {"name": "Workspace 2", "oled_label": "WS-2", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "TWO"]}]},
+        {"name": "Workspace 3", "oled_label": "WS-3", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "THREE"]}]},
+        {"name": "Workspace 4", "oled_label": "WS-4", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "FOUR"]}]},
+        {"name": "Workspace 5", "oled_label": "WS-5", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "FIVE"]}]},
+        {"name": "Workspace 6", "oled_label": "WS-6", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SIX"]}]},
+        {"name": "Move to workspace 1", "oled_label": "MV-1", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "ONE"]}]},
+        {"name": "Move to workspace 2", "oled_label": "MV-2", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "TWO"]}]},
+        {"name": "Move to workspace 3", "oled_label": "MV-3", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "THREE"]}]},
+        {"name": "Move to workspace 4", "oled_label": "MV-4", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "FOUR"]}]},
+        {"name": "Move to workspace 5", "oled_label": "MV-5", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "FIVE"]}]},
+        {"name": "Move to workspace 6", "oled_label": "MV-6", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "SIX"]}]}
+      ]
+    },
+    {
+      "name": "Layout",
+      "icon": "LY",
+      "brightness": 5,
+      "keys": [
+        {"name": "Horizontal split", "oled_label": "SP-H", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "H"]}]},
+        {"name": "Vertical split", "oled_label": "SP-V", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "V"]}]},
+        {"name": "Toggle split layout", "oled_label": "SPLIT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "E"]}]},
+        {"name": "Stacking layout", "oled_label": "STACK", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "S"]}]},
+        {"name": "Tabbed layout", "oled_label": "TABBED", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "W"]}]},
+        {"name": "Toggle floating", "oled_label": "FLOAT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "SPACE"]}]},
+        {"name": "Focus floating", "oled_label": "F-FLT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SPACE"]}]},
+        {"name": "Toggle fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "F"]}]},
+        {"name": "Focus parent", "oled_label": "PARENT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "A"]}]},
+        {"name": "Move to scratchpad", "oled_label": "SC-MOV", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "MINUS"]}]},
+        {"name": "Show scratchpad", "oled_label": "SCRAT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "MINUS"]}]},
+        {"name": "Restart i3", "oled_label": "RESTR", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GUI", "SHIFT", "R"]}]}
+      ]
+    }
+  ]
 }

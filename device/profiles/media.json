@@ -3,6 +3,7 @@
   "id": "media",
   "name": "Media",
   "icon": "AV",
+  "subprofile_name": "Media",
   "brightness": 5,
   "keys": [
     {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "MUTE"}]},
@@ -18,9 +19,64 @@
     {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
     {"name": "Home", "oled_label": "HOME", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]}
   ],
-  "encoder_press": {
-    "name": "Play pause",
-    "oled_label": "PLAY",
-    "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]
-  }
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Navigation",
+      "icon": "NV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Up", "oled_label": "UP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Down", "oled_label": "DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Home", "oled_label": "HOME", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "End", "oled_label": "END", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["END"]}]},
+        {"name": "Escape", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]}
+      ]
+    },
+    {
+      "name": "Presentation",
+      "icon": "PR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous slide", "oled_label": "SLIDE-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Start presentation", "oled_label": "START", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+        {"name": "Next slide", "oled_label": "SLIDE+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "First slide", "oled_label": "FIRST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Blank screen", "oled_label": "BLANK", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["B"]}]},
+        {"name": "Last slide", "oled_label": "LAST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["END"]}]},
+        {"name": "Previous item", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Activate item", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Next item", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "MINUS"]}]},
+        {"name": "Exit presentation", "oled_label": "EXIT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "EQUALS"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous track", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_PREVIOUS_TRACK"}]},
+        {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "PLAY_PAUSE"}]},
+        {"name": "Next track", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "SCAN_NEXT_TRACK"}]},
+        {"name": "Seek backward", "oled_label": "SEEK-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Stop", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "STOP"}]},
+        {"name": "Seek forward", "oled_label": "SEEK+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_DECREMENT"}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "MUTE"}]},
+        {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "consumer", "code": "VOLUME_INCREMENT"}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F11"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]}
+      ]
+    }
+  ]
 }

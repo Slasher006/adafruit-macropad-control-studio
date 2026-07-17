@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "libreoffice",
+  "name": "LibreOffice",
+  "icon": "LO",
+  "subprofile_name": "General",
+  "brightness": 5,
+  "keys": [
+    {"name": "New document", "oled_label": "NEW", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+    {"name": "Open document", "oled_label": "OPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "O"]}]},
+    {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+    {"name": "Save as", "oled_label": "SAVEAS", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "S"]}]},
+    {"name": "Print", "oled_label": "PRINT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "P"]}]},
+    {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+    {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+    {"name": "Cut", "oled_label": "CUT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "X"]}]},
+    {"name": "Copy", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+    {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+    {"name": "Find", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+    {"name": "Replace", "oled_label": "REPL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "H"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Writer",
+      "icon": "WR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Bold", "oled_label": "BOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]},
+        {"name": "Italic", "oled_label": "ITALIC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "I"]}]},
+        {"name": "Underline", "oled_label": "UNDER", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "U"]}]},
+        {"name": "Align left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]},
+        {"name": "Align center", "oled_label": "CENTER", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Align right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]},
+        {"name": "Justified", "oled_label": "JUST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "J"]}]},
+        {"name": "Spell check", "oled_label": "SPELL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F7"]}]},
+        {"name": "Navigator", "oled_label": "NAV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+        {"name": "Nonprinting marks", "oled_label": "MARKS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F10"]}]},
+        {"name": "Numbered list", "oled_label": "NUM", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F12"]}]},
+        {"name": "Bullet list", "oled_label": "BULLET", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "F12"]}]}
+      ]
+    },
+    {
+      "name": "Calc and Impress",
+      "icon": "CI",
+      "brightness": 5,
+      "keys": [
+        {"name": "Edit cell", "oled_label": "CELL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F2"]}]},
+        {"name": "Function wizard", "oled_label": "FUNC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F2"]}]},
+        {"name": "Absolute reference", "oled_label": "REF", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F4"]}]},
+        {"name": "Previous sheet", "oled_label": "SHEET-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next sheet", "oled_label": "SHEET+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]},
+        {"name": "Select column", "oled_label": "COLUMN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SPACE"]}]},
+        {"name": "Select row", "oled_label": "ROW", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "SPACE"]}]},
+        {"name": "Start slideshow", "oled_label": "SHOW", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+        {"name": "Start at current slide", "oled_label": "SHOW-C", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "F5"]}]},
+        {"name": "Duplicate slide", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "D"]}]},
+        {"name": "Move slide up", "oled_label": "SLIDE-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "UP_ARROW"]}]},
+        {"name": "Move slide down", "oled_label": "SLIDE+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "DOWN_ARROW"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+        {"name": "Copy", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+        {"name": "Find", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Bold", "oled_label": "BOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]},
+        {"name": "Italic", "oled_label": "ITALIC", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "I"]}]},
+        {"name": "Underline", "oled_label": "UNDER", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "U"]}]},
+        {"name": "Align left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]},
+        {"name": "Align center", "oled_label": "CENTER", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Align right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]}
+      ]
+    }
+  ]
+}

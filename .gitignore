@@ -2,7 +2,14 @@
 .xdg-data/
 .xdg-cache/
 .pytest_cache/
+.benchmarks/
+tmp/
+build/
+dist/
+htmlcov/
+.coverage
 **/__pycache__/
 *.egg-info/
 *.py[cod]
 *.uf2
+/terminal-manjaro.json

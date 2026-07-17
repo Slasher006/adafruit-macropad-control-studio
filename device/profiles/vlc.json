@@ -3,6 +3,7 @@
   "id": "vlc",
   "name": "VLC",
   "icon": "VL",
+  "subprofile_name": "Playback",
   "brightness": 5,
   "keys": [
     {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
@@ -18,5 +19,64 @@
     {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
     {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "UP_ARROW"]}]}
   ],
-  "encoder_press": {"name": "Play pause", "oled_label": "PLAY", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Seek",
+      "icon": "SK",
+      "brightness": 5,
+      "keys": [
+        {"name": "Very short back", "oled_label": "VSBACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "LEFT_ARROW"]}]},
+        {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+        {"name": "Very short forward", "oled_label": "VSFWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "RIGHT_ARROW"]}]},
+        {"name": "Short back", "oled_label": "S-BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Stop", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+        {"name": "Short forward", "oled_label": "S-FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Medium back", "oled_label": "M-BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "LEFT_ARROW"]}]},
+        {"name": "Previous", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["P"]}]},
+        {"name": "Medium forward", "oled_label": "M-FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "RIGHT_ARROW"]}]},
+        {"name": "Long back", "oled_label": "L-BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "LEFT_ARROW"]}]},
+        {"name": "Next", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["N"]}]},
+        {"name": "Long forward", "oled_label": "L-FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "RIGHT_ARROW"]}]}
+      ]
+    },
+    {
+      "name": "View and Audio",
+      "icon": "VA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+        {"name": "Minimal interface", "oled_label": "MINI", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "H"]}]},
+        {"name": "Playlist", "oled_label": "LIST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]},
+        {"name": "Snapshot", "oled_label": "SHOT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "S"]}]},
+        {"name": "Aspect ratio", "oled_label": "ASPECT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["A"]}]},
+        {"name": "Crop mode", "oled_label": "CROP", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+        {"name": "Subtitle track", "oled_label": "SUB", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["V"]}]},
+        {"name": "Audio track", "oled_label": "AUDIO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["B"]}]},
+        {"name": "Deinterlace", "oled_label": "DEINT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["D"]}]},
+        {"name": "Preferences", "oled_label": "PREF", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "P"]}]},
+        {"name": "Effects", "oled_label": "EFFECT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["P"]}]},
+        {"name": "Play pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+        {"name": "Next", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["N"]}]},
+        {"name": "Short back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Stop", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+        {"name": "Short forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Slower", "oled_label": "SLOW", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["MINUS"]}]},
+        {"name": "Normal speed", "oled_label": "NORMAL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["EQUALS"]}]},
+        {"name": "Faster", "oled_label": "FAST", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_BRACKET"]}]},
+        {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "DOWN_ARROW"]}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "UP_ARROW"]}]}
+      ]
+    }
+  ]
 }

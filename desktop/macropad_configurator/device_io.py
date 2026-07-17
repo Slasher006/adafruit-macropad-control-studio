@@ -145,6 +145,10 @@ def compare_projects(local: dict[str, Any], remote: dict[str, Any]) -> list[str]
                 changed_controls += 1
         if changed_controls:
             changes.append(f"{profile['name']}: {changed_controls} control(s) changed")
+        if profile.get("subprofile_name", "Main") != old.get("subprofile_name", "Main"):
+            changes.append(f"{profile['name']}: primary subprofile renamed")
+        if profile.get("subprofiles", []) != old.get("subprofiles", []):
+            changes.append(f"{profile['name']}: subprofiles changed")
     for profile in remote["profiles"]:
         if profile["id"] not in local_ids:
             changes.append(f"Remove profile: {profile['name']}")

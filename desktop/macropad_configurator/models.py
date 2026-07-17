@@ -10,6 +10,7 @@ from typing import Any
 SCHEMA_VERSION = 1
 NUM_KEYS = 12
 MAX_PROFILES = 32
+MAX_SUBPROFILES = 8
 MAX_STEPS = 16
 MAX_TEXT = 512
 MAX_DELAY_MS = 10_000
@@ -116,9 +117,39 @@ def new_profile(profile_id: str, name: str) -> dict[str, Any]:
         "id": profile_id,
         "name": name[:24],
         "icon": "",
+        "subprofile_name": "Main",
         "brightness": DEFAULT_BRIGHTNESS,
         "keys": [empty_control(index) for index in range(NUM_KEYS)],
         "encoder_press": empty_control(NUM_KEYS, False),
+        "subprofiles": [],
+    }
+
+
+def normalize_subprofile(
+    subprofile: Any,
+    index: int = 0,
+    parent: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    if not isinstance(subprofile, dict):
+        subprofile = {}
+    parent = parent or new_profile("default", "Default")
+    keys = subprofile.get("keys", [])
+    if not isinstance(keys, list):
+        keys = []
+    fallback_brightness = parent.get("brightness", DEFAULT_BRIGHTNESS)
+    return {
+        "name": str(subprofile.get("name", f"Subprofile {index + 2}"))[:24],
+        "icon": str(subprofile.get("icon", parent.get("icon", "")))[:2],
+        "brightness": clamp_int(
+            subprofile.get("brightness", fallback_brightness),
+            0,
+            100,
+            fallback_brightness,
+        ),
+        "keys": [
+            normalize_control(keys[key_index] if key_index < len(keys) else {}, key_index)
+            for key_index in range(NUM_KEYS)
+        ],
     }
 
 
@@ -128,6 +159,7 @@ def normalize_profile(profile: Any, fallback_id: str = "default") -> dict[str, A
     profile_id = slugify(str(profile.get("id", fallback_id))) or fallback_id
     result = new_profile(profile_id, str(profile.get("name", "Default")))
     result["icon"] = str(profile.get("icon", ""))[:2]
+    result["subprofile_name"] = str(profile.get("subprofile_name", "Main"))[:24]
     result["brightness"] = clamp_int(
         profile.get("brightness", DEFAULT_BRIGHTNESS), 0, 100, DEFAULT_BRIGHTNESS
     )
@@ -136,6 +168,13 @@ def normalize_profile(profile: Any, fallback_id: str = "default") -> dict[str, A
         keys = []
     result["keys"] = [normalize_control(keys[index] if index < len(keys) else {}, index) for index in range(NUM_KEYS)]
     result["encoder_press"] = normalize_control(profile.get("encoder_press", {}), NUM_KEYS, False)
+    subprofiles = profile.get("subprofiles", [])
+    if not isinstance(subprofiles, list):
+        subprofiles = []
+    result["subprofiles"] = [
+        normalize_subprofile(item, index, result)
+        for index, item in enumerate(subprofiles[:MAX_SUBPROFILES])
+    ]
     return result
 
 
@@ -237,7 +276,10 @@ def validate_project(project: Any) -> dict[str, Any]:
     for profile in normalized["profiles"]:
         if not profile["name"].strip():
             errors.append(f"Profile {profile['id']} has no name")
-        for control in profile["keys"] + [profile["encoder_press"]]:
+        controls = profile["keys"] + [profile["encoder_press"]]
+        for subprofile in profile["subprofiles"]:
+            controls.extend(subprofile["keys"])
+        for control in controls:
             if len(control["steps"]) > MAX_STEPS:
                 errors.append(f"{profile['name']}/{control['name']} has too many steps")
             for step in control["steps"]:

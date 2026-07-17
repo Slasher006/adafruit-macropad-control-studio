@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Any
 
 from PySide6.QtCore import QSettings, QStandardPaths, QTimer, Qt
-from PySide6.QtGui import QAction, QColor, QCloseEvent
+from PySide6.QtGui import QAction, QColor, QCloseEvent, QKeySequence
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QApplication,
@@ -54,6 +54,7 @@ from . import __version__
 from .models import (
     DEFAULT_BRIGHTNESS,
     MAX_PROFILES,
+    MAX_SUBPROFILES,
     duplicate_profile,
     empty_control,
     load_json,
@@ -63,6 +64,7 @@ from .models import (
     normalize_profile,
     normalize_project,
     normalize_control,
+    normalize_subprofile,
     profile_template,
     save_json,
     step_summary,
@@ -70,6 +72,10 @@ from .models import (
     validate_project,
 )
 from .widgets import MacroKeyButton, OledPreview, StepDialog
+
+
+def _tooltip(description: str, example: str) -> str:
+    return f"{description}\nExample: {example}"
 
 
 class MainWindow(QMainWindow):
@@ -86,6 +92,7 @@ class MainWindow(QMainWindow):
         self.devices: list[DeviceInfo] = []
         self.selected_control = 0
         self.selected_controls: set[int] = {0}
+        self.subprofile_index = 0
         self.loading = False
         self.dirty = False
         self.unsynced = False
@@ -131,55 +138,116 @@ class MainWindow(QMainWindow):
     def _build_toolbar(self) -> None:
         toolbar = self.addToolBar("Device")
         toolbar.setMovable(False)
+        toolbar.setToolTip(
+            _tooltip(
+                "Connect, inspect, preview, and synchronize a MacroPad.",
+                "Select a device, compare it, then choose Sync Device.",
+            )
+        )
+        toolbar.toggleViewAction().setToolTip(toolbar.toolTip())
+        toolbar.toggleViewAction().setStatusTip(toolbar.toolTip())
         toolbar.addWidget(QLabel(" Device: "))
         self.device_combo = QComboBox()
         self.device_combo.setMinimumWidth(300)
+        self.device_combo.setToolTip(
+            _tooltip(
+                "Select the connected MacroPad targeted by device commands.",
+                "Choose 'Desk Pad - CIRCUITPY' before Preview RGB or Sync Device.",
+            )
+        )
         toolbar.addWidget(self.device_combo)
-        for label, slot in (
-            ("Refresh", self.refresh_devices),
-            ("Import Device", self.import_device),
-            ("Preview RGB", self.preview_rgb),
-            ("Clear Preview", self.clear_rgb_preview),
-            ("Sync Device", self.sync_device),
-            ("Save Local", self.save_local),
+        for label, slot, description, example in (
+            ("Refresh", self.refresh_devices, "Scan again for mounted MacroPad devices.", "Connect a MacroPad, then choose Refresh."),
+            ("Import Device", self.import_device, "Replace the local editor library with profiles from the selected device.", "Import an existing pad before making your first edit."),
+            ("Preview RGB", self.preview_rgb, "Temporarily show the selected layout's key colors on the device.", "Check a red Stop key without synchronizing the library."),
+            ("Clear Preview", self.clear_rgb_preview, "End the temporary RGB preview and restore normal device lighting.", "Clear Preview after checking a new color palette."),
+            ("Sync Device", self.sync_device, "Back up the device and write the complete local library to it.", "Compare first, then sync your finished Firefox profile."),
+            ("Save Local", self.save_local, "Save the editor library immediately instead of waiting for autosave.", "Choose Save Local before closing after a large edit."),
         ):
             action = QAction(label, self)
             action.triggered.connect(slot)
+            action.setToolTip(_tooltip(description, example))
+            action.setStatusTip(_tooltip(description, example))
             toolbar.addAction(action)
         toolbar.addSeparator()
         toolbar.addWidget(QLabel(" Layout: "))
         self.layout_combo = QComboBox()
         self.layout_combo.addItem("US", "us")
         self.layout_combo.addItem("German", "de")
+        self.layout_combo.setToolTip(
+            _tooltip(
+                "Match typed text and punctuation to the host computer's keyboard layout.",
+                "Choose German when the desktop keyboard layout is de-DE.",
+            )
+        )
         self.layout_combo.currentIndexChanged.connect(self._layout_changed)
         toolbar.addWidget(self.layout_combo)
         toolbar.addSeparator()
         self.state_label = QLabel(" Local saved ")
+        self.state_label.setToolTip(
+            _tooltip(
+                "Shows whether edits are saved locally and synchronized to the device.",
+                "'Local saved - device differs' means Sync Device is still needed.",
+            )
+        )
         toolbar.addWidget(self.state_label)
 
     def _build_edit_toolbar(self) -> None:
         toolbar = self.addToolBar("Editing")
         toolbar.setMovable(False)
+        toolbar.setToolTip(
+            _tooltip(
+                "Edit controls and manage libraries, backups, and firmware.",
+                "Copy one key, paste it elsewhere, then compare with the device.",
+            )
+        )
+        toolbar.toggleViewAction().setToolTip(toolbar.toolTip())
+        toolbar.toggleViewAction().setStatusTip(toolbar.toolTip())
+        self.file_menu = self.menuBar().addMenu("&File")
+        self.file_menu.menuAction().setToolTip(
+            _tooltip("Open application-level commands.", "Choose Exit to close the configurator.")
+        )
+        self.exit_action = QAction("E&xit", self)
+        self.exit_action.setObjectName("exit_action")
+        self.exit_action.setShortcut(QKeySequence.StandardKey.Quit)
+        self.exit_action.setMenuRole(QAction.MenuRole.QuitRole)
+        self.exit_action.setToolTip(
+            _tooltip(
+                "Close the configurator through the normal save and cleanup checks.",
+                "Press Ctrl+Q and choose Save if local edits are pending.",
+            )
+        )
+        self.exit_action.setStatusTip(self.exit_action.toolTip())
+        self.exit_action.triggered.connect(self.close)
+        self.file_menu.addAction(self.exit_action)
         edit_menu = self.menuBar().addMenu("&Edit")
         library_menu = self.menuBar().addMenu("&Library")
         device_menu = self.menuBar().addMenu("&Device")
+        for menu, description, example in (
+            (edit_menu, "Open undo, clipboard, and control-position commands.", "Use Paste control to duplicate a copied macro."),
+            (library_menu, "Open comparison, backup, import, and export commands.", "Export Library before moving profiles to another computer."),
+            (device_menu, "Open device identification, health, and repair commands.", "Run Device Health when firmware versions differ."),
+        ):
+            menu.menuAction().setToolTip(_tooltip(description, example))
         actions = (
-            ("Undo", self.undo, "Ctrl+Z"),
-            ("Redo", self.redo, "Ctrl+Shift+Z"),
-            ("Copy control", self.copy_control, "Ctrl+Alt+C"),
-            ("Paste control", self.paste_control, "Ctrl+Alt+V"),
-            ("Swap…", self.swap_control_dialog, ""),
-            ("Compare", self.compare_with_device, ""),
-            ("Backups", self.restore_backup, ""),
-            ("Export Library", self.export_library, ""),
-            ("Import Library", self.import_library, ""),
-            ("Device Health", self.show_device_health, ""),
-            ("Repair Firmware", self.repair_device_firmware, ""),
-            ("Name Device", self.name_device, ""),
+            ("Undo", self.undo, "Ctrl+Z", "Reverse the most recent editor change.", "Undo an accidental key move."),
+            ("Redo", self.redo, "Ctrl+Shift+Z", "Reapply the most recently undone change.", "Redo the key move you just undid."),
+            ("Copy control", self.copy_control, "Ctrl+Alt+C", "Copy the selected key or encoder assignment.", "Copy a Ctrl+C key before pasting it into another layout."),
+            ("Paste control", self.paste_control, "Ctrl+Alt+V", "Paste the copied assignment into the selected control or controls.", "Select three keys and paste one shared lighting/action setup."),
+            ("Swap…", self.swap_control_dialog, "", "Exchange the complete assignments of two controls.", "Swap Key 1 with Key 12 without shifting other keys."),
+            ("Compare", self.compare_with_device, "", "List differences between the local library and selected device.", "Review changed colors and actions before syncing."),
+            ("Backups", self.restore_backup, "", "Load a previous device backup into the local editor.", "Open yesterday's backup, review it, then sync to restore."),
+            ("Export Library", self.export_library, "", "Save every profile and palette color as a portable archive.", "Create macropad-library.macropad.zip before reinstalling."),
+            ("Import Library", self.import_library, "", "Load profiles and palette colors from a library archive.", "Import a teammate's macropad-library.macropad.zip."),
+            ("Device Health", self.show_device_health, "", "Check firmware version, required files, and serial connectivity.", "Diagnose a device that mounts but ignores commands."),
+            ("Repair Firmware", self.repair_device_firmware, "", "Reinstall project firmware and dependencies while preserving profiles.", "Repair a device reported as missing macropad_core.py."),
+            ("Name Device", self.name_device, "", "Assign a local friendly name to the selected device UID.", "Rename a unit to 'Left App Deck'."),
         )
-        for label, slot, shortcut in actions:
+        for label, slot, shortcut, description, example in actions:
             action = QAction(label, self)
             action.triggered.connect(slot)
+            action.setToolTip(_tooltip(description, example))
+            action.setStatusTip(_tooltip(description, example))
             if shortcut:
                 action.setShortcut(shortcut)
             toolbar.addAction(action)
@@ -193,30 +261,41 @@ class MainWindow(QMainWindow):
     def _build_profile_panel(self) -> QWidget:
         panel = QWidget()
         layout = QVBoxLayout(panel)
-        title = QLabel("Profiles")
+        title = QLabel("Profile screens")
         title.setStyleSheet("font-size: 18px; font-weight: 600")
         layout.addWidget(title)
+        order_help = QLabel("Drag to set encoder turn order")
+        order_help.setStyleSheet("color: #9AA7B2")
+        layout.addWidget(order_help)
         self.profile_list = QListWidget()
         self.profile_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.profile_list.setDefaultDropAction(Qt.DropAction.MoveAction)
+        self.profile_list.setToolTip(
+            _tooltip(
+                "Select a parent profile or drag profiles into encoder-turn order.",
+                "Move Firefox above VLC so it is one encoder turn away.",
+            )
+        )
         self.profile_list.currentRowChanged.connect(self._profile_selected)
         self.profile_list.model().rowsMoved.connect(self._profiles_reordered)
         layout.addWidget(self.profile_list, 1)
         buttons = QGridLayout()
-        for index, (label, slot) in enumerate(
+        for index, (label, slot, description, example) in enumerate(
             (
-                ("Add", self.add_profile),
-                ("Duplicate", self.duplicate_current_profile),
-                ("Delete", self.delete_profile),
-                ("Up", lambda: self.move_profile(-1)),
-                ("Down", lambda: self.move_profile(1)),
-                ("Import…", self.import_profile),
-                ("Export…", self.export_profile),
-                ("Template…", self.add_profile_from_template),
-                ("Clear profile", self.clear_current_profile),
-                ("Reset lights", self.reset_profile_lighting),
+                ("Add", self.add_profile, "Create a new blank parent profile.", "Add a profile named OBS Studio."),
+                ("Duplicate", self.duplicate_current_profile, "Copy the selected profile and all of its layouts.", "Duplicate Editing before making an alternate key map."),
+                ("Delete", self.delete_profile, "Remove the selected parent profile from the library.", "Delete an unused test profile after reviewing it."),
+                ("Up", lambda: self.move_profile(-1), "Move the profile one position earlier in encoder-turn order.", "Move Media above Firefox."),
+                ("Down", lambda: self.move_profile(1), "Move the profile one position later in encoder-turn order.", "Move a rarely used profile toward the end."),
+                ("Import…", self.import_profile, "Add one profile from a JSON file.", "Import obs-studio.json without replacing the library."),
+                ("Export…", self.export_profile, "Save the selected profile as a JSON file.", "Export firefox.json to share one profile."),
+                ("Template…", self.add_profile_from_template, "Create a profile from a built-in starting layout.", "Choose Editing for common copy, paste, and undo keys."),
+                ("Clear profile", self.clear_current_profile, "Remove assignments while retaining the profile identity.", "Clear a duplicated profile before designing it from scratch."),
+                ("Reset lights", self.reset_profile_lighting, "Restore default brightness and key colors for this profile.", "Reset an overly bright experimental layout to 5 percent."),
             )
         ):
             button = QPushButton(label)
+            button.setToolTip(_tooltip(description, example))
             button.clicked.connect(slot)
             buttons.addWidget(button, index // 2, index % 2)
         layout.addLayout(buttons)
@@ -232,24 +311,88 @@ class MainWindow(QMainWindow):
         form = QFormLayout(settings)
         self.profile_name_edit = QLineEdit()
         self.profile_name_edit.setMaxLength(24)
+        self.profile_name_edit.setToolTip(
+            _tooltip(
+                "Set the parent profile name used in the editor and device navigation.",
+                "Use 'Firefox' for the parent selected by turning the encoder.",
+            )
+        )
         self.profile_name_edit.textEdited.connect(self._profile_name_changed)
+        self.subprofile_name_edit = QLineEdit()
+        self.subprofile_name_edit.setMaxLength(24)
+        self.subprofile_name_edit.setToolTip(
+            _tooltip(
+                "Name the selected layout screen within the parent profile.",
+                "Name Firefox layouts 'Browse', 'Tabs', and 'Tools'.",
+            )
+        )
+        self.subprofile_name_edit.textEdited.connect(self._subprofile_name_changed)
         self.profile_icon_edit = QLineEdit()
         self.profile_icon_edit.setMaxLength(2)
         self.profile_icon_edit.setPlaceholderText("2 chars")
+        self.profile_icon_edit.setToolTip(
+            _tooltip(
+                "Set an optional two-character prefix for the OLED title.",
+                "Use 'FF' for a Firefox layout or leave it blank.",
+            )
+        )
         self.profile_icon_edit.textEdited.connect(self._profile_icon_changed)
         self.brightness_slider = QSlider(Qt.Orientation.Horizontal)
         self.brightness_slider.setRange(0, 100)
+        self.brightness_slider.setToolTip(
+            _tooltip(
+                "Set key-light brightness for the selected layout from 0 to 100 percent.",
+                "Use 5 percent for a comfortable default desk brightness.",
+            )
+        )
         self.brightness_slider.valueChanged.connect(self._brightness_changed)
         self.brightness_label = QLabel(f"{DEFAULT_BRIGHTNESS}%")
+        self.subprofile_list = QListWidget()
+        self.subprofile_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.subprofile_list.setDefaultDropAction(Qt.DropAction.MoveAction)
+        self.subprofile_list.setMaximumHeight(116)
+        self.subprofile_list.setToolTip(
+            _tooltip(
+                "Select or reorder layout screens cycled by pressing the encoder.",
+                "Arrange Browse, Tabs, Tools so each press advances predictably.",
+            )
+        )
+        self.subprofile_list.currentRowChanged.connect(self._subprofile_selected)
+        self.subprofile_list.model().rowsMoved.connect(self._subprofiles_reordered)
+        subprofile_row = QHBoxLayout()
+        subprofile_row.addWidget(self.subprofile_list, 1)
+        subprofile_buttons = QVBoxLayout()
+        for label, description, example, slot in (
+            ("+", "Add a layout screen to this parent profile.", "Add an 'In App' layout.", self.add_subprofile),
+            ("⧉", "Duplicate the selected layout screen.", "Copy 'Browse' before adapting it into 'Tabs'.", self.duplicate_subprofile),
+            ("↑", "Move the layout one position earlier in encoder-press order.", "Move 'Tools' before 'Tabs'.", lambda: self.move_subprofile(-1)),
+            ("↓", "Move the layout one position later in encoder-press order.", "Move 'In App' to the last position.", lambda: self.move_subprofile(1)),
+            ("−", "Delete the selected additional layout screen.", "Remove an unused experimental layout.", self.delete_subprofile),
+        ):
+            button = QPushButton(label)
+            button.setFixedWidth(34)
+            button.setToolTip(_tooltip(description, example))
+            button.clicked.connect(slot)
+            subprofile_buttons.addWidget(button)
+        subprofile_buttons.addStretch()
+        subprofile_row.addLayout(subprofile_buttons)
         brightness_row = QHBoxLayout()
         brightness_row.addWidget(self.brightness_slider, 1)
         brightness_row.addWidget(self.brightness_label)
-        form.addRow("Name", self.profile_name_edit)
+        form.addRow("Screens (knob press order)", subprofile_row)
+        form.addRow("Profile name", self.profile_name_edit)
+        form.addRow("Layout name", self.subprofile_name_edit)
         form.addRow("OLED icon", self.profile_icon_edit)
         form.addRow("Light intensity", brightness_row)
         layout.addWidget(settings)
 
         self.oled = OledPreview()
+        self.oled.setToolTip(
+            _tooltip(
+                "Preview the selected layout's OLED title and six-character key labels.",
+                "Confirm 'VOL+' fits before synchronizing.",
+            )
+        )
         layout.addWidget(self.oled)
 
         keys_box = QGroupBox("MacroPad")
@@ -259,12 +402,18 @@ class MainWindow(QMainWindow):
             button.setCheckable(True)
             button.setMinimumSize(115, 78)
             button.clicked.connect(lambda checked=False, number=index: self.select_control(number))
-            button.swapRequested.connect(self.swap_controls)
+            button.moveRequested.connect(self.move_control)
             keys.addWidget(button, index // 3, index % 3)
             self.key_buttons.append(button)
         self.encoder_button = QToolButton()
         self.encoder_button.setCheckable(True)
         self.encoder_button.setMinimumHeight(55)
+        self.encoder_button.setToolTip(
+            _tooltip(
+                "Select the encoder-press assignment when the profile has one layout.",
+                "Assign Play/Pause to encoder press on a single-layout Media profile.",
+            )
+        )
         self.encoder_button.clicked.connect(lambda: self.select_control(12))
         keys.addWidget(self.encoder_button, 4, 0, 1, 3)
         layout.addWidget(keys_box)
@@ -287,13 +436,31 @@ class MainWindow(QMainWindow):
         form = QFormLayout(fields)
         self.control_name_edit = QLineEdit()
         self.control_name_edit.setMaxLength(24)
+        self.control_name_edit.setToolTip(
+            _tooltip(
+                "Set the descriptive name shown on the configurator key tile.",
+                "Use 'Command palette' for a Ctrl+Shift+P action.",
+            )
+        )
         self.control_name_edit.textEdited.connect(self._control_name_changed)
         self.oled_label_edit = QLineEdit()
         self.oled_label_edit.setMaxLength(6)
+        self.oled_label_edit.setToolTip(
+            _tooltip(
+                "Set the compact label shown on the device OLED, up to six characters.",
+                "Use 'CMDPAL' for Command palette.",
+            )
+        )
         self.oled_label_edit.textEdited.connect(self._oled_label_changed)
         form.addRow("Name", self.control_name_edit)
         form.addRow("OLED label", self.oled_label_edit)
         self.unset_control_button = QPushButton("Unset key")
+        self.unset_control_button.setToolTip(
+            _tooltip(
+                "Clear this control's labels and action sequence without deleting the profile.",
+                "Unset an unused corner key while keeping its position available.",
+            )
+        )
         self.unset_control_button.clicked.connect(self.unset_current_control)
         form.addRow("Assignment", self.unset_control_button)
         layout.addWidget(fields)
@@ -301,24 +468,55 @@ class MainWindow(QMainWindow):
         colors = QGroupBox("RGB")
         color_layout = QFormLayout(colors)
         self.lighting_enabled_checkbox = QCheckBox("Illuminate this key")
+        self.lighting_enabled_checkbox.setToolTip(
+            _tooltip(
+                "Turn this key's light on or off while preserving its saved colors.",
+                "Disable lighting for an unassigned key.",
+            )
+        )
         self.lighting_enabled_checkbox.toggled.connect(self._lighting_enabled_changed)
         self.idle_color_button = QPushButton()
+        self.idle_color_button.setToolTip(
+            _tooltip(
+                "Choose the color shown while the selected key is idle.",
+                "Use green for a safe Start action.",
+            )
+        )
         self.idle_color_button.clicked.connect(lambda: self.choose_color("idle_color"))
         self.pressed_color_button = QPushButton()
+        self.pressed_color_button.setToolTip(
+            _tooltip(
+                "Choose the brief feedback color shown while the key is pressed.",
+                "Use white for consistent pressed-key feedback.",
+            )
+        )
         self.pressed_color_button.clicked.connect(lambda: self.choose_color("pressed_color"))
         color_layout.addRow("Lighting", self.lighting_enabled_checkbox)
         color_layout.addRow("Idle color", self.idle_color_button)
         color_layout.addRow("Pressed color", self.pressed_color_button)
         self.palette_combo = QComboBox()
+        self.palette_combo.setToolTip(
+            _tooltip(
+                "Choose a reusable saved RGB color.",
+                "Select #FF2020 for destructive or Stop actions.",
+            )
+        )
         self.palette_scope_combo = QComboBox()
         self.palette_scope_combo.addItems(["Selected keys", "Current row", "All keys"])
+        self.palette_scope_combo.setToolTip(
+            _tooltip(
+                "Choose which keys receive the selected palette color.",
+                "Choose Current row to color keys 4 through 6 together.",
+            )
+        )
         palette_buttons = QHBoxLayout()
-        for label, slot in (
-            ("Idle", lambda: self.apply_palette_color("idle_color")),
-            ("Pressed", lambda: self.apply_palette_color("pressed_color")),
-            ("Save current", self.save_current_palette_color),
+        for label, slot, description, example in (
+            ("Idle", lambda: self.apply_palette_color("idle_color"), "Apply the palette color as the idle color.", "Apply red to all selected Stop keys."),
+            ("Pressed", lambda: self.apply_palette_color("pressed_color"), "Apply the palette color as the pressed-feedback color.", "Apply white to the current row."),
+            ("Save current", self.save_current_palette_color, "Save the selected key's current idle color to the palette.", "Save a custom purple so it can be reused."),
         ):
             button = QPushButton(label)
+            button.setToolTip(_tooltip(description, example))
             button.clicked.connect(slot)
             palette_buttons.addWidget(button)
         color_layout.addRow("Palette", self.palette_combo)
@@ -330,22 +528,29 @@ class MainWindow(QMainWindow):
         action_layout = QVBoxLayout(actions)
         self.step_list = QListWidget()
         self.step_list.setDragDropMode(QAbstractItemView.DragDropMode.InternalMove)
+        self.step_list.setToolTip(
+            _tooltip(
+                "Review, select, double-click, or drag steps in the macro execution order.",
+                "Place an 800 ms delay between opening a terminal and typing text.",
+            )
+        )
         self.step_list.model().rowsMoved.connect(self._steps_reordered)
         self.step_list.itemDoubleClicked.connect(lambda: self.edit_step())
         action_layout.addWidget(self.step_list, 1)
         action_buttons = QGridLayout()
-        for index, (label, slot) in enumerate(
+        for index, (label, slot, description, example) in enumerate(
             (
-                ("Add step", self.add_step),
-                ("Edit", self.edit_step),
-                ("Remove", self.remove_step),
-                ("Move up", lambda: self.move_step(-1)),
-                ("Move down", lambda: self.move_step(1)),
-                ("Safe preview", self.preview_selected_action),
-                ("Run on device", self.test_selected_action),
+                ("Add step", self.add_step, "Append a keyboard, text, media, mouse, or delay step.", "Add Ctrl+S as a hotkey step."),
+                ("Edit", self.edit_step, "Change the selected macro step.", "Change a delay from 300 ms to 800 ms."),
+                ("Remove", self.remove_step, "Delete the selected macro step.", "Remove an unwanted Enter step so a command is not executed."),
+                ("Move up", lambda: self.move_step(-1), "Move the selected step earlier in the sequence.", "Move the terminal hotkey before the delay."),
+                ("Move down", lambda: self.move_step(1), "Move the selected step later in the sequence.", "Move typed text after the focus delay."),
+                ("Safe preview", self.preview_selected_action, "Show a readable summary without sending any input.", "Review a shutdown macro before testing it."),
+                ("Run on device", self.test_selected_action, "Confirm and execute this control through the selected MacroPad.", "Test a harmless Volume Up action in the target app."),
             )
         ):
             button = QPushButton(label)
+            button.setToolTip(_tooltip(description, example))
             button.clicked.connect(slot)
             action_buttons.addWidget(button, index // 2, index % 2)
         action_layout.addLayout(action_buttons)
@@ -359,12 +564,18 @@ class MainWindow(QMainWindow):
         row = max(0, self.profile_list.currentRow())
         return self.project["profiles"][row]
 
-    def current_control(self) -> dict[str, Any]:
+    def current_layout(self) -> dict[str, Any]:
         profile = self.current_profile()
-        return profile["keys"][self.selected_control] if self.selected_control < 12 else profile["encoder_press"]
+        if self.subprofile_index <= 0 or self.subprofile_index > len(profile["subprofiles"]):
+            return profile
+        return profile["subprofiles"][self.subprofile_index - 1]
+
+    def current_control(self) -> dict[str, Any]:
+        layout = self.current_layout()
+        return layout["keys"][self.selected_control] if self.selected_control < 12 else self.current_profile()["encoder_press"]
 
     def _control_at(self, index: int) -> dict[str, Any]:
-        return self.current_profile()["keys"][index] if index < 12 else self.current_profile()["encoder_press"]
+        return self.current_layout()["keys"][index] if index < 12 else self.current_profile()["encoder_press"]
 
     def undo(self) -> None:
         if not self.undo_stack:
@@ -404,7 +615,7 @@ class MainWindow(QMainWindow):
         for index in targets:
             value = normalize_control(self.control_clipboard, index, index < 12)
             if index < 12:
-                self.current_profile()["keys"][index] = value
+                self.current_layout()["keys"][index] = value
             else:
                 self.current_profile()["encoder_press"] = value
         self._refresh_profile_editor()
@@ -418,17 +629,30 @@ class MainWindow(QMainWindow):
         new_source = normalize_control(target_value, source, source < 12)
         new_target = normalize_control(source_value, target, target < 12)
         if source < 12:
-            self.current_profile()["keys"][source] = new_source
+            self.current_layout()["keys"][source] = new_source
         else:
             self.current_profile()["encoder_press"] = new_source
         if target < 12:
-            self.current_profile()["keys"][target] = new_target
+            self.current_layout()["keys"][target] = new_target
         else:
             self.current_profile()["encoder_press"] = new_target
         self.selected_control = target
         self.selected_controls = {target}
         self._refresh_profile_editor()
         self._mark_dirty("Swapped controls")
+
+    def move_control(self, source: int, target: int) -> None:
+        if source == target or source not in range(12) or target not in range(12):
+            return
+        keys = self.current_layout()["keys"]
+        moved = keys.pop(source)
+        keys.insert(target, moved)
+        self.selected_control = target
+        self.selected_controls = {target}
+        self._refresh_profile_editor()
+        self._mark_dirty(
+            f"Moved key {source + 1} to position {target + 1}; shifted intervening keys"
+        )
 
     def swap_control_dialog(self) -> None:
         choices = [f"Key {index + 1}" for index in range(12)] + ["Encoder press"]
@@ -452,19 +676,48 @@ class MainWindow(QMainWindow):
         if not self.project["profiles"]:
             return
         profile = self.current_profile()
+        has_subprofiles = bool(profile.get("subprofiles"))
+        self.subprofile_index = max(0, min(self.subprofile_index, len(profile["subprofiles"])))
+        layout = self.current_layout()
+        if has_subprofiles and self.selected_control == 12:
+            self.selected_control = 0
+            self.selected_controls = {0}
         self.loading = True
+        self.subprofile_list.clear()
+        self.subprofile_list.addItem(profile.get("subprofile_name", "Main"))
+        self.subprofile_list.addItems([item["name"] for item in profile["subprofiles"]])
+        for index in range(self.subprofile_list.count()):
+            self.subprofile_list.item(index).setData(Qt.ItemDataRole.UserRole, index)
+        self.subprofile_list.setCurrentRow(self.subprofile_index)
         self.profile_name_edit.setText(profile["name"])
-        self.profile_icon_edit.setText(profile.get("icon", ""))
-        self.brightness_slider.setValue(profile["brightness"])
-        self.brightness_label.setText(f"{profile['brightness']}%")
-        self.oled.set_profile(profile)
+        self.subprofile_name_edit.setText(
+            profile.get("subprofile_name", "Main")
+            if self.subprofile_index == 0
+            else layout["name"]
+        )
+        self.subprofile_name_edit.setEnabled(has_subprofiles)
+        self.profile_icon_edit.setText(layout.get("icon", ""))
+        self.brightness_slider.setValue(layout["brightness"])
+        self.brightness_label.setText(f"{layout['brightness']}%")
+        preview = dict(layout)
+        preview["name"] = (
+            profile.get("subprofile_name", "Main")
+            if has_subprofiles and self.subprofile_index == 0
+            else layout["name"]
+        )
+        self.oled.set_profile(preview)
         for index, button in enumerate(self.key_buttons):
-            control = profile["keys"][index]
+            control = layout["keys"][index]
             button.setText(f"{index + 1}\n{control['name']}")
             color = control["idle_color"] if control.get("lighting_enabled", True) else "#000000"
             button.setStyleSheet(self._key_style(color, self.selected_control == index))
             button.setChecked(index in self.selected_controls)
-        self.encoder_button.setText("Encoder press — " + profile["encoder_press"]["name"])
+        self.encoder_button.setText(
+            f"Encoder press — Next subprofile ({1 + len(profile['subprofiles'])})"
+            if has_subprofiles
+            else "Encoder press — " + profile["encoder_press"]["name"]
+        )
+        self.encoder_button.setEnabled(not has_subprofiles)
         self.encoder_button.setChecked(12 in self.selected_controls)
         self.loading = False
         self._refresh_control_editor()
@@ -546,9 +799,145 @@ class MainWindow(QMainWindow):
 
     def _profile_selected(self, row: int) -> None:
         if row >= 0 and not self.loading:
+            self.subprofile_index = 0
             self.selected_control = min(self.selected_control, 12)
+            if self.project["profiles"][row].get("subprofiles") and self.selected_control == 12:
+                self.selected_control = 0
             self.selected_controls = {self.selected_control}
             self._refresh_profile_editor()
+
+    def _subprofile_selected(self, index: int) -> None:
+        if self.loading or index < 0:
+            return
+        self.subprofile_index = index
+        self.selected_control = 0
+        self.selected_controls = {0}
+        self._refresh_profile_editor()
+
+    def add_subprofile(self) -> None:
+        profile = self.current_profile()
+        if len(profile["subprofiles"]) >= MAX_SUBPROFILES:
+            QMessageBox.warning(
+                self,
+                "Subprofile limit",
+                f"A profile can have at most {1 + MAX_SUBPROFILES} subprofiles.",
+            )
+            return
+        item = normalize_subprofile(
+            {"name": f"Subprofile {len(profile['subprofiles']) + 2}"},
+            len(profile["subprofiles"]),
+            profile,
+        )
+        profile["subprofiles"].append(item)
+        self.subprofile_index = len(profile["subprofiles"])
+        self.selected_control = 0
+        self.selected_controls = {0}
+        self._refresh_profile_editor()
+        self._mark_dirty("Added subprofile; encoder press now switches layouts")
+
+    def _subprofile_payload(self, index: int) -> dict[str, Any]:
+        profile = self.current_profile()
+        if index == 0:
+            return {
+                "name": profile.get("subprofile_name", "Main"),
+                "icon": profile.get("icon", ""),
+                "brightness": profile["brightness"],
+                "keys": copy.deepcopy(profile["keys"]),
+            }
+        return copy.deepcopy(profile["subprofiles"][index - 1])
+
+    def _set_subprofile_payload(self, index: int, payload: dict[str, Any]) -> None:
+        profile = self.current_profile()
+        if index == 0:
+            profile["subprofile_name"] = payload["name"][:24]
+            profile["icon"] = payload.get("icon", "")[:2]
+            profile["brightness"] = payload["brightness"]
+            profile["keys"] = copy.deepcopy(payload["keys"])
+        else:
+            profile["subprofiles"][index - 1] = normalize_subprofile(
+                payload,
+                index - 1,
+                profile,
+            )
+
+    def duplicate_subprofile(self) -> None:
+        profile = self.current_profile()
+        if len(profile["subprofiles"]) >= MAX_SUBPROFILES:
+            QMessageBox.warning(
+                self,
+                "Subprofile limit",
+                f"A profile can have at most {1 + MAX_SUBPROFILES} subprofiles.",
+            )
+            return
+        duplicate = self._subprofile_payload(self.subprofile_index)
+        duplicate["name"] = (duplicate["name"] + " Copy")[:24]
+        insert_at = self.subprofile_index
+        profile["subprofiles"].insert(
+            insert_at,
+            normalize_subprofile(duplicate, insert_at, profile),
+        )
+        self.subprofile_index = insert_at + 1
+        self.selected_control = 0
+        self.selected_controls = {0}
+        self._refresh_profile_editor()
+        self._mark_dirty(f"Duplicated submenu as {duplicate['name']}")
+
+    def move_subprofile(self, offset: int) -> None:
+        profile = self.current_profile()
+        target = self.subprofile_index + offset
+        if target < 0 or target > len(profile["subprofiles"]):
+            return
+        current_payload = self._subprofile_payload(self.subprofile_index)
+        target_payload = self._subprofile_payload(target)
+        self._set_subprofile_payload(self.subprofile_index, target_payload)
+        self._set_subprofile_payload(target, current_payload)
+        self.subprofile_index = target
+        self._refresh_profile_editor()
+        self._mark_dirty("Reordered device screens; sync to apply encoder press order")
+
+    def _subprofiles_reordered(self, parent, start, end, destination, row) -> None:
+        if self.loading:
+            return
+        profile = self.current_profile()
+        payloads = [
+            self._subprofile_payload(index)
+            for index in range(1 + len(profile["subprofiles"]))
+        ]
+        order = [
+            self.subprofile_list.item(index).data(Qt.ItemDataRole.UserRole)
+            for index in range(self.subprofile_list.count())
+        ]
+        if sorted(order) != list(range(len(payloads))):
+            return
+        ordered = [payloads[index] for index in order]
+        primary = ordered[0]
+        profile["subprofile_name"] = primary["name"][:24]
+        profile["icon"] = primary.get("icon", "")[:2]
+        profile["brightness"] = primary["brightness"]
+        profile["keys"] = copy.deepcopy(primary["keys"])
+        profile["subprofiles"] = [
+            normalize_subprofile(payload, index, profile)
+            for index, payload in enumerate(ordered[1:])
+        ]
+        self.subprofile_index = max(0, self.subprofile_list.currentRow())
+        self.selected_control = 0
+        self.selected_controls = {0}
+        self._refresh_profile_editor()
+        self._mark_dirty(
+            "Reordered device screens; sync to apply encoder press order"
+        )
+
+    def delete_subprofile(self) -> None:
+        if self.subprofile_index == 0:
+            QMessageBox.information(self, "Primary subprofile", "The primary subprofile cannot be deleted.")
+            return
+        profile = self.current_profile()
+        removed = profile["subprofiles"].pop(self.subprofile_index - 1)
+        self.subprofile_index = min(self.subprofile_index - 1, len(profile["subprofiles"]))
+        self.selected_control = 0
+        self.selected_controls = {0}
+        self._refresh_profile_editor()
+        self._mark_dirty(f"Deleted subprofile {removed['name']}")
 
     def _profile_name_changed(self, text: str) -> None:
         if self.loading:
@@ -556,20 +945,31 @@ class MainWindow(QMainWindow):
         self.current_profile()["name"] = text[:24]
         row = self.profile_list.currentRow()
         self.profile_list.item(row).setText(text)
-        self.oled.set_profile(self.current_profile())
+        self._refresh_profile_editor()
+        self._mark_dirty()
+
+    def _subprofile_name_changed(self, text: str) -> None:
+        if self.loading:
+            return
+        if self.subprofile_index == 0:
+            self.current_profile()["subprofile_name"] = text[:24]
+        else:
+            self.current_layout()["name"] = text[:24]
+        self.subprofile_list.item(self.subprofile_index).setText(text[:24])
+        self._refresh_profile_editor()
         self._mark_dirty()
 
     def _profile_icon_changed(self, text: str) -> None:
         if self.loading:
             return
-        self.current_profile()["icon"] = text[:2]
-        self.oled.set_profile(self.current_profile())
+        self.current_layout()["icon"] = text[:2]
+        self._refresh_profile_editor()
         self._mark_dirty()
 
     def _brightness_changed(self, value: int) -> None:
         self.brightness_label.setText(f"{value}%")
         if not self.loading:
-            self.current_profile()["brightness"] = value
+            self.current_layout()["brightness"] = value
             self._mark_dirty()
 
     def _control_name_changed(self, text: str) -> None:
@@ -583,21 +983,21 @@ class MainWindow(QMainWindow):
         if self.loading:
             return
         self.current_control()["oled_label"] = text[:6]
-        self.oled.set_profile(self.current_profile())
+        self._refresh_profile_editor()
         self._mark_dirty()
 
     def _lighting_enabled_changed(self, enabled: bool) -> None:
         if self.loading or self.selected_control >= 12:
             return
         for index in self._selected_key_indices():
-            self.current_profile()["keys"][index]["lighting_enabled"] = enabled
+            self.current_layout()["keys"][index]["lighting_enabled"] = enabled
         self._refresh_profile_editor()
         self._mark_dirty("Per-key lighting changed; preview or sync to apply")
 
     def unset_current_control(self) -> None:
         targets = self.selected_controls if self.selected_control < 12 else {12}
         for index in targets:
-            control = self.current_profile()["keys"][index] if index < 12 else self.current_profile()["encoder_press"]
+            control = self.current_layout()["keys"][index] if index < 12 else self.current_profile()["encoder_press"]
             control["name"] = "Unassigned"
             control["oled_label"] = ""
             control["steps"] = []
@@ -620,7 +1020,7 @@ class MainWindow(QMainWindow):
         if chosen.isValid():
             color = normalize_color(chosen.name())
             for index in self._selected_key_indices():
-                self.current_profile()["keys"][index][field] = color
+                self.current_layout()["keys"][index][field] = color
             self._remember_palette_color(color)
             self._refresh_profile_editor()
             self._mark_dirty()
@@ -671,7 +1071,7 @@ class MainWindow(QMainWindow):
         if not targets:
             return
         for index in targets:
-            self.current_profile()["keys"][index][field] = color
+            self.current_layout()["keys"][index][field] = color
         self._refresh_profile_editor()
         self._mark_dirty(f"Applied {color} to {len(targets)} key(s)")
 
@@ -711,18 +1111,19 @@ class MainWindow(QMainWindow):
         blank["brightness"] = old["brightness"]
         row = self.profile_list.currentRow()
         self.project["profiles"][row] = blank
+        self.subprofile_index = 0
         self.selected_control = 0
         self.selected_controls = {0}
         self._refresh_profile_editor()
         self._mark_dirty("Cleared profile assignments")
 
     def reset_profile_lighting(self) -> None:
-        for index, control in enumerate(self.current_profile()["keys"]):
+        for index, control in enumerate(self.current_layout()["keys"]):
             defaults = empty_control(index)
             control["lighting_enabled"] = True
             control["idle_color"] = defaults["idle_color"]
             control["pressed_color"] = defaults["pressed_color"]
-        self.current_profile()["brightness"] = DEFAULT_BRIGHTNESS
+        self.current_layout()["brightness"] = DEFAULT_BRIGHTNESS
         self._refresh_profile_editor()
         self._mark_dirty("Reset profile lighting")
 
@@ -761,7 +1162,9 @@ class MainWindow(QMainWindow):
         by_id = {profile["id"]: profile for profile in self.project["profiles"]}
         if len(by_id) == len(ids) and all(profile_id in by_id for profile_id in ids):
             self.project["profiles"] = [by_id[profile_id] for profile_id in ids]
-            self._mark_dirty()
+            self._mark_dirty(
+                "Reordered device screens; sync to apply encoder turn order"
+            )
 
     def add_step(self) -> None:
         dialog = StepDialog(parent=self, layout_name=self.project["keyboard_layout"])
@@ -948,7 +1351,7 @@ class MainWindow(QMainWindow):
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         try:
             device = self.current_device()
-            preview_lighting(device, self.current_profile())
+            preview_lighting(device, self.current_layout())
             self.preview_device = device
             self.statusBar().showMessage("Temporary RGB preview active", 5000)
         except DeviceError as exc:
@@ -1079,6 +1482,7 @@ class MainWindow(QMainWindow):
                 f"Firmware: {health.get('firmware_version', 'unknown')}",
                 f"Configuration revision: {health.get('revision', 'unknown')}",
                 f"Active profile: {health.get('profile', 'unknown')}",
+                f"Deck role: {health.get('deck_role', 'unknown').upper()}",
                 f"Layout: {health.get('layout', 'unknown').upper()}",
                 "Required files: OK" if not missing else "Missing:\n  " + "\n  ".join(missing),
             ]

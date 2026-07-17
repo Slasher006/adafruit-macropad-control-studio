@@ -3,6 +3,7 @@
   "id": "ssh",
   "name": "SSH",
   "icon": "SH",
+  "subprofile_name": "Connections",
   "brightness": 5,
   "keys": [
     {"name": "Connect", "oled_label": "SSH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh user@host"}]},
@@ -18,5 +19,64 @@
     {"name": "Add key to agent", "oled_label": "AGENT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-add ~/.ssh/id_ed25519"}]},
     {"name": "Show SSH config", "oled_label": "CONFIG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -G user@host"}]}
   ],
-  "encoder_press": {"name": "Cancel or disconnect", "oled_label": "CANCEL", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Keys and Config",
+      "icon": "KC",
+      "brightness": 5,
+      "keys": [
+        {"name": "Generate Ed25519 key", "oled_label": "KEYGEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-keygen -t ed25519 -C user@host"}]},
+        {"name": "Add key to agent", "oled_label": "AGENT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-add ~/.ssh/id_ed25519"}]},
+        {"name": "Copy public key", "oled_label": "COPYID", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-copy-id user@host"}]},
+        {"name": "Key fingerprint", "oled_label": "FINGER", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-keygen -lf ~/.ssh/id_ed25519.pub"}]},
+        {"name": "Remove known host", "oled_label": "RMHOST", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-keygen -R host"}]},
+        {"name": "Secure SSH folder", "oled_label": "CHMOD", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "chmod 700 ~/.ssh && chmod 600 ~/.ssh/config"}]},
+        {"name": "Edit SSH config", "oled_label": "EDIT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "nano ~/.ssh/config"}]},
+        {"name": "List SSH files", "oled_label": "LIST", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ls -la ~/.ssh"}]},
+        {"name": "Start SSH agent", "oled_label": "START", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "eval \"$(ssh-agent -s)\""}]},
+        {"name": "List agent keys", "oled_label": "KEYS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh-add -l"}]},
+        {"name": "Known hosts", "oled_label": "KNOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "less ~/.ssh/known_hosts"}]},
+        {"name": "Resolved config", "oled_label": "CONFIG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -G user@host"}]}
+      ]
+    },
+    {
+      "name": "Transfer and Diagnose",
+      "icon": "TD",
+      "brightness": 5,
+      "keys": [
+        {"name": "SCP upload", "oled_label": "UPLOAD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "scp file user@host:/path/"}]},
+        {"name": "SCP download", "oled_label": "DOWN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "scp user@host:/path/file ."}]},
+        {"name": "SCP directory", "oled_label": "SCP-R", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "scp -r folder user@host:/path/"}]},
+        {"name": "Rsync upload", "oled_label": "RS-UP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "rsync -avz folder/ user@host:/path/"}]},
+        {"name": "Rsync download", "oled_label": "RS-DN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "rsync -avz user@host:/path/ folder/"}]},
+        {"name": "SFTP session", "oled_label": "SFTP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "sftp user@host"}]},
+        {"name": "Verbose SSH", "oled_label": "SSH-V", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -vvv user@host"}]},
+        {"name": "Resolved config", "oled_label": "CONFIG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh -G user@host"}]},
+        {"name": "Test SSH port", "oled_label": "PORT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "nc -vz host 22"}]},
+        {"name": "Ping host", "oled_label": "PING", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ping -c 4 host"}]},
+        {"name": "Trace route", "oled_label": "TRACE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "traceroute host"}]},
+        {"name": "Remote command", "oled_label": "REMOTE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "text", "text": "ssh user@host 'command'"}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Interrupt remote", "oled_label": "INT", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "End remote shell", "oled_label": "EOF", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "D"]}]},
+        {"name": "Suspend process", "oled_label": "SUSP", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Clear screen", "oled_label": "CLEAR", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "L"]}]},
+        {"name": "Previous command", "oled_label": "HIST-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Next command", "oled_label": "HIST+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Previous word", "oled_label": "WORD-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "B"]}]},
+        {"name": "Next word", "oled_label": "WORD+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "F"]}]},
+        {"name": "Line start", "oled_label": "HOME", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Line end", "oled_label": "END", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Complete", "oled_label": "TAB", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Paste", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "V"]}]}
+      ]
+    }
+  ]
 }

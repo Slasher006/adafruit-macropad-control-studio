@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "blender",
+  "name": "Blender",
+  "icon": "BL",
+  "subprofile_name": "General",
+  "brightness": 5,
+  "keys": [
+    {"name": "New file", "oled_label": "NEW", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+    {"name": "Open file", "oled_label": "OPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "O"]}]},
+    {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+    {"name": "Save as", "oled_label": "SAVEAS", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "S"]}]},
+    {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+    {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "Z"]}]},
+    {"name": "Operator search", "oled_label": "SEARCH", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F3"]}]},
+    {"name": "Rename", "oled_label": "RENAME", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F2"]}]},
+    {"name": "Quick favorites", "oled_label": "FAV", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Q"]}]},
+    {"name": "Render image", "oled_label": "RENDER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F12"]}]},
+    {"name": "Show render", "oled_label": "RESULT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F11"]}]},
+    {"name": "Maximize area", "oled_label": "MAX", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SPACE"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Transform",
+      "icon": "TR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Move", "oled_label": "MOVE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["G"]}]},
+        {"name": "Rotate", "oled_label": "ROTATE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "Scale", "oled_label": "SCALE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+        {"name": "Constrain X", "oled_label": "AXIS-X", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Constrain Y", "oled_label": "AXIS-Y", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Y"]}]},
+        {"name": "Constrain Z", "oled_label": "AXIS-Z", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
+        {"name": "Add object", "oled_label": "ADD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "A"]}]},
+        {"name": "Duplicate", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "D"]}]},
+        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Apply transform", "oled_label": "APPLY", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Edit mode", "oled_label": "EDIT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Mode pie menu", "oled_label": "MODE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "TAB"]}]}
+      ]
+    },
+    {
+      "name": "Viewport",
+      "icon": "VW",
+      "brightness": 5,
+      "keys": [
+        {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["A"]}]},
+        {"name": "Deselect all", "oled_label": "NONE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "A"]}]},
+        {"name": "Invert selection", "oled_label": "INVERT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "I"]}]},
+        {"name": "Hide selected", "oled_label": "HIDE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["H"]}]},
+        {"name": "Reveal hidden", "oled_label": "REVEAL", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "H"]}]},
+        {"name": "Toolbar", "oled_label": "TOOLS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["T"]}]},
+        {"name": "Sidebar", "oled_label": "SIDE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["N"]}]},
+        {"name": "View pie menu", "oled_label": "VIEW", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["GRAVE_ACCENT"]}]},
+        {"name": "Toggle gizmos", "oled_label": "GIZMO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "GRAVE_ACCENT"]}]},
+        {"name": "Fly navigation", "oled_label": "FLY", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "GRAVE_ACCENT"]}]},
+        {"name": "Previous workspace", "oled_label": "WORK-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next workspace", "oled_label": "WORK+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Move", "oled_label": "MOVE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["G"]}]},
+        {"name": "Rotate", "oled_label": "ROTATE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "Scale", "oled_label": "SCALE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+        {"name": "Constrain X", "oled_label": "AXIS-X", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Constrain Y", "oled_label": "AXIS-Y", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Y"]}]},
+        {"name": "Constrain Z", "oled_label": "AXIS-Z", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
+        {"name": "Add object", "oled_label": "ADD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "A"]}]},
+        {"name": "Duplicate", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "D"]}]},
+        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Apply transform", "oled_label": "APPLY", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Edit mode", "oled_label": "EDIT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Operator search", "oled_label": "SEARCH", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F3"]}]}
+      ]
+    }
+  ]
+}

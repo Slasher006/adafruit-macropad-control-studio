@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "krita",
+  "name": "Krita",
+  "icon": "KR",
+  "subprofile_name": "Painting",
+  "brightness": 5,
+  "keys": [
+    {"name": "New document", "oled_label": "NEW", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "N"]}]},
+    {"name": "Open document", "oled_label": "OPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "O"]}]},
+    {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+    {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+    {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "Z"]}]},
+    {"name": "Freehand brush", "oled_label": "BRUSH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["B"]}]},
+    {"name": "Eraser mode", "oled_label": "ERASE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["E"]}]},
+    {"name": "Brush editor", "oled_label": "BR-SET", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+    {"name": "Foreground background", "oled_label": "FG/BG", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+    {"name": "Default colors", "oled_label": "COLORS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["D"]}]},
+    {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+    {"name": "Deselect", "oled_label": "NONE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "A"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Canvas",
+      "icon": "CV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Canvas only mode", "oled_label": "CANVAS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Full screen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "F"]}]},
+        {"name": "Mirror canvas", "oled_label": "MIRROR", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Reset canvas", "oled_label": "RESET", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ONE"]}]},
+        {"name": "Fit canvas", "oled_label": "FIT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TWO"]}]},
+        {"name": "Reset rotation", "oled_label": "ROT0", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["FIVE"]}]},
+        {"name": "Rotate left", "oled_label": "ROT-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["FOUR"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["MINUS"]}]},
+        {"name": "Rotate right", "oled_label": "ROT+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SIX"]}]},
+        {"name": "Pan left", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["EQUALS"]}]},
+        {"name": "Pan right", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]}
+      ]
+    },
+    {
+      "name": "Brush and Layers",
+      "icon": "LY",
+      "brightness": 5,
+      "keys": [
+        {"name": "Freehand brush", "oled_label": "BRUSH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["B"]}]},
+        {"name": "Eraser mode", "oled_label": "ERASE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["E"]}]},
+        {"name": "Brush editor", "oled_label": "BR-SET", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+        {"name": "Smaller brush", "oled_label": "SIZE-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_BRACKET"]}]},
+        {"name": "Larger brush", "oled_label": "SIZE+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_BRACKET"]}]},
+        {"name": "Default colors", "oled_label": "COLORS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["D"]}]},
+        {"name": "New paint layer", "oled_label": "LAYER+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["INSERT"]}]},
+        {"name": "Previous layer", "oled_label": "LYR-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Next layer", "oled_label": "LYR+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Duplicate layer", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "J"]}]},
+        {"name": "Merge layer down", "oled_label": "MERGE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
+        {"name": "Clear layer", "oled_label": "CLEAR", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "DELETE"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Freehand brush", "oled_label": "BRUSH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["B"]}]},
+        {"name": "Eraser mode", "oled_label": "ERASE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["E"]}]},
+        {"name": "Brush editor", "oled_label": "BR-SET", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F5"]}]},
+        {"name": "Smaller brush", "oled_label": "SIZE-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_BRACKET"]}]},
+        {"name": "Larger brush", "oled_label": "SIZE+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_BRACKET"]}]},
+        {"name": "Mirror canvas", "oled_label": "MIRROR", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "Z"]}]},
+        {"name": "Save", "oled_label": "SAVE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "S"]}]},
+        {"name": "New paint layer", "oled_label": "LAYER+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["INSERT"]}]},
+        {"name": "Previous layer", "oled_label": "LYR-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Next layer", "oled_label": "LYR+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]}
+      ]
+    }
+  ]
+}

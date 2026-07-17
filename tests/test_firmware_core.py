@@ -1,4 +1,14 @@
-from device.macropad_core import EncoderStepper, MacroRunner, color_tuple, normalize_index, normalize_profile, resolve_keycodes
+from device.macropad_core import (
+    EncoderStepper,
+    MacroRunner,
+    PersistentToggle,
+    SubprofileStore,
+    color_tuple,
+    find_subprofile_index,
+    normalize_index,
+    normalize_profile,
+    resolve_keycodes,
+)
 
 
 class FakeKeycode:
@@ -151,6 +161,70 @@ def test_profile_fallback_and_color_conversion():
     assert profile["keys"][0]["lighting_enabled"] is False
     assert profile["keys"][1]["lighting_enabled"] is True
     assert color_tuple("#112233") == (17, 34, 51)
+
+
+def test_profile_normalizes_additional_subprofiles():
+    profile = normalize_profile(
+        {
+            "id": "work",
+            "subprofile_name": "Windows",
+            "subprofiles": [
+                {
+                    "name": "Workspaces",
+                    "brightness": 9,
+                    "keys": [
+                        {
+                            "name": "Workspace 1",
+                            "oled_label": "WS-1",
+                            "steps": [{"type": "hotkey", "keys": ["GUI", "ONE"]}],
+                        }
+                    ],
+                }
+            ],
+        }
+    )
+    assert profile["subprofile_name"] == "Windows"
+    assert len(profile["subprofiles"]) == 1
+    assert profile["subprofiles"][0]["name"] == "Workspaces"
+    assert profile["subprofiles"][0]["brightness"] == 9
+    assert len(profile["subprofiles"][0]["keys"]) == 12
+    assert profile["subprofiles"][0]["keys"][0]["oled_label"] == "WS-1"
+
+
+def test_subprofile_store_keeps_an_independent_selection_per_parent_profile():
+    nvm = bytearray([255] * 40)
+    store = SubprofileStore(nvm)
+    assert store.load(2, 3) == 0
+    assert store.save(2, 1)
+    assert store.save(5, 2)
+    assert store.load(2, 3) == 1
+    assert store.load(5, 3) == 2
+    assert store.load(2, 1) == 0
+
+
+def test_persistent_toggle_uses_default_and_saves_both_states():
+    nvm = bytearray([255] * 40)
+    toggle = PersistentToggle(nvm, 33, True)
+    assert toggle.load() is True
+    assert toggle.save(False)
+    assert toggle.load() is False
+    assert toggle.save(True)
+    assert toggle.load() is True
+
+
+def test_find_subprofile_index_resolves_context_without_touching_storage():
+    profile = {
+        "subprofile_name": "General",
+        "subprofiles": [
+            {"name": "Navigation"},
+            {"name": "In App"},
+        ],
+    }
+    assert find_subprofile_index(profile, "General") == 0
+    assert find_subprofile_index(profile, "in app") == 2
+    assert find_subprofile_index(profile, 1) == 1
+    assert find_subprofile_index(profile, "Missing") is None
+    assert find_subprofile_index(profile, 5) is None
 
 
 def test_encoder_stepper_collapses_one_detent_and_keeps_direction():

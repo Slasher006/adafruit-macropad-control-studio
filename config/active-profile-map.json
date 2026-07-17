@@ -1,0 +1,100 @@
+{
+  "poll_interval": 0.5,
+  "desktop_profile": "i3wm",
+  "default_profile": "editing",
+  "default_subprofile": "In App",
+  "rules": [
+    {
+      "profile": "comfyui",
+      "subprofile": "In App",
+      "title_contains": ["comfyui"]
+    },
+    {
+      "profile": "ssh",
+      "subprofile": "In App",
+      "title_contains": [" ssh ", "ssh ", "ssh:", "user@", "root@"]
+    },
+    {
+      "profile": "firefox",
+      "subprofile": "In App",
+      "class_contains": ["firefox"]
+    },
+    {
+      "profile": "vscode",
+      "subprofile": "In App",
+      "class_contains": ["code", "code-oss", "vscodium"]
+    },
+    {
+      "profile": "vlc",
+      "subprofile": "In App",
+      "class_contains": ["vlc"]
+    },
+    {
+      "profile": "discord",
+      "subprofile": "In App",
+      "class_contains": ["discord", "vesktop"]
+    },
+    {
+      "profile": "lm-studio",
+      "subprofile": "In App",
+      "class_contains": ["lm studio", "lm-studio"]
+    },
+    {
+      "profile": "audio-controls",
+      "subprofile": "In App",
+      "class_contains": ["pavucontrol", "pulsemixer"]
+    },
+    {
+      "profile": "media",
+      "subprofile": "In App",
+      "class_contains": ["spotify", "rhythmbox", "audacious"]
+    },
+    {
+      "profile": "system-control",
+      "subprofile": "In App",
+      "class_contains": ["xfce4-settings", "systemsettings"]
+    },
+    {
+      "profile": "caja",
+      "subprofile": "In App",
+      "class_contains": ["caja"]
+    },
+    {
+      "profile": "krita",
+      "subprofile": "In App",
+      "class_contains": ["krita"]
+    },
+    {
+      "profile": "libreoffice",
+      "subprofile": "In App",
+      "class_contains": ["libreoffice", "soffice"]
+    },
+    {
+      "profile": "blender",
+      "subprofile": "In App",
+      "class_contains": ["blender"]
+    },
+    {
+      "profile": "terminal-manjaro",
+      "subprofile": "In App",
+      "class_contains": [
+        "alacritty",
+        "kitty",
+        "xfce4-terminal",
+        "gnome-terminal",
+        "konsole"
+      ]
+    },
+    {
+      "profile": "editing",
+      "subprofile": "In App",
+      "class_contains": [
+        "gimp",
+        "mousepad",
+        "xed",
+        "kate",
+        "qalculate"
+      ]
+    }
+  ]
+}

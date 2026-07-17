@@ -3,6 +3,7 @@
   "id": "comfyui",
   "name": "ComfyUI",
   "icon": "CU",
+  "subprofile_name": "Workflow",
   "brightness": 5,
   "keys": [
     {"name": "Queue prompt", "oled_label": "QUEUE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ENTER"]}]},
@@ -18,5 +19,64 @@
     {"name": "Mute nodes", "oled_label": "MUTE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "M"]}]},
     {"name": "Bypass nodes", "oled_label": "BYPASS", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]}
   ],
-  "encoder_press": {"name": "Open settings", "oled_label": "SET", "steps": [{"type": "hotkey", "keys": ["CONTROL", "COMMA"]}]}
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Canvas",
+      "icon": "CV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "EQUALS"]}]},
+        {"name": "Fit selected", "oled_label": "FIT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PERIOD"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "MINUS"]}]},
+        {"name": "Pin selected", "oled_label": "PIN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["P"]}]},
+        {"name": "Focus mode", "oled_label": "FOCUS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+        {"name": "Refresh nodes", "oled_label": "REFRSH", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "Queue sidebar", "oled_label": "QUEUE", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Q"]}]},
+        {"name": "Workflow sidebar", "oled_label": "WORK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["W"]}]},
+        {"name": "Node library", "oled_label": "NODES", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["N"]}]},
+        {"name": "Model library", "oled_label": "MODELS", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Log panel", "oled_label": "LOG", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "GRAVE_ACCENT"]}]},
+        {"name": "Settings", "oled_label": "SET", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "COMMA"]}]}
+      ]
+    },
+    {
+      "name": "Node Editing",
+      "icon": "ND",
+      "brightness": 5,
+      "keys": [
+        {"name": "Copy nodes", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Paste nodes", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+        {"name": "Paste with links", "oled_label": "LINKS", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "V"]}]},
+        {"name": "Frame nodes", "oled_label": "FRAME", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "G"]}]},
+        {"name": "Delete nodes", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}]},
+        {"name": "Collapse nodes", "oled_label": "FOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "C"]}]},
+        {"name": "Mute nodes", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "M"]}]},
+        {"name": "Bypass nodes", "oled_label": "BYPASS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]},
+        {"name": "Select all nodes", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+        {"name": "Queue prompt", "oled_label": "QUEUE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ENTER"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Queue prompt", "oled_label": "QUEUE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ENTER"]}]},
+        {"name": "Queue front", "oled_label": "FRONT", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "ENTER"]}]},
+        {"name": "Interrupt", "oled_label": "STOP", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ALT", "ENTER"]}]},
+        {"name": "Undo", "oled_label": "UNDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Z"]}]},
+        {"name": "Redo", "oled_label": "REDO", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "Y"]}]},
+        {"name": "Delete nodes", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}]},
+        {"name": "Copy nodes", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "C"]}]},
+        {"name": "Paste nodes", "oled_label": "PASTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "V"]}]},
+        {"name": "Select all nodes", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
+        {"name": "Collapse nodes", "oled_label": "FOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "C"]}]},
+        {"name": "Mute nodes", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "M"]}]},
+        {"name": "Bypass nodes", "oled_label": "BYPASS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "B"]}]}
+      ]
+    }
+  ]
 }

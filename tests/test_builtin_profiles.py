@@ -9,6 +9,13 @@ PROFILE_ROOT = ROOT / "device" / "profiles"
 REQUESTED_PROFILE_IDS = {
     "vscode",
     "firefox",
+    "reddit",
+    "youtube",
+    "instagram",
+    "printables",
+    "thingiverse",
+    "nitter",
+    "prime-video",
     "vlc",
     "i3wm",
     "discord",
@@ -30,6 +37,13 @@ AUTO_PROFILE_IDS = {
     "media",
     "vscode",
     "firefox",
+    "reddit",
+    "youtube",
+    "instagram",
+    "printables",
+    "thingiverse",
+    "nitter",
+    "prime-video",
     "vlc",
     "discord",
     "lm-studio",
@@ -151,6 +165,48 @@ def test_desktop_application_profiles_have_expected_layouts():
         assert [profile["subprofile_name"]] + [
             item["name"] for item in profile["subprofiles"]
         ] == layout_names
+
+
+def test_website_profiles_have_expected_layouts_and_contextual_keys():
+    expected = {
+        "reddit": ["Posts", "Media", "Browser", "In App"],
+        "youtube": ["Playback", "Fine Playback", "Browser", "In App"],
+        "instagram": ["Browse", "Keyboard Access", "Browser", "In App"],
+        "printables": ["Browse", "Keyboard Access", "Browser", "In App"],
+        "thingiverse": ["Browse", "Keyboard Access", "Browser", "In App"],
+        "nitter": ["Browse", "Keyboard Access", "Browser", "In App"],
+        "prime-video": ["Playback", "Keyboard Access", "Browser", "In App"],
+    }
+    for profile_id, layout_names in expected.items():
+        profile = json.loads(
+            (PROFILE_ROOT / f"{profile_id}.json").read_text(encoding="utf-8")
+        )
+        assert [profile["subprofile_name"]] + [
+            item["name"] for item in profile["subprofiles"]
+        ] == layout_names
+        assert profile["subprofiles"][-1]["keys"] == profile["keys"]
+
+    reddit = json.loads((PROFILE_ROOT / "reddit.json").read_text(encoding="utf-8"))
+    youtube = json.loads((PROFILE_ROOT / "youtube.json").read_text(encoding="utf-8"))
+    prime = json.loads((PROFILE_ROOT / "prime-video.json").read_text(encoding="utf-8"))
+    assert [key["name"] for key in reddit["keys"][:6]] == [
+        "Next post or comment",
+        "Previous post or comment",
+        "Copy item link",
+        "Upvote",
+        "Save or unsave",
+        "Downvote",
+    ]
+    assert [key["name"] for key in youtube["keys"][:3]] == [
+        "Rewind 10 seconds",
+        "Play or pause",
+        "Forward 10 seconds",
+    ]
+    assert [key["name"] for key in prime["keys"][7:10]] == [
+        "Audio track",
+        "Captions",
+        "Previous control",
+    ]
 
 
 def test_quicklaunch_and_system_control_assignments():

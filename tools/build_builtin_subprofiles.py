@@ -93,6 +93,141 @@ def layout(name, icon, keys):
     return {"name": name, "icon": icon, "brightness": 5, "keys": keys}
 
 
+def browser_keys():
+    return [
+        hotkey("Back", "BACK", LIME, "ALT", "LEFT_ARROW"),
+        hotkey("Reload", "RELOAD", YELLOW, "CONTROL", "R"),
+        hotkey("Forward", "FWD", LIME, "ALT", "RIGHT_ARROW"),
+        hotkey("Page up", "PGUP", LIME, "PAGE_UP"),
+        hotkey("Page top", "TOP", LIME, "HOME"),
+        hotkey("Page down", "PGDN", LIME, "PAGE_DOWN"),
+        hotkey("Find in page", "FIND", LIME, "CONTROL", "F"),
+        hotkey("Previous tab", "TAB-", LIME, "CONTROL", "PAGE_UP"),
+        hotkey("Next tab", "TAB+", LIME, "CONTROL", "PAGE_DOWN"),
+        hotkey("Zoom out", "ZOOM-", YELLOW, "CONTROL", "MINUS"),
+        hotkey("Reset zoom", "ZOOM0", YELLOW, "CONTROL", "ZERO"),
+        hotkey("Zoom in", "ZOOM+", YELLOW, "CONTROL", "EQUALS"),
+    ]
+
+
+def web_access_keys():
+    return [
+        hotkey("Previous control", "ITEM-", LIME, "SHIFT", "TAB"),
+        hotkey("Move up", "UP", LIME, "UP_ARROW"),
+        hotkey("Next control", "ITEM+", LIME, "TAB"),
+        hotkey("Previous item", "LEFT", LIME, "LEFT_ARROW"),
+        hotkey("Activate", "ENTER", GREEN, "ENTER"),
+        hotkey("Next item", "RIGHT", LIME, "RIGHT_ARROW"),
+        hotkey("Page up", "PGUP", LIME, "PAGE_UP"),
+        hotkey("Toggle focused item", "TOGGLE", YELLOW, "SPACE"),
+        hotkey("Page down", "PGDN", LIME, "PAGE_DOWN"),
+        hotkey("Open link in new tab", "TAB+", GREEN, "CONTROL", "ENTER"),
+        hotkey("Cancel or close", "ESC", ORANGE, "ESCAPE"),
+        hotkey("Move down", "DOWN", LIME, "DOWN_ARROW"),
+    ]
+
+
+REDDIT_KEYS = [
+    hotkey("Next post or comment", "NEXT", LIME, "J"),
+    hotkey("Previous post or comment", "PREV", LIME, "K"),
+    hotkey("Copy item link", "COPY", GREEN, "L"),
+    hotkey("Upvote", "UPVOTE", GREEN, "A"),
+    hotkey("Save or unsave", "SAVE", YELLOW, "S"),
+    hotkey("Downvote", "DOWNVT", ORANGE, "Z"),
+    hotkey("Reply to comment", "REPLY", GREEN, "R"),
+    hotkey("Collapse comment", "FOLD", YELLOW, "F"),
+    hotkey("Hide post", "HIDE", ORANGE, "H"),
+    hotkey("Toggle navigation", "NAV", YELLOW, "Q"),
+    hotkey("Create post", "POST+", GREEN, "C"),
+    hotkey("Show shortcuts", "HELP", LIME, "SHIFT", "FORWARD_SLASH"),
+]
+
+REDDIT_MEDIA_KEYS = [
+    hotkey("Rewind 10 seconds", "BACK10", LIME, "J"),
+    hotkey("Play or pause", "PLAY", GREEN, "K"),
+    hotkey("Forward 10 seconds", "FWD10", LIME, "L"),
+    hotkey("Rewind 5 seconds", "BACK5", LIME, "LEFT_ARROW"),
+    hotkey("Restart media", "START", LIME, "ZERO"),
+    hotkey("Forward 5 seconds", "FWD5", LIME, "RIGHT_ARROW"),
+    hotkey("Volume down", "VOL-", ORANGE, "DOWN_ARROW"),
+    hotkey("Mute", "MUTE", RED, "M"),
+    hotkey("Volume up", "VOL+", GREEN, "UP_ARROW"),
+    hotkey("Captions", "CAPT", YELLOW, "C"),
+    hotkey("Fullscreen", "FULL", YELLOW, "F"),
+    hotkey("Play or pause", "SPACE", GREEN, "SPACE"),
+]
+
+YOUTUBE_KEYS = [
+    hotkey("Rewind 10 seconds", "BACK10", LIME, "J"),
+    hotkey("Play or pause", "PLAY", GREEN, "K"),
+    hotkey("Forward 10 seconds", "FWD10", LIME, "L"),
+    hotkey("Previous video", "PREV", LIME, "SHIFT", "P"),
+    hotkey("Mute", "MUTE", RED, "M"),
+    hotkey("Next video", "NEXT", LIME, "SHIFT", "N"),
+    hotkey("Slower", "SLOW", YELLOW, "SHIFT", "COMMA"),
+    hotkey("Captions", "CAPT", YELLOW, "C"),
+    hotkey("Faster", "FAST", YELLOW, "SHIFT", "PERIOD"),
+    hotkey("Focus search", "SEARCH", GREEN, "FORWARD_SLASH"),
+    hotkey("Miniplayer", "MINI", YELLOW, "I"),
+    hotkey("Fullscreen", "FULL", YELLOW, "F"),
+]
+
+YOUTUBE_FINE_KEYS = [
+    hotkey("Previous frame", "FRAME-", LIME, "COMMA"),
+    hotkey("Play or pause", "PLAY", GREEN, "K"),
+    hotkey("Next frame", "FRAME+", LIME, "PERIOD"),
+    hotkey("Video start", "START", LIME, "ZERO"),
+    hotkey("Slower", "SLOW", YELLOW, "SHIFT", "COMMA"),
+    hotkey("Faster", "FAST", YELLOW, "SHIFT", "PERIOD"),
+    hotkey("Seek to 10 percent", "10%", LIME, "ONE"),
+    hotkey("Seek to 50 percent", "50%", LIME, "FIVE"),
+    hotkey("Seek to 90 percent", "90%", LIME, "NINE"),
+    hotkey("Previous chapter", "CHAP-", LIME, "CONTROL", "LEFT_ARROW"),
+    hotkey("Miniplayer", "MINI", YELLOW, "I"),
+    hotkey("Next chapter", "CHAP+", LIME, "CONTROL", "RIGHT_ARROW"),
+]
+
+GENERIC_WEBSITE_KEYS = [
+    hotkey("Back", "BACK", LIME, "ALT", "LEFT_ARROW"),
+    hotkey("Previous control", "ITEM-", LIME, "SHIFT", "TAB"),
+    hotkey("Next control", "ITEM+", LIME, "TAB"),
+    hotkey("Previous item", "LEFT", LIME, "LEFT_ARROW"),
+    hotkey("Activate", "ENTER", GREEN, "ENTER"),
+    hotkey("Next item", "RIGHT", LIME, "RIGHT_ARROW"),
+    hotkey("Page up", "PGUP", LIME, "PAGE_UP"),
+    hotkey("Toggle focused item", "TOGGLE", YELLOW, "SPACE"),
+    hotkey("Page down", "PGDN", LIME, "PAGE_DOWN"),
+    hotkey("Find in page", "FIND", LIME, "CONTROL", "F"),
+    hotkey("Cancel or close", "ESC", ORANGE, "ESCAPE"),
+    hotkey("Reload", "RELOAD", YELLOW, "CONTROL", "R"),
+]
+
+PRIME_VIDEO_KEYS = [
+    hotkey("Back", "BACK", LIME, "ALT", "LEFT_ARROW"),
+    hotkey("Rewind 10 seconds", "BACK10", LIME, "LEFT_ARROW"),
+    hotkey("Play or pause", "PLAY", GREEN, "SPACE"),
+    hotkey("Forward 10 seconds", "FWD10", LIME, "RIGHT_ARROW"),
+    hotkey("Volume down", "VOL-", ORANGE, "DOWN_ARROW"),
+    hotkey("Mute", "MUTE", RED, "M"),
+    hotkey("Volume up", "VOL+", GREEN, "UP_ARROW"),
+    hotkey("Audio track", "AUDIO", YELLOW, "A"),
+    hotkey("Captions", "CAPT", YELLOW, "C"),
+    hotkey("Previous control", "ITEM-", LIME, "SHIFT", "TAB"),
+    hotkey("Exit playback", "ESC", ORANGE, "ESCAPE"),
+    hotkey("Fullscreen", "FULL", YELLOW, "F"),
+]
+
+WEBSITE_META = {
+    "reddit": ("Reddit", "RD", REDDIT_KEYS),
+    "youtube": ("YouTube", "YT", YOUTUBE_KEYS),
+    "instagram": ("Instagram", "IG", GENERIC_WEBSITE_KEYS),
+    "printables": ("Printables", "PR", GENERIC_WEBSITE_KEYS),
+    "thingiverse": ("Thingiverse", "TV", GENERIC_WEBSITE_KEYS),
+    "nitter": ("Nitter", "NT", GENERIC_WEBSITE_KEYS),
+    "prime-video": ("Prime Video", "PV", PRIME_VIDEO_KEYS),
+}
+
+
 SPECS = {
     "editing": (
         "General",
@@ -800,6 +935,55 @@ SPECS = {
             ),
         ],
     ),
+    "reddit": (
+        "Posts",
+        [
+            layout("Media", "AV", REDDIT_MEDIA_KEYS),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "youtube": (
+        "Playback",
+        [
+            layout("Fine Playback", "FP", YOUTUBE_FINE_KEYS),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "instagram": (
+        "Browse",
+        [
+            layout("Keyboard Access", "KA", web_access_keys()),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "printables": (
+        "Browse",
+        [
+            layout("Keyboard Access", "KA", web_access_keys()),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "thingiverse": (
+        "Browse",
+        [
+            layout("Keyboard Access", "KA", web_access_keys()),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "nitter": (
+        "Browse",
+        [
+            layout("Keyboard Access", "KA", web_access_keys()),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
+    "prime-video": (
+        "Playback",
+        [
+            layout("Keyboard Access", "KA", web_access_keys()),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
 }
 
 
@@ -1092,6 +1276,13 @@ IN_APP_LAYOUTS = {
             hotkey("Operator search", "SEARCH", LIME, "F3"),
         ],
     ),
+    "reddit": layout("In App", "IA", REDDIT_KEYS),
+    "youtube": layout("In App", "IA", YOUTUBE_KEYS),
+    "instagram": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
+    "printables": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
+    "thingiverse": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
+    "nitter": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
+    "prime-video": layout("In App", "IA", PRIME_VIDEO_KEYS),
 }
 
 
@@ -1191,7 +1382,27 @@ def main():
         if profile_id in ("i3wm", "options"):
             continue
         path = PROFILE_ROOT / entry["file"]
-        profile = json.loads(path.read_text(encoding="utf-8"))
+        if path.exists():
+            profile = json.loads(path.read_text(encoding="utf-8"))
+        elif profile_id in WEBSITE_META:
+            profile = {
+                "schema_version": 1,
+                "id": profile_id,
+                "name": "",
+                "icon": "",
+                "subprofile_name": "Main",
+                "brightness": 5,
+                "keys": [],
+                "encoder_press": {},
+                "subprofiles": [],
+            }
+        else:
+            raise FileNotFoundError(path)
+        if profile_id in WEBSITE_META:
+            profile_name, icon, primary_keys = WEBSITE_META[profile_id]
+            profile["name"] = profile_name
+            profile["icon"] = icon
+            profile["keys"] = primary_keys
         primary_name, subprofiles = SPECS[profile_id]
         if profile_id in PRIMARY_FILL:
             start, replacements = PRIMARY_FILL[profile_id]

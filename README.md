@@ -75,11 +75,13 @@ For a two-device split, set one device to each role.
 The included systemd user service reads the focused i3/Sway window and switches
 every connected MacroPad to the matching parent profile. For example, focusing
 Firefox selects `firefox`, Code OSS selects `vscode`, and a Firefox tab whose
-title contains ComfyUI selects `comfyui`. Caja, Krita, LibreOffice, and Blender
-have dedicated matches as well. On an App deck the service selects the matching
-parent plus its fourth **In App** layout. This automatic contextual selection
-does not overwrite the manually remembered layout used when that device acts as
-a Manual deck.
+title contains ComfyUI selects `comfyui`. Firefox tabs for Reddit, YouTube,
+Instagram, Printables, Thingiverse, Nitter, and Prime Video select their own
+website profiles before the generic Firefox fallback. Caja, Krita, LibreOffice,
+and Blender have dedicated matches as well. On an App deck the service selects
+the matching parent plus its fourth **In App** layout. This automatic contextual
+selection does not overwrite the manually remembered layout used when that
+device acts as a Manual deck.
 
 Install and start it with:
 

@@ -10,6 +10,13 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Media | Mute, Volume down, Volume up | Previous, Play/pause, Next | Mouse left, middle, right | Page up, Page down, Home | Next subprofile |
 | VS Code | Command palette, Quick open, Explorer | Project search, Source control, Save | Format, Definition, Rename | Debug, Breakpoint, Problems | Next subprofile |
 | Firefox | Back, Forward, Reload | New tab, Close tab, Restore tab | Previous tab, Next tab, Address bar | Find, Downloads, Fullscreen | Next subprofile |
+| Reddit | Next, Previous, Copy link | Upvote, Save, Downvote | Reply, Collapse, Hide | Navigation, Create post, Help | Next subprofile |
+| YouTube | Rewind 10, Play/pause, Forward 10 | Previous video, Mute, Next video | Slower, Captions, Faster | Search, Miniplayer, Fullscreen | Next subprofile |
+| Instagram | Back, Previous control, Next control | Previous item, Activate, Next item | Page up, Toggle, Page down | Find, Escape, Reload | Next subprofile |
+| Printables | Back, Previous control, Next control | Previous item, Activate, Next item | Page up, Toggle, Page down | Find, Escape, Reload | Next subprofile |
+| Thingiverse | Back, Previous control, Next control | Previous item, Activate, Next item | Page up, Toggle, Page down | Find, Escape, Reload | Next subprofile |
+| Nitter | Back, Previous control, Next control | Previous item, Activate, Next item | Page up, Toggle, Page down | Find, Escape, Reload | Next subprofile |
+| Prime Video | Back, Rewind 10, Play/pause | Forward 10, Volume down, Mute | Volume up, Audio, Captions | Previous control, Escape, Fullscreen | Next subprofile |
 | VLC | Play/pause, Stop, Fullscreen | Previous, Jump back, Next | Slower, Normal speed, Faster | Volume down, Mute, Volume up | Next subprofile |
 | i3wm — Windows 1/3 | Terminal, Launcher, Close | Focus left, Focus up, Focus right | Move left, Focus down, Move right | Move up, Move down, Fullscreen | Next subprofile |
 | i3wm — Workspaces 2/3 | Workspace 1, 2, 3 | Workspace 4, 5, 6 | Move window to workspace 1, 2, 3 | Move window to workspace 4, 5, 6 | Next subprofile |
@@ -35,6 +42,13 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Media | Media | Navigation | Presentation | In App |
 | VS Code | General | Navigation | Code and Debug | In App |
 | Firefox | Browse | Tabs | Tools | In App |
+| Reddit | Posts | Media | Browser | In App |
+| YouTube | Playback | Fine Playback | Browser | In App |
+| Instagram | Browse | Keyboard Access | Browser | In App |
+| Printables | Browse | Keyboard Access | Browser | In App |
+| Thingiverse | Browse | Keyboard Access | Browser | In App |
+| Nitter | Browse | Keyboard Access | Browser | In App |
+| Prime Video | Playback | Keyboard Access | Browser | In App |
 | VLC | Playback | Seek | View and Audio | In App |
 | i3wm | Windows | Workspaces | Layout | — |
 | Discord | General | Navigation | Messages | In App |
@@ -80,6 +94,9 @@ System Control executes its reboot and shutdown commands after opening a termina
 
 - [VS Code default Linux shortcuts](https://code.visualstudio.com/docs/reference/default-keybindings)
 - [Firefox keyboard shortcuts](https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly)
+- [Reddit keyboard shortcuts](https://support.reddithelp.com/hc/en-us/articles/38744650091412-How-to-use-keyboard-shortcuts-hotkeys)
+- [YouTube keyboard shortcuts](https://support.google.com/youtube/answer/7631406)
+- [Prime Video keyboard shortcuts](https://www.primevideo.com/help?nodeId=GE4VW9VWJD7FM6DR)
 - [VLC most-used hotkeys](https://docs.videolan.me/vlc-user/desktop/3.0/en/basic/hotkeys.html)
 - [i3 default keybindings](https://i3wm.org/docs/userguide.html)
 - [Discord shortcuts and navigation](https://support.discord.com/hc/en-us/articles/31232432266647-Discord-Commands-Shortcuts-and-Navigation-Guide)

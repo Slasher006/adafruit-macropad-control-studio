@@ -1,9 +1,13 @@
+from types import SimpleNamespace
+
+import macropad_configurator.profile_switcher as profile_switcher
 from macropad_configurator.profile_switcher import (
     FocusedWindow,
     ProfileTarget,
     choose_profile,
     choose_target,
     find_focused_window,
+    query_i3_tree,
     rule_matches,
 )
 
@@ -46,6 +50,39 @@ def test_find_focused_window_extracts_i3_properties():
         window_class="firefox",
         instance="Navigator",
     )
+
+
+def test_query_i3_tree_discovers_socket_without_graphical_environment(
+    tmp_path,
+    monkeypatch,
+):
+    runtime = tmp_path / "run"
+    socket = runtime / "i3" / "ipc-socket.42"
+    socket.parent.mkdir(parents=True)
+    socket.touch()
+    monkeypatch.setenv("XDG_RUNTIME_DIR", str(runtime))
+    for variable in ("DISPLAY", "I3SOCK", "SWAYSOCK"):
+        monkeypatch.delenv(variable, raising=False)
+    calls = []
+
+    def run(command, **kwargs):
+        calls.append((command, kwargs))
+        return SimpleNamespace(returncode=0, stdout='{"nodes": []}', stderr="")
+
+    monkeypatch.setattr(profile_switcher.subprocess, "run", run)
+
+    assert query_i3_tree() == {"nodes": []}
+    assert calls == [
+        (
+            ["i3-msg", "-s", str(socket), "-t", "get_tree"],
+            {
+                "check": False,
+                "capture_output": True,
+                "text": True,
+                "timeout": 3.0,
+            },
+        )
+    ]
 
 
 def test_rules_use_first_match_so_web_apps_override_browser():
@@ -96,6 +133,41 @@ def test_bundled_map_selects_desktop_application_profiles():
     for window_class, expected_profile in cases.items():
         target = choose_target(config, FocusedWindow(window_class=window_class))
         assert target == ProfileTarget(expected_profile, "In App")
+
+
+def test_bundled_map_selects_firefox_website_profiles_before_firefox():
+    import json
+    from pathlib import Path
+
+    config = json.loads(
+        (Path(__file__).resolve().parents[1] / "config" / "active-profile-map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    cases = {
+        "A community on Reddit - Firefox": "reddit",
+        "Video title - YouTube — Mozilla Firefox": "youtube",
+        "Instagram — Mozilla Firefox": "instagram",
+        "Model detail | Printables.com - Firefox": "printables",
+        "Thingiverse - Digital Designs - Firefox": "thingiverse",
+        "Nitter — Mozilla Firefox": "nitter",
+        "Prime Video: Watch now - Firefox": "prime-video",
+    }
+    for title, expected_profile in cases.items():
+        target = choose_target(
+            config,
+            FocusedWindow(title=title, window_class="Firefox"),
+        )
+        assert target == ProfileTarget(expected_profile, "In App")
+
+    assert choose_target(
+        config,
+        FocusedWindow(title="Unmatched page - Firefox", window_class="Firefox"),
+    ) == ProfileTarget("firefox", "In App")
+    assert choose_target(
+        config,
+        FocusedWindow(title="YouTube notes", window_class="Code"),
+    ) == ProfileTarget("vscode", "In App")
 
 
 def test_bundled_automatic_rules_all_request_the_contextual_layout():

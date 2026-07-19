@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "reddit",
+  "name": "Reddit",
+  "icon": "RD",
+  "subprofile_name": "Posts",
+  "brightness": 5,
+  "keys": [
+    {"name": "Next post or comment", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["J"]}]},
+    {"name": "Previous post or comment", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+    {"name": "Copy item link", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["L"]}]},
+    {"name": "Upvote", "oled_label": "UPVOTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["A"]}]},
+    {"name": "Save or unsave", "oled_label": "SAVE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+    {"name": "Downvote", "oled_label": "DOWNVT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
+    {"name": "Reply to comment", "oled_label": "REPLY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+    {"name": "Collapse comment", "oled_label": "FOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+    {"name": "Hide post", "oled_label": "HIDE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["H"]}]},
+    {"name": "Toggle navigation", "oled_label": "NAV", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Q"]}]},
+    {"name": "Create post", "oled_label": "POST+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+    {"name": "Show shortcuts", "oled_label": "HELP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "FORWARD_SLASH"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Media",
+      "icon": "AV",
+      "brightness": 5,
+      "keys": [
+        {"name": "Rewind 10 seconds", "oled_label": "BACK10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["J"]}]},
+        {"name": "Play or pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+        {"name": "Forward 10 seconds", "oled_label": "FWD10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["L"]}]},
+        {"name": "Rewind 5 seconds", "oled_label": "BACK5", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Restart media", "oled_label": "START", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ZERO"]}]},
+        {"name": "Forward 5 seconds", "oled_label": "FWD5", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Volume down", "oled_label": "VOL-", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Volume up", "oled_label": "VOL+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Captions", "oled_label": "CAPT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+        {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+        {"name": "Play or pause", "oled_label": "SPACE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]}
+      ]
+    },
+    {
+      "name": "Browser",
+      "icon": "BR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]},
+        {"name": "Forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Page top", "oled_label": "TOP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Previous tab", "oled_label": "TAB-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next tab", "oled_label": "TAB+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "MINUS"]}]},
+        {"name": "Reset zoom", "oled_label": "ZOOM0", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ZERO"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "EQUALS"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Next post or comment", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["J"]}]},
+        {"name": "Previous post or comment", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+        {"name": "Copy item link", "oled_label": "COPY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["L"]}]},
+        {"name": "Upvote", "oled_label": "UPVOTE", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["A"]}]},
+        {"name": "Save or unsave", "oled_label": "SAVE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["S"]}]},
+        {"name": "Downvote", "oled_label": "DOWNVT", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
+        {"name": "Reply to comment", "oled_label": "REPLY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["R"]}]},
+        {"name": "Collapse comment", "oled_label": "FOLD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]},
+        {"name": "Hide post", "oled_label": "HIDE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["H"]}]},
+        {"name": "Toggle navigation", "oled_label": "NAV", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Q"]}]},
+        {"name": "Create post", "oled_label": "POST+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+        {"name": "Show shortcuts", "oled_label": "HELP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "FORWARD_SLASH"]}]}
+      ]
+    }
+  ]
+}

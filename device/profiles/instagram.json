@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "instagram",
+  "name": "Instagram",
+  "icon": "IG",
+  "subprofile_name": "Browse",
+  "brightness": 5,
+  "keys": [
+    {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+    {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+    {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+    {"name": "Previous item", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+    {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+    {"name": "Next item", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+    {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+    {"name": "Toggle focused item", "oled_label": "TOGGLE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+    {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+    {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+    {"name": "Cancel or close", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+    {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Keyboard Access",
+      "icon": "KA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Move up", "oled_label": "UP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["UP_ARROW"]}]},
+        {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Previous item", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Next item", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Toggle focused item", "oled_label": "TOGGLE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Open link in new tab", "oled_label": "TAB+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ENTER"]}]},
+        {"name": "Cancel or close", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Move down", "oled_label": "DOWN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DOWN_ARROW"]}]}
+      ]
+    },
+    {
+      "name": "Browser",
+      "icon": "BR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]},
+        {"name": "Forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Page top", "oled_label": "TOP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Previous tab", "oled_label": "TAB-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next tab", "oled_label": "TAB+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "MINUS"]}]},
+        {"name": "Reset zoom", "oled_label": "ZOOM0", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ZERO"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "EQUALS"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Previous control", "oled_label": "ITEM-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "TAB"]}]},
+        {"name": "Next control", "oled_label": "ITEM+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
+        {"name": "Previous item", "oled_label": "LEFT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["LEFT_ARROW"]}]},
+        {"name": "Activate", "oled_label": "ENTER", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
+        {"name": "Next item", "oled_label": "RIGHT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Toggle focused item", "oled_label": "TOGGLE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SPACE"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Cancel or close", "oled_label": "ESC", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ESCAPE"]}]},
+        {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]}
+      ]
+    }
+  ]
+}

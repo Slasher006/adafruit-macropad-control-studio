@@ -22,6 +22,41 @@
       "file": "firefox.json"
     },
     {
+      "id": "reddit",
+      "name": "Reddit",
+      "file": "reddit.json"
+    },
+    {
+      "id": "youtube",
+      "name": "YouTube",
+      "file": "youtube.json"
+    },
+    {
+      "id": "instagram",
+      "name": "Instagram",
+      "file": "instagram.json"
+    },
+    {
+      "id": "printables",
+      "name": "Printables",
+      "file": "printables.json"
+    },
+    {
+      "id": "thingiverse",
+      "name": "Thingiverse",
+      "file": "thingiverse.json"
+    },
+    {
+      "id": "nitter",
+      "name": "Nitter",
+      "file": "nitter.json"
+    },
+    {
+      "id": "prime-video",
+      "name": "Prime Video",
+      "file": "prime-video.json"
+    },
+    {
       "id": "vlc",
       "name": "VLC",
       "file": "vlc.json"

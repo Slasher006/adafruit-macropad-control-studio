@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "id": "youtube",
+  "name": "YouTube",
+  "icon": "YT",
+  "subprofile_name": "Playback",
+  "brightness": 5,
+  "keys": [
+    {"name": "Rewind 10 seconds", "oled_label": "BACK10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["J"]}]},
+    {"name": "Play or pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+    {"name": "Forward 10 seconds", "oled_label": "FWD10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["L"]}]},
+    {"name": "Previous video", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "P"]}]},
+    {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+    {"name": "Next video", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "N"]}]},
+    {"name": "Slower", "oled_label": "SLOW", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "COMMA"]}]},
+    {"name": "Captions", "oled_label": "CAPT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+    {"name": "Faster", "oled_label": "FAST", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "PERIOD"]}]},
+    {"name": "Focus search", "oled_label": "SEARCH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["FORWARD_SLASH"]}]},
+    {"name": "Miniplayer", "oled_label": "MINI", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["I"]}]},
+    {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]}
+  ],
+  "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
+  "subprofiles": [
+    {
+      "name": "Fine Playback",
+      "icon": "FP",
+      "brightness": 5,
+      "keys": [
+        {"name": "Previous frame", "oled_label": "FRAME-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["COMMA"]}]},
+        {"name": "Play or pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+        {"name": "Next frame", "oled_label": "FRAME+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PERIOD"]}]},
+        {"name": "Video start", "oled_label": "START", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ZERO"]}]},
+        {"name": "Slower", "oled_label": "SLOW", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "COMMA"]}]},
+        {"name": "Faster", "oled_label": "FAST", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "PERIOD"]}]},
+        {"name": "Seek to 10 percent", "oled_label": "10%", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ONE"]}]},
+        {"name": "Seek to 50 percent", "oled_label": "50%", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["FIVE"]}]},
+        {"name": "Seek to 90 percent", "oled_label": "90%", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["NINE"]}]},
+        {"name": "Previous chapter", "oled_label": "CHAP-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "LEFT_ARROW"]}]},
+        {"name": "Miniplayer", "oled_label": "MINI", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["I"]}]},
+        {"name": "Next chapter", "oled_label": "CHAP+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "RIGHT_ARROW"]}]}
+      ]
+    },
+    {
+      "name": "Browser",
+      "icon": "BR",
+      "brightness": 5,
+      "keys": [
+        {"name": "Back", "oled_label": "BACK", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "LEFT_ARROW"]}]},
+        {"name": "Reload", "oled_label": "RELOAD", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "R"]}]},
+        {"name": "Forward", "oled_label": "FWD", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "RIGHT_ARROW"]}]},
+        {"name": "Page up", "oled_label": "PGUP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_UP"]}]},
+        {"name": "Page top", "oled_label": "TOP", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["HOME"]}]},
+        {"name": "Page down", "oled_label": "PGDN", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
+        {"name": "Find in page", "oled_label": "FIND", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
+        {"name": "Previous tab", "oled_label": "TAB-", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_UP"]}]},
+        {"name": "Next tab", "oled_label": "TAB+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "PAGE_DOWN"]}]},
+        {"name": "Zoom out", "oled_label": "ZOOM-", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "MINUS"]}]},
+        {"name": "Reset zoom", "oled_label": "ZOOM0", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "ZERO"]}]},
+        {"name": "Zoom in", "oled_label": "ZOOM+", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "EQUALS"]}]}
+      ]
+    },
+    {
+      "name": "In App",
+      "icon": "IA",
+      "brightness": 5,
+      "keys": [
+        {"name": "Rewind 10 seconds", "oled_label": "BACK10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["J"]}]},
+        {"name": "Play or pause", "oled_label": "PLAY", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["K"]}]},
+        {"name": "Forward 10 seconds", "oled_label": "FWD10", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["L"]}]},
+        {"name": "Previous video", "oled_label": "PREV", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "P"]}]},
+        {"name": "Mute", "oled_label": "MUTE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["M"]}]},
+        {"name": "Next video", "oled_label": "NEXT", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "N"]}]},
+        {"name": "Slower", "oled_label": "SLOW", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "COMMA"]}]},
+        {"name": "Captions", "oled_label": "CAPT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["C"]}]},
+        {"name": "Faster", "oled_label": "FAST", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "PERIOD"]}]},
+        {"name": "Focus search", "oled_label": "SEARCH", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["FORWARD_SLASH"]}]},
+        {"name": "Miniplayer", "oled_label": "MINI", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["I"]}]},
+        {"name": "Fullscreen", "oled_label": "FULL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F"]}]}
+      ]
+    }
+  ]
+}

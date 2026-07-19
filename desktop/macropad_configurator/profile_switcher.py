@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
 import time
 from dataclasses import dataclass
@@ -105,18 +106,72 @@ def choose_target(
     return ProfileTarget(str(value), subprofile)
 
 
+def _i3_socket_candidates() -> list[Path]:
+    """Return live-looking i3/Sway IPC sockets, newest first."""
+    candidates: list[Path] = []
+    seen: set[str] = set()
+
+    for variable in ("I3SOCK", "SWAYSOCK"):
+        value = os.environ.get(variable, "").strip()
+        if value and value not in seen:
+            candidates.append(Path(value))
+            seen.add(value)
+
+    runtime_value = os.environ.get("XDG_RUNTIME_DIR", "").strip()
+    if runtime_value:
+        runtime = Path(runtime_value)
+        discovered = list((runtime / "i3").glob("ipc-socket.*"))
+        discovered.extend(runtime.glob("sway-ipc.*.sock"))
+
+        def modified_at(path: Path) -> float:
+            try:
+                return path.stat().st_mtime
+            except OSError:
+                return 0.0
+
+        for path in sorted(discovered, key=modified_at, reverse=True):
+            value = str(path)
+            if value not in seen:
+                candidates.append(path)
+                seen.add(value)
+    return candidates
+
+
 def query_i3_tree() -> dict[str, Any]:
-    completed = subprocess.run(
-        ["i3-msg", "-t", "get_tree"],
-        check=True,
-        capture_output=True,
-        text=True,
-        timeout=3.0,
+    commands: list[list[str]] = []
+    if any(os.environ.get(name) for name in ("DISPLAY", "I3SOCK", "SWAYSOCK")):
+        commands.append(["i3-msg", "-t", "get_tree"])
+    commands.extend(
+        ["i3-msg", "-s", str(socket), "-t", "get_tree"]
+        for socket in _i3_socket_candidates()
     )
-    value = json.loads(completed.stdout)
-    if not isinstance(value, dict):
-        raise RuntimeError("i3 returned an invalid tree")
-    return value
+    if not commands:
+        raise RuntimeError("i3 IPC socket is not available yet")
+
+    failures: list[str] = []
+    for command in commands:
+        completed = subprocess.run(
+            command,
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=3.0,
+        )
+        if completed.returncode:
+            detail = completed.stderr.strip() or f"exit status {completed.returncode}"
+            failures.append(detail)
+            continue
+        try:
+            value = json.loads(completed.stdout)
+        except json.JSONDecodeError as exc:
+            failures.append(f"invalid JSON: {exc}")
+            continue
+        if isinstance(value, dict):
+            return value
+        failures.append("invalid tree")
+
+    detail = failures[-1] if failures else "no usable IPC socket"
+    raise RuntimeError(f"cannot query i3 tree: {detail}")
 
 
 def parse_serial_json(line: str) -> dict[str, Any] | None:

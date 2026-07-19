@@ -2,6 +2,20 @@
 
 All notable changes to the Adafruit MacroPad Configurator are documented here.
 
+## Unreleased
+
+### Firmware and profiles
+
+- Added dedicated Reddit, YouTube, Instagram, Printables, Thingiverse, Nitter,
+  and Prime Video profiles with contextual In App layouts.
+- Added Firefox-title rules so the App deck selects each website profile before
+  falling back to the generic Firefox layout.
+
+### Desktop service
+
+- Made automatic profile switching recover after boot when systemd starts before
+  the i3/Sway graphical environment variables are available.
+
 ## 1.1.0
 
 ### Configurator

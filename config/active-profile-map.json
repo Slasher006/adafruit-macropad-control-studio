@@ -15,6 +15,48 @@
       "title_contains": [" ssh ", "ssh ", "ssh:", "user@", "root@"]
     },
     {
+      "profile": "reddit",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["reddit"]
+    },
+    {
+      "profile": "youtube",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["youtube"]
+    },
+    {
+      "profile": "instagram",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["instagram"]
+    },
+    {
+      "profile": "printables",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["printables"]
+    },
+    {
+      "profile": "thingiverse",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["thingiverse", "thingyverse"]
+    },
+    {
+      "profile": "nitter",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["nitter"]
+    },
+    {
+      "profile": "prime-video",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["prime video"]
+    },
+    {
       "profile": "firefox",
       "subprofile": "In App",
       "class_contains": ["firefox"]

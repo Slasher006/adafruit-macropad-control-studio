@@ -28,6 +28,7 @@ from macropad_core import (
     normalize_hex_color,
     normalize_index,
     normalize_profile,
+    normalize_shared_key_profile,
     normalize_step,
     next_deck_role,
     safe_profile,
@@ -46,7 +47,8 @@ ENCODER_OPTIONS_HOLD_SECONDS = 0.9
 PROFILE_CACHE_SIZE = 1
 NVM_SUBPROFILE_OFFSET = 1
 NVM_DECK_ROLE_INDEX = NVM_SUBPROFILE_OFFSET + MAX_PROFILES
-FIRMWARE_VERSION = "1.10.0"
+LIVE_PROFILE_ID = "live-controls"
+FIRMWARE_VERSION = "1.11.0"
 
 try:
     supervisor.runtime.autoreload = False
@@ -136,6 +138,8 @@ display_pending_index = 0
 options_active = False
 encoder_press_started_at = None
 encoder_long_press_handled = False
+live_layout = None
+live_key_pressed_at = [None] * 12
 
 
 def emit(event, **values):
@@ -172,13 +176,26 @@ def refresh_display_step():
         display_pending = None
 
 
+def live_layout_active():
+    return (
+        isinstance(live_layout, dict)
+        and profile_container.get("id") == LIVE_PROFILE_ID
+        and live_layout.get("screen") == active_subprofile_name()
+    )
+
+
 def profile_rows():
     rows = []
+    live_labels = live_layout.get("labels", []) if live_layout_active() else []
     for row in range(4):
         labels = []
         for column in range(3):
-            control = profile["keys"][row * 3 + column]
-            label = control.get("oled_label", "")[:6]
+            index = row * 3 + column
+            control = profile["keys"][index]
+            label = (
+                str(live_labels[index]) if index < len(live_labels)
+                else control.get("oled_label", "")
+            )[:6]
             labels.append(label + (" " * (6 - len(label))))
         rows.append(" ".join(labels))
     return rows
@@ -195,6 +212,8 @@ def active_subprofile_name():
 
 
 def profile_title():
+    if live_layout_active():
+        return str(live_layout.get("title", "Live Controls"))[:20]
     icon = profile.get("icon", profile_container.get("icon", ""))[:2]
     if subprofile_count() > 1:
         title = "{} {}/{}".format(
@@ -321,10 +340,36 @@ def apply_profile_lighting():
     global preview_active
     preview_active = False
     macropad.pixels.brightness = profile.get("brightness", DEFAULT_BRIGHTNESS) / 100.0
+    live_colors = live_layout.get("colors", []) if live_layout_active() else []
     for index, control in enumerate(profile["keys"]):
+        if index < len(live_colors):
+            macropad.pixels[index] = color_tuple(live_colors[index])
+            continue
         macropad.pixels[index] = (
             color_tuple(control.get("idle_color")) if control.get("lighting_enabled", True) else (0, 0, 0)
         )
+
+
+def set_live_layout(command):
+    global live_layout
+    labels = command.get("labels", [])
+    colors = command.get("colors", [])
+    if not isinstance(labels, list) or len(labels) != 12:
+        raise ValueError("live layout requires 12 labels")
+    if not isinstance(colors, list) or len(colors) != 12:
+        raise ValueError("live layout requires 12 colors")
+    live_layout = {
+        "profile": str(command.get("profile", LIVE_PROFILE_ID))[:32],
+        "screen": str(command.get("screen", ""))[:24],
+        "title": str(command.get("title", "Live Controls"))[:20],
+        "labels": [str(value)[:6] for value in labels],
+        "colors": [normalize_hex_color(value) for value in colors],
+    }
+    active = live_layout_active()
+    if active:
+        apply_profile_lighting()
+        show_profile()
+    return active
 
 
 def apply_preview(command):
@@ -354,6 +399,13 @@ def canonical_profile_index(profile_id=None):
 
 def saved_subprofile_index(profile_id, count):
     return subprofile_store.load(canonical_profile_index(profile_id), count)
+
+
+def normalize_loaded_profile(loaded, fallback_id):
+    """Keep the host-backed live profile small enough for CircuitPython RAM."""
+    if fallback_id != LIVE_PROFILE_ID or not isinstance(loaded, dict):
+        return normalize_profile(loaded, fallback_id)
+    return normalize_shared_key_profile(loaded, fallback_id)
 
 
 def save_subprofile_index():
@@ -412,7 +464,7 @@ def load_profile_at(index, announce=True):
         try:
             loaded = read_json(PROFILE_ROOT + "/" + entry.get("file", entry["id"] + ".json"))
             read_done = time.monotonic()
-            profile_container = normalize_profile(loaded, entry["id"])
+            profile_container = normalize_loaded_profile(loaded, entry["id"])
             normalize_done = time.monotonic()
         except (OSError, ValueError) as exc:
             read_done = time.monotonic()
@@ -538,6 +590,8 @@ def handle_command(command):
                 profile_count=len(profile_entries),
                 profile_library_count=len(all_profile_entries),
                 visible_profiles=[entry["id"] for entry in profile_entries],
+                live_layout_active=live_layout_active(),
+                live_title=live_layout.get("title") if live_layout_active() else None,
                 firmware_version=FIRMWARE_VERSION,
                 revision=last_revision,
             )
@@ -553,6 +607,14 @@ def handle_command(command):
                 visible_profiles=visible_ids,
                 profile_count=len(visible_ids),
                 profile_library_count=len(all_profile_entries),
+            )
+        elif name == "set_live_layout":
+            active = set_live_layout(command)
+            serial_response(
+                name,
+                active=active,
+                profile=profile_container.get("id"),
+                subprofile=active_subprofile_name(),
             )
         elif name == "set_profile":
             requested_id = str(command.get("id", "")).strip()
@@ -800,11 +862,34 @@ while True:
             if event.pressed:
                 if not preview_active and control.get("lighting_enabled", True):
                     macropad.pixels[key_number] = color_tuple(control.get("pressed_color"), "#FFFFFF")
-                start_control(control, key_number)
+                if profile_container.get("id") == LIVE_PROFILE_ID:
+                    live_key_pressed_at[key_number] = now
+                else:
+                    start_control(control, key_number)
             elif event.released and not preview_active:
-                macropad.pixels[key_number] = (
-                    color_tuple(control.get("idle_color")) if control.get("lighting_enabled", True) else (0, 0, 0)
-                )
+                if profile_container.get("id") == LIVE_PROFILE_ID:
+                    pressed_at = live_key_pressed_at[key_number]
+                    live_key_pressed_at[key_number] = None
+                    emit(
+                        "host_key",
+                        profile=LIVE_PROFILE_ID,
+                        subprofile=active_subprofile_name(),
+                        key=key_number,
+                        duration_ms=(
+                            0 if pressed_at is None
+                            else max(0, int((now - pressed_at) * 1000))
+                        ),
+                    )
+                if live_layout_active():
+                    macropad.pixels[key_number] = color_tuple(
+                        live_layout["colors"][key_number]
+                    )
+                else:
+                    macropad.pixels[key_number] = (
+                        color_tuple(control.get("idle_color"))
+                        if control.get("lighting_enabled", True)
+                        else (0, 0, 0)
+                    )
         event = macropad.keys.events.get()
 
     refresh_display_step()

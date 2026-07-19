@@ -131,16 +131,40 @@ Manual or Profile mode.
 
 While the desktop service is connected, all three deck roles receive a temporary
 encoder filter containing profiles for open applications plus the pinned
-`i3wm`, `quicklaunch`, and `options` utilities. Profiles remain stored on the
-device and return after a reboot or when filtering is disabled. Each profile's
-remembered layout uses its stable library position, so app-open/app-close
-updates cannot transfer a saved layout to a different profile. Firefox website
-matching uses the selected tab title from each browser window; inactive tabs
-that are not selected in any window are not visible to i3/Sway.
+`i3wm`, `quicklaunch`, `live-controls`, and `options` utilities. Profiles remain
+stored on the device and return after a reboot or when filtering is disabled.
+Each profile's remembered layout uses its stable library position, so
+app-open/app-close updates cannot transfer a saved layout to a different
+profile. Firefox website matching uses the selected tab title from each browser
+window; inactive tabs that are not selected in any window are not visible to
+i3/Sway.
 
 The installed `~/.config/macropad-profile-switcher.json` file controls this with
 `filter_open_apps` and `pinned_profiles`. Set `filter_open_apps` to `false` for
 the complete encoder list.
+
+### Live Controls profile
+
+Use **Live Controls** on a Manual deck when the desktop service is running.
+Encoder press cycles Status, Programs, App Audio, Windows, Clipboard, Focus,
+System, and Jobs. Unlike an ordinary profile, the service replaces its OLED
+labels and key colors with current host values and handles tap-versus-hold key
+events.
+
+Programs focuses an open window on tap and closes it on a roughly 0.9-second
+hold. App Audio exposes per-application mute and volume controls. Clipboard
+stores ten captured values in service memory, pastes on tap, and removes on
+hold. Focus offers timers and meeting controls. System reports live utilization
+and temperatures. Jobs recognizes common downloads, renders, builds, and test
+runs; hold a job key to send it a graceful termination request.
+
+Optional host integrations degrade visibly when unavailable. For example,
+per-app controls require PulseAudio/PipeWire compatibility, i3/Sway actions
+require its IPC command, clipboard capture requires `xclip`, NVIDIA data
+requires `nvidia-smi`, and DND toggling requires `dunstctl`. Media playback uses
+the MacroPad's normal HID consumer keys. Clipboard history is not written to
+disk. Set `live_controls` to `false` in the service configuration to disable
+the persistent channel.
 
 ### Control editor
 

@@ -321,6 +321,38 @@ def normalize_profile(profile, fallback_id="default"):
     return result
 
 
+def normalize_shared_key_profile(profile, fallback_id="default"):
+    """Normalize many named screens while sharing one key array to conserve RAM."""
+    if not isinstance(profile, dict):
+        profile = {}
+    compact = dict(profile)
+    source_subprofiles = compact.get("subprofiles", [])
+    compact["subprofiles"] = []
+    result = normalize_profile(compact, fallback_id)
+    shared_keys = result["keys"]
+    if not isinstance(source_subprofiles, list):
+        source_subprofiles = []
+    for index, item in enumerate(source_subprofiles[:MAX_SUBPROFILES]):
+        if not isinstance(item, dict):
+            item = {}
+        result["subprofiles"].append(
+            {
+                "name": str(
+                    item.get("name", "Subprofile {}".format(index + 2))
+                )[:24],
+                "icon": str(item.get("icon", result.get("icon", "")))[:2],
+                "brightness": clamp(
+                    item.get("brightness", result.get("brightness", DEFAULT_BRIGHTNESS)),
+                    0,
+                    100,
+                    result.get("brightness", DEFAULT_BRIGHTNESS),
+                ),
+                "keys": shared_keys,
+            }
+        )
+    return result
+
+
 def normalize_index(data):
     if not isinstance(data, dict):
         return []

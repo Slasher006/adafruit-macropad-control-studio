@@ -33,6 +33,14 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Krita | New, Open, Save | Undo, Redo, Brush | Eraser, Brush editor, Swap colors | Default colors, Select all, Deselect | Next subprofile |
 | LibreOffice | New, Open, Save | Save as, Print, Undo | Redo, Cut, Copy | Paste, Find, Replace | Next subprofile |
 | Blender | New, Open, Save | Save as, Undo, Redo | Search, Rename, Favorites | Render, Result, Maximize area | Next subprofile |
+| Live Controls — Status 1/8 | Speaker, Microphone, Play/pause | Previous, Next, VPN | Focus timer, Caps Lock, Recording | Network, Updates, Refresh | Next live screen |
+| Live Controls — Programs 2/8 | Open programs 1–3 | Open programs 4–6 | Open programs 7–9 | Open programs 10–12 | Next live screen |
+| Live Controls — App Audio 3/8 | App 1 mute/down/up | App 2 mute/down/up | App 3 mute/down/up | App 4 mute/down/up | Next live screen |
+| Live Controls — Windows 4/8 | Previous/next workspace, move previous | Move next, output left/right | Fullscreen, floating, horizontal split | Vertical split, tabbed, close | Next live screen |
+| Live Controls — Clipboard 5/8 | Clipboard 1–3 | Clipboard 4–6 | Clipboard 7–9 | Clipboard 10, clear, capture | Next live screen |
+| Live Controls — Focus 6/8 | Focus 25/50, break 5 | Stop, meeting, DND | Microphone, speaker, timer | Add 5, subtract 5, lock | Next live screen |
+| Live Controls — System 7/8 | CPU, RAM, disk | Temperature, GPU, GPU temperature | Uptime, IP, jobs | Task manager, htop, refresh | Next live screen |
+| Live Controls — Jobs 8/8 | Jobs 1–3 | Jobs 4–6 | Jobs 7–9 | Job 10, task manager, refresh | Next live screen |
 
 ## Subprofile catalog
 
@@ -63,6 +71,7 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Krita | Painting | Canvas | Brush and Layers | In App |
 | LibreOffice | General | Writer | Calc and Impress | In App |
 | Blender | General | Transform | Viewport | In App |
+| Live Controls | Status | Programs | App Audio | Windows, Clipboard, Focus, System, Jobs |
 
 The Manjaro Terminal Packages, System, and Files/Network screens first open a
 terminal with `Super+Enter`, wait 800 ms, and insert an editable command
@@ -87,6 +96,14 @@ remembered normal layout. **App deck** follows the same parent and enters its
 **In App** layout. Keys 1, 2, and 3 select Manual, Profile, and App; encoder
 press cycles the three roles. Each device remembers its own choice. App mode
 does not overwrite the layout remembered for Manual or Profile mode.
+
+**Live Controls** is host-backed and intended for a Manual deck. Its OLED
+labels and RGB states refresh from the desktop service. Programs and Jobs use a
+short press for their normal action and a hold of about 0.9 seconds for close
+or graceful stop. Clipboard history is memory-only. If an optional host tool,
+audio stream, sensor, or matching process is absent, its key displays an
+unavailable or idle state instead of failing. All other profiles continue to
+execute directly on the MacroPad without the service.
 
 System Control executes its reboot and shutdown commands after opening a terminal and waiting 800 ms for it to receive focus. Red keys act immediately; the green Cancel key runs `shutdown -c` to cancel a scheduled shutdown.
 

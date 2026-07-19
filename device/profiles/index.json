@@ -127,6 +127,11 @@
       "file": "blender.json"
     },
     {
+      "id": "live-controls",
+      "name": "Live Controls",
+      "file": "live-controls.json"
+    },
+    {
       "id": "options",
       "name": "Options",
       "file": "options.json"

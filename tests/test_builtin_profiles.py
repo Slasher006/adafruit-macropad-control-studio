@@ -30,6 +30,7 @@ REQUESTED_PROFILE_IDS = {
     "krita",
     "libreoffice",
     "blender",
+    "live-controls",
 }
 FUNCTION_COLORS = {"#00FF66", "#B8FF00", "#FFD000", "#FF7A00", "#FF2020"}
 AUTO_PROFILE_IDS = {
@@ -75,7 +76,17 @@ def test_builtin_profile_index_and_payloads_are_valid():
             profiles.append(profile)
             continue
         assert profile["brightness"] == 5
-        assert len(profile["subprofiles"]) == (3 if profile["id"] in AUTO_PROFILE_IDS else 2)
+        expected_subprofiles = (
+            7
+            if profile["id"] == "live-controls"
+            else (3 if profile["id"] in AUTO_PROFILE_IDS else 2)
+        )
+        assert len(profile["subprofiles"]) == expected_subprofiles
+        if profile["id"] == "live-controls":
+            assert profile["keys"] == []
+            assert all(layout["keys"] == [] for layout in profile["subprofiles"])
+            profiles.append(profile)
+            continue
         if profile["id"] in AUTO_PROFILE_IDS:
             assert profile["subprofiles"][-1]["name"] == "In App"
         for layout in [profile] + profile["subprofiles"]:
@@ -150,6 +161,22 @@ def test_options_profile_is_a_visible_device_managed_screen():
     assert profile["keys"][0]["name"] == "Manual deck"
     assert profile["keys"][1]["name"] == "Profile deck"
     assert profile["keys"][2]["name"] == "App deck"
+
+
+def test_live_controls_profile_has_all_dynamic_screens():
+    profile = json.loads((PROFILE_ROOT / "live-controls.json").read_text(encoding="utf-8"))
+    assert [profile["subprofile_name"]] + [
+        item["name"] for item in profile["subprofiles"]
+    ] == [
+        "Status",
+        "Programs",
+        "App Audio",
+        "Windows",
+        "Clipboard",
+        "Focus",
+        "System",
+        "Jobs",
+    ]
 
 
 def test_desktop_application_profiles_have_expected_layouts():

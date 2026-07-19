@@ -12,6 +12,7 @@ from device.macropad_core import (
     normalize_index,
     next_deck_role,
     normalize_profile,
+    normalize_shared_key_profile,
     resolve_keycodes,
 )
 
@@ -212,6 +213,31 @@ def test_profile_normalizes_additional_subprofiles():
     assert profile["subprofiles"][0]["brightness"] == 9
     assert len(profile["subprofiles"][0]["keys"]) == 12
     assert profile["subprofiles"][0]["keys"][0]["oled_label"] == "WS-1"
+
+
+def test_shared_key_profile_keeps_eight_named_screens_in_one_key_array():
+    profile = normalize_shared_key_profile(
+        {
+            "id": "live-controls",
+            "subprofile_name": "Status",
+            "keys": [],
+            "subprofiles": [
+                {"name": name, "keys": []}
+                for name in (
+                    "Programs",
+                    "App Audio",
+                    "Windows",
+                    "Clipboard",
+                    "Focus",
+                    "System",
+                    "Jobs",
+                )
+            ],
+        }
+    )
+    assert len(profile["keys"]) == 12
+    assert len(profile["subprofiles"]) == 7
+    assert all(item["keys"] is profile["keys"] for item in profile["subprofiles"])
 
 
 def test_subprofile_store_keeps_an_independent_selection_per_parent_profile():

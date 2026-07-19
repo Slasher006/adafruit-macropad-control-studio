@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "id": "live-controls",
+  "name": "Live Controls",
+  "icon": "LV",
+  "subprofile_name": "Status",
+  "brightness": 5,
+  "keys": [],
+  "encoder_press": {
+    "name": "Next live screen",
+    "oled_label": "NEXT",
+    "steps": []
+  },
+  "subprofiles": [
+    {"name": "Programs", "icon": "AP", "brightness": 5, "keys": []},
+    {"name": "App Audio", "icon": "AU", "brightness": 5, "keys": []},
+    {"name": "Windows", "icon": "WI", "brightness": 5, "keys": []},
+    {"name": "Clipboard", "icon": "CL", "brightness": 5, "keys": []},
+    {"name": "Focus", "icon": "FO", "brightness": 5, "keys": []},
+    {"name": "System", "icon": "SY", "brightness": 5, "keys": []},
+    {"name": "Jobs", "icon": "JB", "brightness": 5, "keys": []}
+  ]
+}

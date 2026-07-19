@@ -6,6 +6,8 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Firmware and profiles
 
+- Added the eight-screen Live Controls profile with dynamic OLED/RGB state,
+  host key events, press/hold gestures, and firmware 1.11.0.
 - Added a persistent Profile deck role that follows the focused program's
   parent profile without forcing its In App key screen.
 - Expanded the Options screen to select Manual, Profile, or App roles with keys
@@ -21,6 +23,9 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Desktop service
 
+- Added persistent bidirectional serial sessions and live providers for status,
+  open programs, per-app audio, window management, clipboard history,
+  focus/meeting controls, system telemetry, and long-running jobs.
 - Added all-window discovery and configurable pinned profiles so app-open and
   app-close events update the visible encoder list.
 - Made automatic profile switching recover after boot when systemd starts before

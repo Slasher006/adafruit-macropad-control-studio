@@ -1066,10 +1066,38 @@ def add_multiple_devices(story: list[Flowable]) -> None:
             ),
             p(
                 "On all three deck roles, the same service keeps encoder scrolling short by exposing only "
-                "profiles for open applications plus the pinned i3wm, quicklaunch, and options profiles. "
-                "This is a temporary filter: every profile remains stored, and a restart without the "
-                "service restores the full library. Firefox website matching sees the selected tab title "
-                "in each browser window, not every inactive tab."
+                "profiles for open applications plus the pinned i3wm, quicklaunch, live-controls, and "
+                "options profiles. This is a temporary filter: every profile remains stored, and a restart "
+                "without the service restores the full library. Firefox website matching sees the selected "
+                "tab title in each browser window, not every inactive tab."
+            ),
+            heading("Live Controls", 2),
+            p(
+                "Select Live Controls on a Manual deck while the service is running. The service keeps a "
+                "bidirectional serial channel open, refreshes OLED labels and RGB states once per second, "
+                "and handles short versus roughly 0.9-second holds. Press the encoder to cycle all eight "
+                "live screens."
+            ),
+            data_table(
+                ["Screen", "Live information and actions"],
+                [
+                    ["Status", "Speaker and microphone mute, playback, VPN, focus timer, Caps Lock, recording, network, and updates."],
+                    ["Programs", "Up to 12 open windows; tap to focus and hold to close."],
+                    ["App Audio", "Mute, volume down, and volume up for as many as four active audio applications."],
+                    ["Windows", "i3 or Sway workspace, output, fullscreen, floating, split, tabbed, and close actions."],
+                    ["Clipboard", "Ten memory-only values; tap to paste, hold to remove, plus clear and capture."],
+                    ["Focus", "25/50-minute focus, five-minute break, meeting/DND, mute, adjustment, and lock."],
+                    ["System", "CPU, RAM, disk, temperatures, GPU, uptime, IP, job count, task manager, and htop."],
+                    ["Jobs", "Recognized downloads, renders, builds, and tests; hold to request a graceful stop."],
+                ],
+                [35, 133],
+            ),
+            p(
+                "Optional integrations show an idle or unavailable state when their host command or data "
+                "is absent. App audio uses PulseAudio/PipeWire compatibility, clipboard capture uses xclip, "
+                "NVIDIA values use nvidia-smi, and DND uses dunstctl. Media keys remain standard MacroPad "
+                "HID commands. Set live_controls to false to disable the live channel while retaining the "
+                "static profile."
             ),
             code_block(
                 ".venv/bin/python tools/install_profile_switcher.py\n"
@@ -1262,6 +1290,8 @@ def add_troubleshooting(story: list[Flowable]) -> None:
                     ["Profile or App deck does not follow focus", "Service active? Matching rule? Automatic role selected?", "Inspect systemctl and journalctl output, then restart the service."],
                     ["Profile deck shows In App keys", "Role really set to Profile rather than App?", "Open Options and press Key 2."],
                     ["Manual choice is overwritten", "Device accidentally set to App role?", "Open Options and choose Manual deck."],
+                    ["Live Controls stays static", "Service active? live_controls enabled? Serial channel connected?", "Inspect the service journal, restart it, and confirm firmware 1.11.0 or newer."],
+                    ["A live integration says idle or unavailable", "Required host tool or matching data present?", "Install or configure the optional tool, then press Refresh."],
                 ],
                 [46, 68, 54],
             ),
@@ -1315,6 +1345,7 @@ def add_checklists_glossary(story: list[Flowable]) -> None:
                     ["Profile deck", "Device role that follows the focused parent and keeps remembered normal keys."],
                     ["App deck", "Device role that follows focused-application rules."],
                     ["In App", "Contextual layout selected in App mode without replacing normal-layout memory."],
+                    ["Live Controls", "Host-backed eight-screen profile with dynamic OLED labels, RGB state, and press/hold actions."],
                 ],
                 [43, 125],
             ),

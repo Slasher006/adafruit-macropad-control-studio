@@ -14,6 +14,8 @@ from typing import Any
 import serial
 from serial.tools import list_ports
 
+from .live_controls import LiveControls, SCREENS
+
 
 USB_VID = 0x239A
 USB_PID = 0x8108
@@ -248,6 +250,72 @@ def parse_serial_json(line: str) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
+class DeviceSession:
+    """Own one nonblocking serial connection for commands and device events."""
+
+    def __init__(self, port_name: str):
+        self.port_name = port_name
+        self.connection = serial.Serial(
+            port_name,
+            115200,
+            timeout=0,
+            write_timeout=1.0,
+        )
+        self.connection.reset_input_buffer()
+        self._read_buffer = bytearray()
+        self.pending_events: list[dict[str, Any]] = []
+
+    def close(self) -> None:
+        try:
+            self.connection.close()
+        except (OSError, serial.SerialException):
+            pass
+
+    def _read_available(self, limit: int = 64) -> list[dict[str, Any]]:
+        messages: list[dict[str, Any]] = []
+        for _ in range(limit):
+            chunk = self.connection.readline()
+            if not chunk:
+                break
+            self._read_buffer.extend(chunk)
+            while b"\n" in self._read_buffer:
+                line, _, remainder = self._read_buffer.partition(b"\n")
+                self._read_buffer = bytearray(remainder)
+                value = parse_serial_json(line.decode("utf-8", "replace").strip())
+                if value is not None:
+                    messages.append(value)
+        return messages
+
+    def poll(self) -> list[dict[str, Any]]:
+        messages = self.pending_events + self._read_available()
+        self.pending_events = []
+        return messages
+
+    def command(
+        self,
+        command: dict[str, Any],
+        timeout: float = 2.0,
+    ) -> dict[str, Any]:
+        name = str(command.get("cmd", ""))
+        self.connection.write((json.dumps(command) + "\n").encode("utf-8"))
+        self.connection.flush()
+        deadline = time.monotonic() + timeout
+        while time.monotonic() < deadline:
+            for response in self._read_available():
+                if (
+                    response.get("event") == "response"
+                    and response.get("cmd") == name
+                ):
+                    if not response.get("ok"):
+                        raise RuntimeError(
+                            str(response.get("error", "device command failed"))
+                        )
+                    return response
+                self.pending_events.append(response)
+            time.sleep(0.005)
+        raise RuntimeError(f"device did not respond to {name}")
+
+
 def send_command_to_port(
     port_name: str,
     command: dict[str, Any],
@@ -315,6 +383,88 @@ class ActiveProfileService:
         self.last_window_signature: tuple[str, str, str, str] | None = None
         self.last_desired: ProfileTarget | None = None
         self.last_visible_profiles: tuple[str, ...] | None = None
+        self.live_enabled = config.get("live_controls", False) is True
+        self.live_refresh_interval = max(
+            0.25,
+            float(config.get("live_refresh_interval", 1.0)),
+        )
+        self.sessions: dict[str, DeviceSession] = {}
+        self.session_ports: dict[str, str] = {}
+        self.device_state: dict[str, dict[str, Any]] = {}
+        self.live_actions: dict[tuple[str, str], list[dict[str, Any] | None]] = {}
+        self.live_refresh_at: dict[str, float] = {}
+        self.live = LiveControls()
+
+    def _record_device_state(
+        self,
+        device_id: str,
+        response: dict[str, Any],
+    ) -> None:
+        state = self.device_state.setdefault(device_id, {})
+        for key in ("profile", "subprofile", "deck_role"):
+            value = response.get(key)
+            if value is not None:
+                state[key] = value
+
+    def _sync_sessions(self, ports: list[Any]) -> None:
+        if not self.live_enabled:
+            return
+        live_ids: set[str] = set()
+        for port in ports:
+            device_id = str(port.serial_number or port.device)
+            live_ids.add(device_id)
+            existing = self.sessions.get(device_id)
+            if existing and self.session_ports.get(device_id) == port.device:
+                continue
+            if existing:
+                existing.close()
+            self.sessions.pop(device_id, None)
+            self.session_ports.pop(device_id, None)
+            try:
+                session = DeviceSession(port.device)
+                status = session.command({"cmd": "status"}, timeout=2.0)
+            except (OSError, serial.SerialException, RuntimeError) as exc:
+                print(f"device {device_id}: live connection failed: {exc}", flush=True)
+                continue
+            self.sessions[device_id] = session
+            self.session_ports[device_id] = port.device
+            self._record_device_state(device_id, status)
+            self.live_refresh_at[device_id] = 0.0
+            print(f"device {device_id}: live channel connected", flush=True)
+        for device_id in set(self.sessions) - live_ids:
+            self.sessions.pop(device_id).close()
+            self.session_ports.pop(device_id, None)
+            self.device_state.pop(device_id, None)
+            self.live_refresh_at.pop(device_id, None)
+
+    def _send_visible(
+        self,
+        device_id: str,
+        port_name: str,
+        visible_profiles: tuple[str, ...],
+    ) -> dict[str, Any]:
+        if self.live_enabled and device_id in self.sessions:
+            return self.sessions[device_id].command(
+                {"cmd": "set_visible_profiles", "ids": list(visible_profiles)}
+            )
+        return send_visible_profiles_to_port(port_name, visible_profiles)
+
+    def _send_profile(
+        self,
+        device_id: str,
+        port_name: str,
+        desired: ProfileTarget,
+    ) -> dict[str, Any]:
+        if self.live_enabled and device_id in self.sessions:
+            command: dict[str, Any] = {
+                "cmd": "set_profile",
+                "id": desired.profile,
+                "automatic": True,
+            }
+            if desired.subprofile:
+                command["subprofile"] = desired.subprofile
+            return self.sessions[device_id].command(command)
+        return send_to_port(port_name, desired.profile, desired.subprofile)
 
     def tick(self) -> str | None:
         tree = query_i3_tree()
@@ -325,6 +475,7 @@ class ActiveProfileService:
             find_open_windows(tree),
             desired.profile if desired else None,
         )
+        self.live.update_tree(tree)
         signature = window.signature if window else ("", "", "", "")
         previous_identity = (
             self.last_window_signature[1:] if self.last_window_signature is not None else None
@@ -349,8 +500,10 @@ class ActiveProfileService:
             return desired.profile
 
         now = time.monotonic()
+        ports = macropad_ports()
+        self._sync_sessions(ports)
         live_devices: set[str] = set()
-        for port in macropad_ports():
+        for port in ports:
             device_id = str(port.serial_number or port.device)
             live_devices.add(device_id)
             visible_changed = (
@@ -363,7 +516,8 @@ class ActiveProfileService:
                 continue
             if visible_changed:
                 try:
-                    response = send_visible_profiles_to_port(
+                    response = self._send_visible(
+                        device_id,
                         port.device,
                         visible_profiles,
                     )
@@ -381,15 +535,16 @@ class ActiveProfileService:
                 self.retry_at.pop(device_id, None)
                 continue
             try:
-                response = send_to_port(
+                response = self._send_profile(
+                    device_id,
                     port.device,
-                    desired.profile,
-                    desired.subprofile,
+                    desired,
                 )
             except (OSError, serial.SerialException, RuntimeError) as exc:
                 self.retry_at[device_id] = now + 2.0
                 print(f"device {device_id}: {exc}; retrying", flush=True)
                 continue
+            self._record_device_state(device_id, response)
             if response.get("ignored"):
                 self.retry_at[device_id] = now + 2.0
                 if response.get("automatic_switching", True) is not False:
@@ -434,6 +589,80 @@ class ActiveProfileService:
             self.options_devices.discard(device_id)
         return desired.profile
 
+    def poll_live(self) -> None:
+        if not self.live_enabled:
+            return
+        now = time.monotonic()
+        for device_id, session in list(self.sessions.items()):
+            try:
+                messages = session.poll()
+            except (OSError, serial.SerialException):
+                session.close()
+                self.sessions.pop(device_id, None)
+                continue
+            for message in messages:
+                event = message.get("event")
+                if event in ("profile", "subprofile", "ready"):
+                    if event == "profile":
+                        message["profile"] = message.get("id")
+                        message["subprofile"] = message.get("subprofile")
+                    elif event == "subprofile":
+                        message["subprofile"] = message.get("name")
+                    self._record_device_state(device_id, message)
+                    self.live_refresh_at[device_id] = 0.0
+                elif event == "host_key":
+                    self._handle_host_key(device_id, session, message)
+            state = self.device_state.get(device_id, {})
+            screen = str(state.get("subprofile", ""))
+            if (
+                state.get("profile") != "live-controls"
+                or screen not in SCREENS
+                or now < self.live_refresh_at.get(device_id, 0.0)
+            ):
+                continue
+            try:
+                layout = self.live.build(screen)
+                response = session.command(layout.payload())
+            except (OSError, serial.SerialException, RuntimeError) as exc:
+                print(f"device {device_id}: live refresh failed: {exc}", flush=True)
+                self.live_refresh_at[device_id] = now + 2.0
+                continue
+            self.live_actions[(device_id, screen)] = layout.actions
+            self._record_device_state(device_id, response)
+            self.live_refresh_at[device_id] = now + self.live_refresh_interval
+
+    def _handle_host_key(
+        self,
+        device_id: str,
+        session: DeviceSession,
+        message: dict[str, Any],
+    ) -> None:
+        screen = str(message.get("subprofile", ""))
+        try:
+            key = int(message.get("key", -1))
+        except (TypeError, ValueError):
+            return
+        actions = self.live_actions.get((device_id, screen))
+        if actions is None:
+            layout = self.live.build(screen)
+            actions = layout.actions
+            self.live_actions[(device_id, screen)] = actions
+        if not 0 <= key < len(actions):
+            return
+        long_press = int(message.get("duration_ms", 0) or 0) >= 900
+        result = self.live.handle(actions[key], long_press)
+        self.live_refresh_at[device_id] = 0.0
+        if result:
+            try:
+                session.command(result)
+            except (OSError, serial.SerialException, RuntimeError) as exc:
+                print(f"device {device_id}: live action failed: {exc}", flush=True)
+
+    def close(self) -> None:
+        for session in self.sessions.values():
+            session.close()
+        self.sessions = {}
+
 
 def load_config(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
@@ -452,20 +681,29 @@ def main() -> int:
     config = load_config(args.config)
     service = ActiveProfileService(config, args.dry_run)
     poll_interval = max(0.2, float(config.get("poll_interval", 0.5)))
-    while True:
-        try:
-            service.tick()
-        except (
-            OSError,
-            ValueError,
-            json.JSONDecodeError,
-            subprocess.SubprocessError,
-            RuntimeError,
-        ) as exc:
-            print(f"focus detection failed: {exc}", flush=True)
-        if args.once:
-            return 0
-        time.sleep(poll_interval)
+    event_interval = max(0.01, float(config.get("event_poll_interval", 0.03)))
+    next_focus_poll = 0.0
+    try:
+        while True:
+            now = time.monotonic()
+            if now >= next_focus_poll:
+                try:
+                    service.tick()
+                except (
+                    OSError,
+                    ValueError,
+                    json.JSONDecodeError,
+                    subprocess.SubprocessError,
+                    RuntimeError,
+                ) as exc:
+                    print(f"focus detection failed: {exc}", flush=True)
+                next_focus_poll = now + poll_interval
+                if args.once:
+                    return 0
+            service.poll_live()
+            time.sleep(event_interval)
+    finally:
+        service.close()
 
 
 if __name__ == "__main__":

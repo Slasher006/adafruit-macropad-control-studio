@@ -1368,7 +1368,11 @@ def render(profile):
 
 def main():
     index = json.loads((PROFILE_ROOT / "index.json").read_text(encoding="utf-8"))
-    expected = {entry["id"] for entry in index["profiles"]} - {"i3wm", "options"}
+    expected = {entry["id"] for entry in index["profiles"]} - {
+        "i3wm",
+        "live-controls",
+        "options",
+    }
     if set(SPECS) != expected:
         raise RuntimeError(
             "profile spec mismatch: missing={} extra={}".format(
@@ -1379,7 +1383,7 @@ def main():
 
     for entry in index["profiles"]:
         profile_id = entry["id"]
-        if profile_id in ("i3wm", "options"):
+        if profile_id in ("i3wm", "live-controls", "options"):
             continue
         path = PROFILE_ROOT / entry["file"]
         if path.exists():

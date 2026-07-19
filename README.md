@@ -87,12 +87,41 @@ selection does not overwrite the layout remembered for Manual or Profile mode.
 
 The service also keeps the encoder list short on all deck roles. It scans all
 open i3/Sway windows and temporarily exposes only their matching profiles plus
-the pinned `i3wm`, `quicklaunch`, and `options` profiles. Opening or closing an
-application updates the list without deleting any stored profile. If filtering
-is disabled or the device restarts without the service, the complete library is
-available again. Firefox can report the selected tab title in each browser
-window, but not every inactive tab, so website profiles appear for currently
-selected website tabs.
+the pinned `i3wm`, `quicklaunch`, `live-controls`, and `options` profiles.
+Opening or closing an application updates the list without deleting any stored
+profile. If filtering is disabled or the device restarts without the service,
+the complete library is available again. Firefox can report the selected tab
+title in each browser window, but not every inactive tab, so website profiles
+appear for currently selected website tabs.
+
+### Live Controls
+
+The pinned **Live Controls** parent turns a Manual deck into a live desktop
+console. Press the encoder to cycle through eight host-backed screens:
+
+- **Status** shows and controls speaker/microphone mute, playback, VPN, a focus
+  timer, Caps Lock, recording, network state, and available updates.
+- **Programs** lists open windows. Tap to focus one; hold for about 0.9 seconds
+  to close it.
+- **App Audio** gives each of up to four active audio applications its own
+  mute, volume-down, and volume-up controls.
+- **Windows** provides live i3/Sway workspace, output, split, floating,
+  fullscreen, tabbed, and close actions.
+- **Clipboard** keeps the ten most recent clipboard values in memory. Tap to
+  paste, hold to remove an entry, or use Capture and Clear.
+- **Focus** supplies 25/50-minute focus timers, a five-minute break, meeting
+  mode, mute controls, timer adjustment, and session lock.
+- **System** displays CPU, RAM, disk, temperatures, GPU, uptime, IP, and job
+  count, with task-manager and htop launchers.
+- **Jobs** lists recognized downloads, renders, builds, and similar long-running
+  processes. Hold a job key to request a graceful stop.
+
+The service refreshes OLED labels and key colors once per second and receives
+press/hold events over a persistent serial channel. Live Controls therefore
+needs the desktop service; ordinary profiles remain standalone. Features use
+the tools available on the host and show an unavailable/idle state when an
+optional tool or matching stream is absent. Clipboard history is intentionally
+memory-only and is cleared when the service restarts.
 
 Install and start it with:
 
@@ -110,6 +139,8 @@ systemctl --user restart macropad-profile-switcher.service
 
 Set `"filter_open_apps": false` to retain the complete encoder list, or edit
 `"pinned_profiles"` to change which utility profiles always remain visible.
+Set `"live_controls": false` to disable the persistent live channel while
+retaining the static profile.
 
 Inspect its state and recent decisions with:
 

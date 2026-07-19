@@ -81,12 +81,12 @@ within the current parent; turn it to change parent profiles. Each parent
 remembers its own manually selected subprofile, including after a restart.
 
 The device-managed **Options** screen assigns each physical MacroPad a role.
-**Manual deck** keeps the profile selected with its encoder, while **App deck**
-automatically follows the focused desktop application. Key 1 selects Manual,
-key 3 selects App, and encoder press toggles the role. Each device remembers its
-own choice, allowing either MacroPad to take either side of a two-deck setup.
-The App deck automatically enters **In App** without overwriting the Manual
-deck's remembered layout.
+**Manual deck** keeps the parent selected with its encoder. **Profile deck**
+follows the focused desktop application's parent while keeping that parent's
+remembered normal layout. **App deck** follows the same parent and enters its
+**In App** layout. Keys 1, 2, and 3 select Manual, Profile, and App; encoder
+press cycles the three roles. Each device remembers its own choice. App mode
+does not overwrite the layout remembered for Manual or Profile mode.
 
 System Control executes its reboot and shutdown commands after opening a terminal and waiting 800 ms for it to receive focus. Red keys act immediately; the green Cancel key runs `shutdown -c` to cancel a scheduled shutdown.
 

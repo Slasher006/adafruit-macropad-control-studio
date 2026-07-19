@@ -118,19 +118,18 @@ action.
 
 Turn to the visible **Options** parent screen on the device, or hold the physical
 encoder for about one second to open it directly. Select **Manual deck** with
-key 1 or **App deck** with key 3; pressing the encoder toggles between them.
-Turn the encoder to leave.
+key 1, **Profile deck** with key 2, or **App deck** with key 3. Pressing the
+encoder cycles Manual -> Profile -> App. Turn the encoder to leave.
 
 The Manual deck stays on its encoder-selected regular profile and ignores
-focused-application changes. The App deck follows the focused PC application.
-Roles are stored independently and persistently on each device, so in a
-two-MacroPad setup either physical device can take either role. Setting one to
-Manual and one to App provides a fixed general-purpose deck beside an
-automatically changing in-application shortcut deck. Automatic rules select the
-fourth **In App** layout directly; this temporary contextual selection does not
-replace the subprofile remembered for manual use.
+focused-application changes. The Profile deck follows the focused PC
+application's parent profile but restores that parent's remembered normal key
+screen. The App deck follows the same parent and selects its **In App** key
+screen. Roles are stored independently and persistently on each device.
+Automatic **In App** selection does not replace the subprofile remembered for
+Manual or Profile mode.
 
-While the desktop service is connected, both deck roles receive a temporary
+While the desktop service is connected, all three deck roles receive a temporary
 encoder filter containing profiles for open applications plus the pinned
 `i3wm`, `quicklaunch`, and `options` utilities. Profiles remain stored on the
 device and return after a reboot or when filtering is disabled. Each profile's

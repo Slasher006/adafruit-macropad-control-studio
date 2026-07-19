@@ -1,12 +1,16 @@
 from device.macropad_core import (
     EncoderStepper,
     MacroRunner,
+    PersistentChoice,
     PersistentToggle,
     SubprofileStore,
+    accepts_automatic_profile,
+    automatic_subprofile,
     color_tuple,
     filter_profile_entries,
     find_subprofile_index,
     normalize_index,
+    next_deck_role,
     normalize_profile,
     resolve_keycodes,
 )
@@ -229,6 +233,32 @@ def test_persistent_toggle_uses_default_and_saves_both_states():
     assert toggle.load() is False
     assert toggle.save(True)
     assert toggle.load() is True
+
+
+def test_persistent_deck_role_keeps_old_boolean_values_and_adds_profile_mode():
+    nvm = bytearray([255] * 40)
+    roles = PersistentChoice(nvm, 33, ("manual", "app", "profile"), "app")
+    assert roles.load() == "app"
+    nvm[33] = 0
+    assert roles.load() == "manual"
+    nvm[33] = 1
+    assert roles.load() == "app"
+    assert roles.save("profile")
+    assert nvm[33] == 2
+    assert roles.load() == "profile"
+    assert not roles.save("missing")
+
+
+def test_deck_role_cycle_and_automatic_layout_behavior():
+    assert next_deck_role("manual") == "profile"
+    assert next_deck_role("profile") == "app"
+    assert next_deck_role("app") == "manual"
+    assert not accepts_automatic_profile("manual")
+    assert accepts_automatic_profile("profile")
+    assert accepts_automatic_profile("app")
+    assert automatic_subprofile("manual", "In App") is None
+    assert automatic_subprofile("profile", "In App") is None
+    assert automatic_subprofile("app", "In App") == "In App"
 
 
 def test_find_subprofile_index_resolves_context_without_touching_storage():

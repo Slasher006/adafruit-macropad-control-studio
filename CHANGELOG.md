@@ -6,6 +6,10 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Firmware and profiles
 
+- Added a persistent Profile deck role that follows the focused program's
+  parent profile without forcing its In App key screen.
+- Expanded the Options screen to select Manual, Profile, or App roles with keys
+  1, 2, and 3, while encoder press cycles all three.
 - Added a temporary visible-profile filter so encoder scrolling can be limited
   to open applications without removing the full on-device library.
 - Kept profile and subprofile persistence keyed to stable library positions

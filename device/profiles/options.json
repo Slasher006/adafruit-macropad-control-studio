@@ -7,7 +7,7 @@
   "brightness": 3,
   "keys": [
     {"name": "Manual deck", "oled_label": "MANUAL", "lighting_enabled": true, "idle_color": "#2080FF", "pressed_color": "#FFFFFF", "steps": []},
-    {"name": "Reserved", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
+    {"name": "Profile deck", "oled_label": "PROFIL", "lighting_enabled": true, "idle_color": "#FFA000", "pressed_color": "#FFFFFF", "steps": []},
     {"name": "App deck", "oled_label": "APP", "lighting_enabled": true, "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": []},
     {"name": "Reserved", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
     {"name": "Reserved", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
@@ -19,6 +19,6 @@
     {"name": "Reserved", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []},
     {"name": "Reserved", "oled_label": "", "lighting_enabled": false, "idle_color": "#102040", "pressed_color": "#FFFFFF", "steps": []}
   ],
-  "encoder_press": {"name": "Toggle deck role", "oled_label": "TOGGLE", "steps": []},
+  "encoder_press": {"name": "Next deck role", "oled_label": "NEXT", "steps": []},
   "subprofiles": []
 }

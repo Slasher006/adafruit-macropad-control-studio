@@ -57,18 +57,20 @@ Profile changes are written through temporary files, with `profiles/index.json` 
 ### On-device options
 
 Turn through the parent profiles until the visible **Options** screen appears.
-It assigns that physical MacroPad one of two independent deck roles:
+It assigns that physical MacroPad one of three independent deck roles:
 
 - **Manual deck** stays on the regular parent profile and subprofile selected
   with its encoder. Automatic focused-app commands are ignored.
-- **App deck** follows the focused desktop application while preserving that
-  application's selected subprofile.
+- **Profile deck** follows the focused desktop application but restores that
+  profile's remembered normal key screen instead of entering **In App**.
+- **App deck** follows the focused desktop application and selects its
+  dedicated **In App** key screen.
 
-Press key 1 for Manual, key 3 for App, or press the encoder to toggle roles.
+Press key 1 for Manual, key 2 for Profile, key 3 for App, or press the encoder
+to cycle through the three roles.
 Turn the encoder to leave. Holding it for about one second from any profile is
 a shortcut to the same screen. The role is stored separately on each device and
-survives restarts, so either MacroPad can be the Manual deck or the App deck.
-For a two-device split, set one device to each role.
+survives restarts.
 
 ## Automatic profile switching
 
@@ -78,12 +80,12 @@ Firefox selects `firefox`, Code OSS selects `vscode`, and a Firefox tab whose
 title contains ComfyUI selects `comfyui`. Firefox tabs for Reddit, YouTube,
 Instagram, Printables, Thingiverse, Nitter, and Prime Video select their own
 website profiles before the generic Firefox fallback. Caja, Krita, LibreOffice,
-and Blender have dedicated matches as well. On an App deck the service selects
-the matching parent plus its fourth **In App** layout. This automatic contextual
-selection does not overwrite the manually remembered layout used when that
-device acts as a Manual deck.
+and Blender have dedicated matches as well. Profile and App decks both select
+the matching parent. Profile deck keeps the remembered normal layout, while App
+deck selects the matching parent's **In App** layout. Contextual **In App**
+selection does not overwrite the layout remembered for Manual or Profile mode.
 
-The service also keeps the encoder list short on both deck roles. It scans all
+The service also keeps the encoder list short on all deck roles. It scans all
 open i3/Sway windows and temporarily exposes only their matching profiles plus
 the pinned `i3wm`, `quicklaunch`, and `options` profiles. Opening or closing an
 application updates the list without deleting any stored profile. If filtering

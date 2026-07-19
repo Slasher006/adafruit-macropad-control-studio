@@ -18,8 +18,10 @@ from macropad_core import (
     find_subprofile_index,
     MAX_PROFILES,
     MacroRunner,
-    PersistentToggle,
+    PersistentChoice,
     SubprofileStore,
+    accepts_automatic_profile,
+    automatic_subprofile,
     clamp,
     color_tuple,
     filter_profile_entries,
@@ -27,6 +29,7 @@ from macropad_core import (
     normalize_index,
     normalize_profile,
     normalize_step,
+    next_deck_role,
     safe_profile,
 )
 
@@ -42,8 +45,8 @@ ENCODER_GUARD_SECONDS = 0.075
 ENCODER_OPTIONS_HOLD_SECONDS = 0.9
 PROFILE_CACHE_SIZE = 1
 NVM_SUBPROFILE_OFFSET = 1
-NVM_AUTO_SWITCH_INDEX = NVM_SUBPROFILE_OFFSET + MAX_PROFILES
-FIRMWARE_VERSION = "1.9.0"
+NVM_DECK_ROLE_INDEX = NVM_SUBPROFILE_OFFSET + MAX_PROFILES
+FIRMWARE_VERSION = "1.10.0"
 
 try:
     supervisor.runtime.autoreload = False
@@ -112,12 +115,14 @@ subprofile_index = 0
 last_revision = read_text(REVISION_PATH, "0")
 encoder_stepper = EncoderStepper(macropad.encoder, ENCODER_GUARD_SECONDS)
 subprofile_store = SubprofileStore(microcontroller.nvm, NVM_SUBPROFILE_OFFSET)
-auto_profile_setting = PersistentToggle(
+deck_role_setting = PersistentChoice(
     microcontroller.nvm,
-    NVM_AUTO_SWITCH_INDEX,
-    True,
+    NVM_DECK_ROLE_INDEX,
+    ("manual", "app", "profile"),
+    "app",
 )
-automatic_switching_enabled = auto_profile_setting.load()
+deck_role = deck_role_setting.load()
+automatic_switching_enabled = accepts_automatic_profile(deck_role)
 save_profile_at = None
 overlay_until = 0.0
 overlay_visible = False
@@ -216,32 +221,70 @@ def show_options():
     macropad.pixels.brightness = 0.03
     for index in range(12):
         macropad.pixels[index] = (0, 0, 0)
-    macropad.pixels[0] = (32, 128, 255) if not automatic_switching_enabled else (4, 12, 24)
-    macropad.pixels[2] = (0, 255, 64) if automatic_switching_enabled else (0, 24, 8)
-    role = "APP DECK" if automatic_switching_enabled else "MANUAL DECK"
-    description = "Follows focused app" if automatic_switching_enabled else "Keeps chosen profile"
+    colors = {
+        "manual": (32, 128, 255),
+        "profile": (255, 160, 0),
+        "app": (0, 255, 64),
+    }
+    for index, role_name in enumerate(("manual", "profile", "app")):
+        color = colors[role_name]
+        dimmed = (color[0] // 10, color[1] // 10, color[2] // 10)
+        macropad.pixels[index] = color if deck_role == role_name else dimmed
+    role_labels = {
+        "manual": "MANUAL DECK",
+        "profile": "PROFILE DECK",
+        "app": "APP DECK",
+    }
+    descriptions = {
+        "manual": "Keeps parent + keys",
+        "profile": "Active app, saved keys",
+        "app": "Active app, In App",
+    }
     set_display_lines(
         [
             "OPTIONS: DECK ROLE",
-            "Role: {}".format(role),
-            description,
-            "K1 Manual | K3 App",
-            "Press knob; turn out",
+            "Role: {}".format(role_labels[deck_role]),
+            descriptions[deck_role],
+            "K1 Man K2 Prof K3 App",
+            "Knob next; turn out",
         ]
     )
 
 
-def set_automatic_switching(enabled):
-    global automatic_switching_enabled
-    automatic_switching_enabled = bool(enabled)
-    auto_profile_setting.save(automatic_switching_enabled)
+def restore_role_subprofile(role):
+    requested = None
+    if role == "app":
+        requested = find_subprofile_index(profile_container, "In App")
+    elif role == "profile":
+        requested = saved_subprofile_index(
+            profile_container.get("id"),
+            subprofile_count(),
+        )
+    if requested is not None and requested != subprofile_index:
+        activate_subprofile(requested)
+        return True
+    return False
+
+
+def set_deck_role(role):
+    global deck_role, automatic_switching_enabled
+    if role not in ("manual", "profile", "app"):
+        raise ValueError("unknown deck role: {}".format(role))
+    deck_role = role
+    automatic_switching_enabled = accepts_automatic_profile(deck_role)
+    deck_role_setting.save(deck_role)
+    restore_role_subprofile(deck_role)
     emit(
         "auto_profile",
         enabled=automatic_switching_enabled,
-        deck_role="app" if automatic_switching_enabled else "manual",
+        deck_role=deck_role,
     )
     if options_active:
         show_options()
+
+
+def set_automatic_switching(enabled):
+    set_deck_role("app" if enabled else "manual")
 
 
 def describe_step(step):
@@ -485,7 +528,7 @@ def handle_command(command):
                 subprofile_index=subprofile_index,
                 subprofile_count=subprofile_count(),
                 automatic_switching=automatic_switching_enabled,
-                deck_role="app" if automatic_switching_enabled else "manual",
+                deck_role=deck_role,
                 layout=active_layout,
                 encoder_divisor=getattr(getattr(macropad, "_encoder", None), "divisor", None),
                 encoder_guard_ms=int(ENCODER_GUARD_SECONDS * 1000),
@@ -529,10 +572,10 @@ def handle_command(command):
                     ignored=True,
                     reason="options_open",
                     automatic_switching=automatic_switching_enabled,
-                    deck_role="app" if automatic_switching_enabled else "manual",
+                    deck_role=deck_role,
                     profile=profile_container.get("id"),
                 )
-            elif automatic and not automatic_switching_enabled:
+            elif automatic and not accepts_automatic_profile(deck_role):
                 serial_response(
                     name,
                     changed=False,
@@ -552,6 +595,13 @@ def handle_command(command):
                         )
                     except Exception:
                         pass
+                if automatic:
+                    requested_subprofile = automatic_subprofile(
+                        deck_role,
+                        requested_subprofile,
+                    )
+                    if deck_role == "profile" and restore_role_subprofile(deck_role):
+                        changed = True
                 if requested_subprofile is not None:
                     requested_subprofile_index = find_subprofile_index(
                         profile_container,
@@ -569,16 +619,25 @@ def handle_command(command):
                     changed=changed,
                     ignored=False,
                     automatic_switching=automatic_switching_enabled,
-                    deck_role="app" if automatic_switching_enabled else "manual",
+                    deck_role=deck_role,
                     profile=profile_container.get("id"),
                     subprofile=active_subprofile_name(),
                 )
+        elif name == "set_deck_role":
+            set_deck_role(str(command.get("role", "")).strip().lower())
+            serial_response(
+                name,
+                enabled=automatic_switching_enabled,
+                deck_role=deck_role,
+                profile=profile_container.get("id"),
+                subprofile=active_subprofile_name(),
+            )
         elif name == "set_auto_switch":
             set_automatic_switching(command.get("enabled", True) is not False)
             serial_response(
                 name,
                 enabled=automatic_switching_enabled,
-                deck_role="app" if automatic_switching_enabled else "manual",
+                deck_role=deck_role,
             )
         elif name == "preview_lighting":
             apply_preview(command)
@@ -717,7 +776,7 @@ while True:
     if macropad.encoder_switch_debounced.released:
         if not encoder_long_press_handled:
             if options_active:
-                set_automatic_switching(not automatic_switching_enabled)
+                set_deck_role(next_deck_role(deck_role))
             elif subprofile_count() > 1:
                 activate_subprofile(subprofile_index + 1)
                 save_subprofile_index()
@@ -731,9 +790,11 @@ while True:
         key_number = event.key_number
         if 0 <= key_number < 12 and options_active:
             if event.pressed and key_number == 0:
-                set_automatic_switching(False)
+                set_deck_role("manual")
+            elif event.pressed and key_number == 1:
+                set_deck_role("profile")
             elif event.pressed and key_number == 2:
-                set_automatic_switching(True)
+                set_deck_role("app")
         elif 0 <= key_number < 12:
             control = profile["keys"][key_number]
             if event.pressed:

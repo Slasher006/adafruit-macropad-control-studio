@@ -11,6 +11,8 @@ DEFAULT_IDLE = "#102040"
 DEFAULT_PRESSED = "#FFFFFF"
 DEFAULT_BRIGHTNESS = 5
 STEP_TYPES = ("hotkey", "text", "consumer", "mouse", "delay")
+DECK_ROLES = ("manual", "app", "profile")
+DECK_ROLE_CYCLE = ("manual", "profile", "app")
 
 
 class EncoderStepper:
@@ -86,6 +88,55 @@ class PersistentToggle:
             return True
         except Exception:
             return False
+
+
+class PersistentChoice:
+    """Store one string choice in an NVM byte while tolerating blank data."""
+
+    def __init__(self, nvm, index, choices, default):
+        self.nvm = nvm
+        self.index = index
+        self.choices = tuple(choices)
+        self.default = default if default in self.choices else self.choices[0]
+
+    def load(self):
+        try:
+            value = self.nvm[self.index]
+        except Exception:
+            return self.default
+        if value < len(self.choices):
+            return self.choices[value]
+        return self.default
+
+    def save(self, choice):
+        if choice not in self.choices:
+            return False
+        try:
+            self.nvm[self.index] = self.choices.index(choice)
+            return True
+        except Exception:
+            return False
+
+
+def normalize_deck_role(role, fallback="app"):
+    return role if role in DECK_ROLES else fallback
+
+
+def next_deck_role(role):
+    role = normalize_deck_role(role)
+    try:
+        index = DECK_ROLE_CYCLE.index(role)
+    except ValueError:
+        index = 0
+    return DECK_ROLE_CYCLE[(index + 1) % len(DECK_ROLE_CYCLE)]
+
+
+def accepts_automatic_profile(role):
+    return normalize_deck_role(role) != "manual"
+
+
+def automatic_subprofile(role, requested):
+    return requested if normalize_deck_role(role) == "app" else None
 
 
 def find_subprofile_index(parent, requested):

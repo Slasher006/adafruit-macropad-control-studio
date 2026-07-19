@@ -724,7 +724,7 @@ def add_subprofiles(story: list[Flowable]) -> None:
                 "The device remembers the manually selected layout for each parent profile and "
                 "restores it after restart. Turning away from Firefox and back does not force Browse "
                 "again. Automatic In App selection is contextual and does not overwrite the manual "
-                "selection used by a Manual deck."
+                "selection used by a Manual or Profile deck."
             ),
         ]
     )
@@ -1042,28 +1042,30 @@ def add_multiple_devices(story: list[Flowable]) -> None:
             numbered(2, "Select the first device, Compare, then Sync Device."),
             numbered(3, "Select the second device, Compare, then Sync Device."),
             numbered(4, "Run Device Health for each if firmware versions might differ."),
-            heading("Manual and App deck roles", 2),
+            heading("Manual, Profile, and App deck roles", 2),
             data_table(
                 ["Role", "Behavior", "Example"],
                 [
                     ["Manual deck", "Stays on the parent and layout selected with its encoder; ignores focused-app commands.", "A fixed general-purpose deck for media and system tools."],
+                    ["Profile deck", "Follows the focused program's parent but restores its remembered normal layout.", "Firefox opens on the last manually selected Firefox key screen."],
                     ["App deck", "Follows the focused desktop application and selects its In App layout.", "Firefox controls appear when Firefox gains focus."],
                 ],
                 [31, 82, 55],
             ),
             p(
                 "On the device, turn to Options or hold the encoder for about one second. Key 1 selects "
-                "Manual, Key 3 selects App, and encoder press toggles. The role is stored independently "
-                "on each device and survives restart."
+                "Manual, Key 2 selects Profile, Key 3 selects App, and encoder press cycles all three. "
+                "The role is stored independently on each device and survives restart."
             ),
             heading("Automatic profile switching", 2),
             p(
                 "The included user service observes focused i3 or Sway windows and selects matching "
-                "parents on App decks. Firefox, VS Code, VLC, Discord, LM Studio, ComfyUI, Caja, Krita, "
+                "parents on Profile and App decks. Profile mode keeps remembered normal keys; App mode "
+                "selects In App keys. Firefox, VS Code, VLC, Discord, LM Studio, ComfyUI, Caja, Krita, "
                 "LibreOffice, Blender, and other included profiles have matching support."
             ),
             p(
-                "On both deck roles, the same service keeps encoder scrolling short by exposing only "
+                "On all three deck roles, the same service keeps encoder scrolling short by exposing only "
                 "profiles for open applications plus the pinned i3wm, quicklaunch, and options profiles. "
                 "This is a temporary filter: every profile remains stored, and a restart without the "
                 "service restores the full library. Firefox website matching sees the selected tab title "
@@ -1078,7 +1080,7 @@ def add_multiple_devices(story: list[Flowable]) -> None:
                 "Rules live in ~/.config/macropad-profile-switcher.json. Restart the user service after "
                 "editing them. Set filter_open_apps to false for the complete encoder list, or edit "
                 "pinned_profiles to choose the utilities that always remain visible. Automatic In App "
-                "selection does not overwrite the manually remembered layout."
+                "selection does not overwrite the remembered normal layout."
             ),
         ]
     )
@@ -1257,7 +1259,8 @@ def add_troubleshooting(story: list[Flowable]) -> None:
                     ["Profile order wrong on device", "Was drag order synced?", "Compare and Sync Device."],
                     ["Device stale after sync", "Drive activity complete? Firmware reload received?", "Wait, reconnect, Refresh, Device Health, Compare."],
                     ["Firmware files missing", "Device Health missing list?", "Confirm the selected device, then Repair Firmware."],
-                    ["App deck does not follow focus", "Service active? Matching rule? Role set to App?", "Inspect systemctl and journalctl output, then restart the service."],
+                    ["Profile or App deck does not follow focus", "Service active? Matching rule? Automatic role selected?", "Inspect systemctl and journalctl output, then restart the service."],
+                    ["Profile deck shows In App keys", "Role really set to Profile rather than App?", "Open Options and press Key 2."],
                     ["Manual choice is overwritten", "Device accidentally set to App role?", "Open Options and choose Manual deck."],
                 ],
                 [46, 68, 54],
@@ -1309,8 +1312,9 @@ def add_checklists_glossary(story: list[Flowable]) -> None:
                     ["Preview RGB", "Temporary lighting display that does not deploy profile data."],
                     ["Sync", "Validated, backed-up write of the local library to the selected device."],
                     ["Manual deck", "Device role that stays on encoder-selected profiles."],
+                    ["Profile deck", "Device role that follows the focused parent and keeps remembered normal keys."],
                     ["App deck", "Device role that follows focused-application rules."],
-                    ["In App", "Contextual layout selected by the focus service without replacing manual memory."],
+                    ["In App", "Contextual layout selected in App mode without replacing normal-layout memory."],
                 ],
                 [43, 125],
             ),

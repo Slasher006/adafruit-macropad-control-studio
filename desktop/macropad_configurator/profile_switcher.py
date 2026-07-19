@@ -409,14 +409,19 @@ class ActiveProfileService:
                 self.sent_profiles.pop(device_id, None)
                 continue
             if device_id in self.disabled_devices:
-                print(f"device {device_id}: role=APP; following focused application", flush=True)
+                role = str(response.get("deck_role", "app")).upper()
+                print(
+                    f"device {device_id}: role={role}; following focused application",
+                    flush=True,
+                )
             self.disabled_devices.discard(device_id)
             self.options_devices.discard(device_id)
             self.retry_at.pop(device_id, None)
             self.sent_profiles[device_id] = desired
             print(
                 f"device {device_id}: profile={response.get('profile')} "
-                f"subprofile={response.get('subprofile')}",
+                f"subprofile={response.get('subprofile')} "
+                f"role={str(response.get('deck_role', 'app')).upper()}",
                 flush=True,
             )
 

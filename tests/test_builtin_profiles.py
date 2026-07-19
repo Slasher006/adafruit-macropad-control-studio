@@ -146,8 +146,9 @@ def test_options_profile_is_a_visible_device_managed_screen():
     profile = json.loads((PROFILE_ROOT / "options.json").read_text(encoding="utf-8"))
     assert profile["name"] == "Options"
     assert profile["subprofile_name"] == "Deck role"
-    assert profile["encoder_press"]["name"] == "Toggle deck role"
+    assert profile["encoder_press"]["name"] == "Next deck role"
     assert profile["keys"][0]["name"] == "Manual deck"
+    assert profile["keys"][1]["name"] == "Profile deck"
     assert profile["keys"][2]["name"] == "App deck"
 
 

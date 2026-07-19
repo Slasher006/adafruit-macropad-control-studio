@@ -63,6 +63,33 @@ class SubprofileStore:
             return False
 
 
+class DoublePressGuard:
+    """Arm one token and approve only its second press before the deadline."""
+
+    def __init__(self, timeout_seconds=3.0):
+        self.timeout_seconds = timeout_seconds
+        self.token = None
+        self.deadline = 0.0
+
+    def clear(self):
+        self.token = None
+        self.deadline = 0.0
+
+    def check(self, token, now):
+        if self.token == token and now <= self.deadline:
+            self.clear()
+            return True
+        self.token = token
+        self.deadline = now + self.timeout_seconds
+        return False
+
+    def expire(self, now):
+        if self.token is not None and now > self.deadline:
+            self.clear()
+            return True
+        return False
+
+
 class PersistentToggle:
     """Store a boolean in one NVM byte, with a safe default for blank NVM."""
 
@@ -137,6 +164,12 @@ def accepts_automatic_profile(role):
 
 def automatic_subprofile(role, requested):
     return requested if normalize_deck_role(role) == "app" else None
+
+
+def control_requires_confirmation(safety_enabled, control):
+    return bool(safety_enabled) and isinstance(control, dict) and (
+        control.get("requires_confirmation", False) is True
+    )
 
 
 def find_subprofile_index(parent, requested):
@@ -217,6 +250,7 @@ def empty_control(index=0):
     return {
         "name": "Key {}".format(index + 1),
         "oled_label": "K{}".format(index + 1),
+        "requires_confirmation": False,
         "idle_color": DEFAULT_IDLE,
         "pressed_color": DEFAULT_PRESSED,
         "steps": [],
@@ -229,6 +263,7 @@ def normalize_control(control, index=0, lighting=True):
         control = {}
     base["name"] = str(control.get("name", base["name"]))[:24]
     base["oled_label"] = str(control.get("oled_label", base["oled_label"]))[:6]
+    base["requires_confirmation"] = control.get("requires_confirmation", False) is True
     steps = control.get("steps", [])
     if not isinstance(steps, list):
         steps = []

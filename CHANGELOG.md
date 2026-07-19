@@ -6,6 +6,11 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Firmware and profiles
 
+- Added persistent two-press safety in the Options screen. Marked destructive
+  keys arm on the first press and execute only on a matching second press
+  within three seconds; firmware is now 1.12.0.
+- Added per-key confirmation metadata, GUI editing, and default protection for
+  high-impact power, delete, package-removal, and modeling controls.
 - Added the eight-screen Live Controls profile with dynamic OLED/RGB state,
   host key events, press/hold gestures, and firmware 1.11.0.
 - Added a persistent Profile deck role that follows the focused program's
@@ -19,12 +24,18 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 - Added dedicated Reddit, YouTube, Instagram, Printables, Thingiverse, Nitter,
   and Prime Video profiles with contextual In App layouts.
 - Added a dedicated ChatGPT profile for chat navigation, prompt editing, and
-  browser controls, with automatic Firefox tab matching.
+  browser controls, with automatic matching for Firefox, Chromium-family
+  browsers, and standalone ChatGPT app/PWA window identities.
+- Added a dedicated FreeCAD profile with document, standard-view, selection,
+  tree, and contextual controls alongside the existing Blender modeling profile.
 - Added Firefox-title rules so the App deck selects each website profile before
   falling back to the generic Firefox layout.
 
 ### Desktop service
 
+- Broadened ChatGPT detection across common browser classes and standalone
+  app/PWA identities, and made the installer restart an already-running
+  switcher after replacing its configuration.
 - Kept the ComfyUI profile selected while workflow progress temporarily replaces
   the Firefox tab title with the active node name.
 - Added persistent bidirectional serial sessions and live providers for status,

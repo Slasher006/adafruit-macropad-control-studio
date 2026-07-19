@@ -25,6 +25,8 @@ For an existing device, the safest first workflow is **Import Device â†’ edit â†
   to change encoder-press order.
 - Editing, Media, and Blank profile templates plus clear-profile and reset-lighting shortcuts.
 - Searchable HID key names, common action presets, safe macro previews, and explicit on-device test execution.
+- Per-key **Require two presses when safety is on** marking for destructive
+  controls.
 - Optional two-character profile icons in both the editor and OLED title.
 - Visual subprofile/submenu selection with add, duplicate, reorder, rename, and
   delete controls.
@@ -53,6 +55,9 @@ Profile changes are written through temporary files, with `profiles/index.json` 
   profile and back does not reset it. The selection is also restored after restart.
 - Use **Unset key** in the editor to clear a control's name, OLED label, and action sequence.
 - Clear **Illuminate this key** to keep an individual key dark while preserving its configured colors.
+- When two-press safety is enabled, a protected key shows **PRESS AGAIN** on
+  the OLED and executes only if the same key is pressed again within three
+  seconds. Another key, layout, or profile cancels the pending action.
 
 ### On-device options
 
@@ -68,6 +73,9 @@ It assigns that physical MacroPad one of three independent deck roles:
 
 Press key 1 for Manual, key 2 for Profile, key 3 for App, or press the encoder
 to cycle through the three roles.
+Press key 4 to toggle persistent **two-press safety**. The setting is stored
+separately on each device and applies only to keys marked for confirmation in
+the configurator.
 Turn the encoder to leave. Holding it for about one second from any profile is
 a shortcut to the same screen. The role is stored separately on each device and
 survives restarts.
@@ -82,7 +90,7 @@ when a running workflow temporarily replaces the tab title with node progress.
 Firefox tabs for ChatGPT, Reddit, YouTube,
 Instagram, Printables, Thingiverse, Nitter, and Prime Video select their own
 website profiles before the generic Firefox fallback. Caja, Krita, LibreOffice,
-and Blender have dedicated matches as well. Profile and App decks both select
+FreeCAD, and Blender have dedicated matches as well. Profile and App decks both select
 the matching parent. Profile deck keeps the remembered normal layout, while App
 deck selects the matching parent's **In App** layout. Contextual **In App**
 selection does not overwrite the layout remembered for Manual or Profile mode.

@@ -56,7 +56,7 @@
         {"name": "Next layer", "oled_label": "LYR+", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["PAGE_DOWN"]}]},
         {"name": "Duplicate layer", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "J"]}]},
         {"name": "Merge layer down", "oled_label": "MERGE", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "E"]}]},
-        {"name": "Clear layer", "oled_label": "CLEAR", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "DELETE"]}]}
+        {"name": "Clear layer", "oled_label": "CLEAR", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "DELETE"]}], "requires_confirmation": true}
       ]
     },
     {

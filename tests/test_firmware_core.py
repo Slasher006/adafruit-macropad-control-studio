@@ -1,4 +1,5 @@
 from device.macropad_core import (
+    DoublePressGuard,
     EncoderStepper,
     MacroRunner,
     PersistentChoice,
@@ -7,6 +8,7 @@ from device.macropad_core import (
     accepts_automatic_profile,
     automatic_subprofile,
     color_tuple,
+    control_requires_confirmation,
     filter_profile_entries,
     find_subprofile_index,
     normalize_index,
@@ -259,6 +261,29 @@ def test_persistent_toggle_uses_default_and_saves_both_states():
     assert toggle.load() is False
     assert toggle.save(True)
     assert toggle.load() is True
+
+
+def test_double_press_guard_requires_same_token_before_timeout():
+    guard = DoublePressGuard(3.0)
+    assert not guard.check(("system-control", 0, 3), 10.0)
+    assert guard.token == ("system-control", 0, 3)
+    assert guard.check(("system-control", 0, 3), 12.9)
+    assert guard.token is None
+
+    assert not guard.check(("system-control", 0, 3), 20.0)
+    assert not guard.check(("system-control", 0, 4), 20.5)
+    assert guard.token == ("system-control", 0, 4)
+    assert guard.expire(23.6)
+    assert guard.token is None
+    assert not guard.expire(24.0)
+
+
+def test_confirmation_metadata_only_applies_when_master_safety_is_enabled():
+    protected = {"requires_confirmation": True}
+    assert control_requires_confirmation(True, protected)
+    assert not control_requires_confirmation(False, protected)
+    assert not control_requires_confirmation(True, {})
+    assert not control_requires_confirmation(True, None)
 
 
 def test_persistent_deck_role_keeps_old_boolean_values_and_adds_profile_mode():

@@ -119,7 +119,8 @@ action.
 Turn to the visible **Options** parent screen on the device, or hold the physical
 encoder for about one second to open it directly. Select **Manual deck** with
 key 1, **Profile deck** with key 2, or **App deck** with key 3. Pressing the
-encoder cycles Manual -> Profile -> App. Turn the encoder to leave.
+encoder cycles Manual -> Profile -> App. Key 4 toggles persistent
+**two-press safety**. Turn the encoder to leave.
 
 The Manual deck stays on its encoder-selected regular profile and ignores
 focused-application changes. The Profile deck follows the focused PC
@@ -128,6 +129,12 @@ screen. The App deck follows the same parent and selects its **In App** key
 screen. Roles are stored independently and persistently on each device.
 Automatic **In App** selection does not replace the subprofile remembered for
 Manual or Profile mode.
+
+With two-press safety enabled, any key marked for confirmation arms on its first
+press. The OLED names the control and displays **PRESS AGAIN**; pressing the
+same key again within three seconds executes it. Pressing another key, changing
+the layout or parent profile, or waiting for the timeout cancels the pending
+action. The master setting is stored independently on each device.
 
 While the desktop service is connected, all three deck roles receive a temporary
 encoder filter containing profiles for open applications plus the pinned
@@ -175,6 +182,9 @@ The right panel edits the selected key or encoder press.
 - **Name** is the descriptive label shown on the key tile.
 - **OLED label** is limited to six characters to fit the device display.
 - **Unset key** clears the labels and action sequence. It does not delete the profile.
+- **Require two presses when safety is on** marks this key as destructive.
+  Ctrl-click multiple key tiles to change the setting for all selected keys.
+  The checkbox does not affect encoder press.
 
 **RGB**
 

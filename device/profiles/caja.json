@@ -15,8 +15,8 @@
     {"name": "Rename", "oled_label": "RENAME", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F2"]}]},
     {"name": "Properties", "oled_label": "PROPS", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ALT", "ENTER"]}]},
     {"name": "Select all", "oled_label": "ALL", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
-    {"name": "Move to trash", "oled_label": "TRASH", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}]},
-    {"name": "Permanent delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "DELETE"]}]},
+    {"name": "Move to trash", "oled_label": "TRASH", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}], "requires_confirmation": true},
+    {"name": "Permanent delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "DELETE"]}], "requires_confirmation": true},
     {"name": "Close tab", "oled_label": "CLOSE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "W"]}]}
   ],
   "encoder_press": {"name": "Next subprofile", "oled_label": "NEXT", "steps": []},
@@ -74,7 +74,7 @@
         {"name": "Open item", "oled_label": "OPEN", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["ENTER"]}]},
         {"name": "Search", "oled_label": "SEARCH", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "F"]}]},
         {"name": "Show hidden files", "oled_label": "HIDDEN", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "H"]}]},
-        {"name": "Move to trash", "oled_label": "TRASH", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}]},
+        {"name": "Move to trash", "oled_label": "TRASH", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["DELETE"]}], "requires_confirmation": true},
         {"name": "New folder", "oled_label": "FOLD+", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "SHIFT", "N"]}]}
       ]
     }

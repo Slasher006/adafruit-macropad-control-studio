@@ -55,7 +55,11 @@ def main() -> int:
     subprocess.run(["systemctl", "--user", "daemon-reload"], check=True)
     if not args.no_start:
         subprocess.run(
-            ["systemctl", "--user", "enable", "--now", UNIT_PATH.name],
+            ["systemctl", "--user", "enable", UNIT_PATH.name],
+            check=True,
+        )
+        subprocess.run(
+            ["systemctl", "--user", "restart", UNIT_PATH.name],
             check=True,
         )
     print(f"config: {CONFIG_PATH}")

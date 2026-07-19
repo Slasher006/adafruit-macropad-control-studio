@@ -54,6 +54,7 @@ def empty_control(index: int = 0, lighting: bool = True) -> dict[str, Any]:
     control: dict[str, Any] = {
         "name": f"Key {index + 1}" if index < NUM_KEYS else "Encoder",
         "oled_label": f"K{index + 1}" if index < NUM_KEYS else "KNOB",
+        "requires_confirmation": False,
         "steps": [],
     }
     if lighting:
@@ -100,6 +101,7 @@ def normalize_control(control: Any, index: int, lighting: bool = True) -> dict[s
         control = {}
     result["name"] = str(control.get("name", result["name"]))[:24]
     result["oled_label"] = str(control.get("oled_label", result["oled_label"]))[:6]
+    result["requires_confirmation"] = control.get("requires_confirmation", False) is True
     steps = control.get("steps", [])
     if not isinstance(steps, list):
         steps = []

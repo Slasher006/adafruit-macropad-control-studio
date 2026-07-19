@@ -32,6 +32,15 @@ def hotkey(name, label, color, *keys):
     return control(name, label, color, [{"type": "hotkey", "keys": list(keys)}])
 
 
+def key_sequence(name, label, color, *keys):
+    return control(
+        name,
+        label,
+        color,
+        [{"type": "hotkey", "keys": [key]} for key in keys],
+    )
+
+
 def text(name, label, color, value):
     return control(name, label, color, [{"type": "text", "text": value}])
 
@@ -247,7 +256,52 @@ PRIME_VIDEO_KEYS = [
     hotkey("Fullscreen", "FULL", YELLOW, "F"),
 ]
 
-WEBSITE_META = {
+FREECAD_KEYS = [
+    hotkey("New document", "NEW", GREEN, "CONTROL", "N"),
+    hotkey("Open document", "OPEN", GREEN, "CONTROL", "O"),
+    hotkey("Save", "SAVE", GREEN, "CONTROL", "S"),
+    hotkey("Save as", "SAVEAS", GREEN, "CONTROL", "SHIFT", "S"),
+    hotkey("Undo", "UNDO", YELLOW, "CONTROL", "Z"),
+    hotkey("Redo", "REDO", YELLOW, "CONTROL", "Y"),
+    hotkey("Recompute", "RECOMP", ORANGE, "F5"),
+    hotkey("Select all", "ALL", YELLOW, "CONTROL", "A"),
+    hotkey("Rename object", "RENAME", ORANGE, "F2"),
+    hotkey("Toggle visibility", "SHOW", YELLOW, "SPACE"),
+    hotkey("Delete selection", "DELETE", RED, "DELETE"),
+    hotkey("Close document", "CLOSE", RED, "CONTROL", "W"),
+]
+
+FREECAD_VIEW_KEYS = [
+    hotkey("Isometric view", "ISO", LIME, "ZERO"),
+    hotkey("Front view", "FRONT", LIME, "ONE"),
+    hotkey("Rear view", "REAR", LIME, "TWO"),
+    hotkey("Left view", "LEFT", LIME, "THREE"),
+    hotkey("Home view", "HOME", LIME, "HOME"),
+    hotkey("Right view", "RIGHT", LIME, "FOUR"),
+    hotkey("Top view", "TOP", LIME, "FIVE"),
+    key_sequence("Fit all", "FIT", LIME, "V", "F"),
+    hotkey("Bottom view", "BOTTOM", LIME, "SIX"),
+    key_sequence("Fit selection", "FITSEL", LIME, "V", "S"),
+    hotkey("Freeze view", "FREEZE", YELLOW, "SHIFT", "F"),
+    hotkey("Recall working view", "RECALL", LIME, "END"),
+]
+
+FREECAD_TREE_KEYS = [
+    hotkey("Select all", "ALL", YELLOW, "CONTROL", "A"),
+    hotkey("Box selection", "BOX", YELLOW, "SHIFT", "B"),
+    hotkey("Toggle visibility", "SHOW", YELLOW, "SPACE"),
+    hotkey("Rename object", "RENAME", ORANGE, "F2"),
+    hotkey("Search tree", "SEARCH", LIME, "CONTROL", "F"),
+    hotkey("Delete selection", "DELETE", RED, "DELETE"),
+    hotkey("Collapse item", "FOLD", LIME, "ALT", "LEFT_ARROW"),
+    hotkey("Expand item", "OPEN", LIME, "ALT", "RIGHT_ARROW"),
+    hotkey("Collapse children", "FOLD-", LIME, "ALT", "UP_ARROW"),
+    hotkey("Expand children", "FOLD+", LIME, "ALT", "DOWN_ARROW"),
+    hotkey("Previous item", "ITEM-", LIME, "UP_ARROW"),
+    hotkey("Next item", "ITEM+", LIME, "DOWN_ARROW"),
+]
+
+GENERATED_PROFILE_META = {
     "chatgpt": ("ChatGPT", "CG", CHATGPT_KEYS),
     "reddit": ("Reddit", "RD", REDDIT_KEYS),
     "youtube": ("YouTube", "YT", YOUTUBE_KEYS),
@@ -256,6 +310,39 @@ WEBSITE_META = {
     "thingiverse": ("Thingiverse", "TV", GENERIC_WEBSITE_KEYS),
     "nitter": ("Nitter", "NT", GENERIC_WEBSITE_KEYS),
     "prime-video": ("Prime Video", "PV", PRIME_VIDEO_KEYS),
+    "freecad": ("FreeCAD", "FC", FREECAD_KEYS),
+}
+
+CONFIRMATION_CONTROL_NAMES = {
+    "terminal-manjaro": {
+        "Remove package",
+        "Clean package cache",
+    },
+    "comfyui": {
+        "Delete nodes",
+    },
+    "system-control": {
+        "Restart i3",
+        "Reboot computer",
+        "Shutdown in 60 min",
+        "Shutdown now",
+        "Suspend",
+        "Hibernate",
+        "i3 logout prompt",
+    },
+    "caja": {
+        "Move to trash",
+        "Permanent delete",
+    },
+    "krita": {
+        "Clear layer",
+    },
+    "freecad": {
+        "Delete selection",
+    },
+    "blender": {
+        "Delete",
+    },
 }
 
 
@@ -966,6 +1053,13 @@ SPECS = {
             ),
         ],
     ),
+    "freecad": (
+        "General",
+        [
+            layout("Standard Views", "VW", FREECAD_VIEW_KEYS),
+            layout("Selection and Tree", "ST", FREECAD_TREE_KEYS),
+        ],
+    ),
     "reddit": (
         "Posts",
         [
@@ -1314,6 +1408,24 @@ IN_APP_LAYOUTS = {
             hotkey("Operator search", "SEARCH", LIME, "F3"),
         ],
     ),
+    "freecad": layout(
+        "In App",
+        "IA",
+        [
+            hotkey("Home view", "HOME", LIME, "HOME"),
+            hotkey("Isometric view", "ISO", LIME, "ZERO"),
+            key_sequence("Fit all", "FIT", LIME, "V", "F"),
+            hotkey("Recompute", "RECOMP", ORANGE, "F5"),
+            hotkey("Toggle visibility", "SHOW", YELLOW, "SPACE"),
+            hotkey("Rename object", "RENAME", ORANGE, "F2"),
+            hotkey("Undo", "UNDO", YELLOW, "CONTROL", "Z"),
+            hotkey("Redo", "REDO", YELLOW, "CONTROL", "Y"),
+            hotkey("Save", "SAVE", GREEN, "CONTROL", "S"),
+            hotkey("Select all", "ALL", YELLOW, "CONTROL", "A"),
+            hotkey("Box selection", "BOX", YELLOW, "SHIFT", "B"),
+            hotkey("Delete selection", "DELETE", RED, "DELETE"),
+        ],
+    ),
     "reddit": layout("In App", "IA", REDDIT_KEYS),
     "youtube": layout("In App", "IA", YOUTUBE_KEYS),
     "chatgpt": layout("In App", "IA", CHATGPT_KEYS),
@@ -1427,7 +1539,7 @@ def main():
         path = PROFILE_ROOT / entry["file"]
         if path.exists():
             profile = json.loads(path.read_text(encoding="utf-8"))
-        elif profile_id in WEBSITE_META:
+        elif profile_id in GENERATED_PROFILE_META:
             profile = {
                 "schema_version": 1,
                 "id": profile_id,
@@ -1441,8 +1553,8 @@ def main():
             }
         else:
             raise FileNotFoundError(path)
-        if profile_id in WEBSITE_META:
-            profile_name, icon, primary_keys = WEBSITE_META[profile_id]
+        if profile_id in GENERATED_PROFILE_META:
+            profile_name, icon, primary_keys = GENERATED_PROFILE_META[profile_id]
             profile["name"] = profile_name
             profile["icon"] = icon
             profile["keys"] = primary_keys
@@ -1476,6 +1588,12 @@ def main():
                     else:
                         wrapped.append(item)
                 terminal_layout["keys"] = wrapped
+        protected_names = CONFIRMATION_CONTROL_NAMES.get(profile_id, set())
+        for profile_layout in [profile] + profile["subprofiles"]:
+            for item in profile_layout["keys"]:
+                item.pop("requires_confirmation", None)
+                if item.get("name") in protected_names:
+                    item["requires_confirmation"] = True
         path.write_text(render(profile), encoding="utf-8")
         print(
             "built {}: {}".format(

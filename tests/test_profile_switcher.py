@@ -292,6 +292,7 @@ def test_bundled_map_selects_desktop_application_profiles():
         "krita": "krita",
         "libreoffice-writer": "libreoffice",
         "soffice": "libreoffice",
+        "FreeCAD": "freecad",
         "Blender": "blender",
     }
     for window_class, expected_profile in cases.items():
@@ -332,6 +333,32 @@ def test_bundled_map_selects_firefox_website_profiles_before_firefox():
     assert choose_target(
         config,
         FocusedWindow(title="ChatGPT and YouTube notes", window_class="Code"),
+    ) == ProfileTarget("vscode", "In App")
+
+
+def test_bundled_map_recognizes_chatgpt_browsers_and_app_identities():
+    import json
+    from pathlib import Path
+
+    config = json.loads(
+        (Path(__file__).resolve().parents[1] / "config" / "active-profile-map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    windows = (
+        FocusedWindow(title="New chat - ChatGPT", window_class="Firefox"),
+        FocusedWindow(title="Project notes — ChatGPT", window_class="Google-chrome"),
+        FocusedWindow(title="ChatGPT", window_class="Brave-browser"),
+        FocusedWindow(window_class="chatgpt.com"),
+        FocusedWindow(instance="chat.openai.com"),
+        FocusedWindow(app_id="com.openai.chatgpt"),
+    )
+    for window in windows:
+        assert choose_target(config, window) == ProfileTarget("chatgpt", "In App")
+
+    assert choose_target(
+        config,
+        FocusedWindow(title="ChatGPT integration notes", window_class="Code"),
     ) == ProfileTarget("vscode", "In App")
 
 

@@ -463,6 +463,19 @@ class MainWindow(QMainWindow):
         )
         self.unset_control_button.clicked.connect(self.unset_current_control)
         form.addRow("Assignment", self.unset_control_button)
+        self.requires_confirmation_checkbox = QCheckBox(
+            "Require two presses when safety is on"
+        )
+        self.requires_confirmation_checkbox.setToolTip(
+            _tooltip(
+                "Mark this key as destructive so the device safety option can require a confirming second press.",
+                "Protect a permanent-delete or shutdown key while leaving Copy single-press.",
+            )
+        )
+        self.requires_confirmation_checkbox.toggled.connect(
+            self._requires_confirmation_changed
+        )
+        form.addRow("Safety", self.requires_confirmation_checkbox)
         layout.addWidget(fields)
 
         colors = QGroupBox("RGB")
@@ -735,6 +748,10 @@ class MainWindow(QMainWindow):
         self.oled_label_edit.setText(control["oled_label"])
         lighting = self.selected_control < 12
         lighting_enabled = lighting and control.get("lighting_enabled", True)
+        self.requires_confirmation_checkbox.setEnabled(lighting)
+        self.requires_confirmation_checkbox.setChecked(
+            lighting and control.get("requires_confirmation", False)
+        )
         self.lighting_enabled_checkbox.setEnabled(lighting)
         self.lighting_enabled_checkbox.setChecked(lighting_enabled)
         self.idle_color_button.setEnabled(lighting_enabled)
@@ -993,6 +1010,14 @@ class MainWindow(QMainWindow):
             self.current_layout()["keys"][index]["lighting_enabled"] = enabled
         self._refresh_profile_editor()
         self._mark_dirty("Per-key lighting changed; preview or sync to apply")
+
+    def _requires_confirmation_changed(self, enabled: bool) -> None:
+        if self.loading or self.selected_control >= 12:
+            return
+        for index in self._selected_key_indices():
+            self.current_layout()["keys"][index]["requires_confirmation"] = enabled
+        self._refresh_profile_editor()
+        self._mark_dirty("Per-key safety changed; sync to apply")
 
     def unset_current_control(self) -> None:
         targets = self.selected_controls if self.selected_control < 12 else {12}
@@ -1483,6 +1508,8 @@ class MainWindow(QMainWindow):
                 f"Configuration revision: {health.get('revision', 'unknown')}",
                 f"Active profile: {health.get('profile', 'unknown')}",
                 f"Deck role: {health.get('deck_role', 'unknown').upper()}",
+                "Two-press safety: "
+                + ("ON" if health.get("confirmation_safety") else "OFF"),
                 f"Layout: {health.get('layout', 'unknown').upper()}",
                 "Required files: OK" if not missing else "Missing:\n  " + "\n  ".join(missing),
             ]

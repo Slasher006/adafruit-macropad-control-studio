@@ -756,6 +756,13 @@ def add_labels_rgb(story: list[Flowable]) -> None:
                 "color is the resting color. Pressed color is short feedback while the key is active. "
                 "The encoder has no RGB controls."
             ),
+            heading("Per-key two-press safety", 2),
+            p(
+                "Require two presses when safety is on marks the selected key as destructive. "
+                "Ctrl-click can apply the mark to several keys. When the device master option is on, "
+                "the first press arms the key and the same key must be pressed again within three "
+                "seconds to execute; another key, screen, or timeout cancels it."
+            ),
             heading("Recommended color language", 2),
             data_table(
                 ["Color", "Hex", "Meaning", "Examples"],
@@ -1055,14 +1062,15 @@ def add_multiple_devices(story: list[Flowable]) -> None:
             p(
                 "On the device, turn to Options or hold the encoder for about one second. Key 1 selects "
                 "Manual, Key 2 selects Profile, Key 3 selects App, and encoder press cycles all three. "
-                "The role is stored independently on each device and survives restart."
+                "Key 4 toggles persistent two-press safety. Both settings are stored independently on "
+                "each device and survive restart."
             ),
             heading("Automatic profile switching", 2),
             p(
                 "The included user service observes focused i3 or Sway windows and selects matching "
                 "parents on Profile and App decks. Profile mode keeps remembered normal keys; App mode "
                 "selects In App keys. Firefox, VS Code, VLC, Discord, LM Studio, ComfyUI, Caja, Krita, "
-                "LibreOffice, Blender, and other included profiles have matching support."
+                "LibreOffice, FreeCAD, Blender, and other included profiles have matching support."
             ),
             p(
                 "On all three deck roles, the same service keeps encoder scrolling short by exposing only "
@@ -1248,6 +1256,7 @@ def add_control_reference(story: list[Flowable]) -> None:
                 [
                     ["Name / OLED label", "Set GUI description and six-character device label.", "Command palette / CMDPAL."],
                     ["Unset key", "Clear labels and action steps.", "Leave Key 12 unassigned."],
+                    ["Require two presses", "Mark a destructive key for the device safety option.", "Protect Shutdown now."],
                     ["Illuminate / Idle / Pressed", "Enable light and choose resting and feedback colors.", "Green idle, white pressed."],
                     ["Palette / Apply to / Idle / Pressed", "Reuse colors across selected keys, a row, or all keys.", "Red idle for a Stop row."],
                     ["Save current", "Store the selected key's idle color.", "Save a custom purple."],

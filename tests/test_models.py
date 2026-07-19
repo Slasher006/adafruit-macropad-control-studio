@@ -32,6 +32,7 @@ def test_profile_values_are_bounded():
             "keys": [
                 {
                     "lighting_enabled": False,
+                    "requires_confirmation": True,
                     "idle_color": "wrong",
                     "pressed_color": "#abcdef",
                     "oled_label": "toolong",
@@ -46,6 +47,7 @@ def test_profile_values_are_bounded():
     assert profile["keys"][0]["pressed_color"] == "#ABCDEF"
     assert profile["keys"][0]["oled_label"] == "toolon"
     assert profile["keys"][0]["lighting_enabled"] is False
+    assert profile["keys"][0]["requires_confirmation"] is True
 
 
 @pytest.mark.parametrize(

@@ -30,6 +30,7 @@ REQUESTED_PROFILE_IDS = {
     "caja",
     "krita",
     "libreoffice",
+    "freecad",
     "blender",
     "live-controls",
 }
@@ -58,6 +59,7 @@ AUTO_PROFILE_IDS = {
     "caja",
     "krita",
     "libreoffice",
+    "freecad",
     "blender",
 }
 
@@ -163,6 +165,40 @@ def test_options_profile_is_a_visible_device_managed_screen():
     assert profile["keys"][0]["name"] == "Manual deck"
     assert profile["keys"][1]["name"] == "Profile deck"
     assert profile["keys"][2]["name"] == "App deck"
+    assert profile["keys"][3]["name"] == "Two-press safety"
+    assert profile["keys"][3]["oled_label"] == "SAFETY"
+
+
+def test_dangerous_builtin_controls_are_marked_for_optional_confirmation():
+    expected = {
+        "system-control": {"Reboot computer", "Shutdown now", "Hibernate"},
+        "caja": {"Move to trash", "Permanent delete"},
+        "comfyui": {"Delete nodes"},
+        "krita": {"Clear layer"},
+        "freecad": {"Delete selection"},
+        "blender": {"Delete"},
+        "terminal-manjaro": {"Remove package", "Clean package cache"},
+    }
+    for profile_id, names in expected.items():
+        profile = json.loads(
+            (PROFILE_ROOT / f"{profile_id}.json").read_text(encoding="utf-8")
+        )
+        controls = [
+            control
+            for layout in [profile] + profile["subprofiles"]
+            for control in layout["keys"]
+        ]
+        protected_names = {
+            control["name"]
+            for control in controls
+            if control.get("requires_confirmation")
+        }
+        assert names <= protected_names
+        assert all(control["steps"] for control in controls if control.get("requires_confirmation"))
+
+    editing = json.loads((PROFILE_ROOT / "editing.json").read_text(encoding="utf-8"))
+    copy = next(control for control in editing["keys"] if control["name"] == "Copy")
+    assert not copy.get("requires_confirmation", False)
 
 
 def test_live_controls_profile_has_all_dynamic_screens():
@@ -186,6 +222,7 @@ def test_desktop_application_profiles_have_expected_layouts():
         "caja": ["Files", "Navigation", "View", "In App"],
         "krita": ["Painting", "Canvas", "Brush and Layers", "In App"],
         "libreoffice": ["General", "Writer", "Calc and Impress", "In App"],
+        "freecad": ["General", "Standard Views", "Selection and Tree", "In App"],
         "blender": ["General", "Transform", "Viewport", "In App"],
     }
     for profile_id, layout_names in expected.items():
@@ -195,6 +232,31 @@ def test_desktop_application_profiles_have_expected_layouts():
         assert [profile["subprofile_name"]] + [
             item["name"] for item in profile["subprofiles"]
         ] == layout_names
+
+
+def test_freecad_and_blender_profiles_have_cad_modeling_controls():
+    freecad = json.loads((PROFILE_ROOT / "freecad.json").read_text(encoding="utf-8"))
+    blender = json.loads((PROFILE_ROOT / "blender.json").read_text(encoding="utf-8"))
+
+    assert [key["name"] for key in freecad["keys"][:6]] == [
+        "New document",
+        "Open document",
+        "Save",
+        "Save as",
+        "Undo",
+        "Redo",
+    ]
+    assert [key["name"] for key in freecad["subprofiles"][0]["keys"][:3]] == [
+        "Isometric view",
+        "Front view",
+        "Rear view",
+    ]
+    assert [key["name"] for key in blender["subprofiles"][0]["keys"][:3]] == [
+        "Move",
+        "Rotate",
+        "Scale",
+    ]
+    assert blender["subprofiles"][-1]["name"] == "In App"
 
 
 def test_website_profiles_have_expected_layouts_and_contextual_keys():

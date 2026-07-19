@@ -33,6 +33,7 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Caja | New window, New folder, New tab | Copy, Paste, Cut | Rename, Properties, Select all | Trash, Delete permanently, Close tab | Next subprofile |
 | Krita | New, Open, Save | Undo, Redo, Brush | Eraser, Brush editor, Swap colors | Default colors, Select all, Deselect | Next subprofile |
 | LibreOffice | New, Open, Save | Save as, Print, Undo | Redo, Cut, Copy | Paste, Find, Replace | Next subprofile |
+| FreeCAD | New, Open, Save | Save as, Undo, Redo | Recompute, Select all, Rename | Visibility, Delete, Close | Next subprofile |
 | Blender | New, Open, Save | Save as, Undo, Redo | Search, Rename, Favorites | Render, Result, Maximize area | Next subprofile |
 | Live Controls — Status 1/8 | Speaker, Microphone, Play/pause | Previous, Next, VPN | Focus timer, Caps Lock, Recording | Network, Updates, Refresh | Next live screen |
 | Live Controls — Programs 2/8 | Open programs 1–3 | Open programs 4–6 | Open programs 7–9 | Open programs 10–12 | Next live screen |
@@ -72,6 +73,7 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Caja | Files | Navigation | View | In App |
 | Krita | Painting | Canvas | Brush and Layers | In App |
 | LibreOffice | General | Writer | Calc and Impress | In App |
+| FreeCAD | General | Standard Views | Selection and Tree | In App |
 | Blender | General | Transform | Viewport | In App |
 | Live Controls | Status | Programs | App Audio | Windows, Clipboard, Focus, System, Jobs |
 
@@ -98,6 +100,13 @@ remembered normal layout. **App deck** follows the same parent and enters its
 **In App** layout. Keys 1, 2, and 3 select Manual, Profile, and App; encoder
 press cycles the three roles. Each device remembers its own choice. App mode
 does not overwrite the layout remembered for Manual or Profile mode.
+
+Options key 4 toggles persistent **two-press safety**. When enabled, controls
+marked **Require two presses when safety is on** in the configurator arm on
+their first press and execute only after the same key is pressed again within
+three seconds. The bundled power, permanent-delete, package-removal, and
+modeling-delete controls are marked by default; every key can be changed
+individually in the GUI.
 
 **Live Controls** is host-backed and intended for a Manual deck. Its OLED
 labels and RGB states refresh from the desktop service. Programs and Jobs use a
@@ -127,4 +136,5 @@ System Control executes its reboot and shutdown commands after opening a termina
 - [Caja file manager](https://wiki.mate-desktop.org/mate-desktop/applications/caja/)
 - [Krita shortcut settings](https://docs.krita.org/en/reference_manual/preferences/shortcut_settings.html), [canvas views](https://docs.krita.org/en/reference_manual/main_menu/view_menu.html), and [canvas navigation](https://docs.krita.org/en/user_manual/getting_started/navigation.html)
 - [LibreOffice keyboard shortcuts](https://help.libreoffice.org/latest/en-US/text/shared/main0400.html)
+- [FreeCAD standard view](https://reqrefusion.github.io/FreeCAD-Documentation-html/wiki/en/Std_ViewIsometric.html), [home view](https://reqrefusion.github.io/FreeCAD-Documentation-html/wiki/en/Std_ViewHome.html), and [tree controls](https://reqrefusion.github.io/FreeCAD-Documentation-html/wiki/en/Tree_View.html)
 - [Blender default keymap](https://docs.blender.org/manual/en/latest/interface/keymap/blender_default.html)

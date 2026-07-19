@@ -28,8 +28,30 @@
     {
       "profile": "chatgpt",
       "subprofile": "In App",
-      "class_contains": ["firefox"],
-      "title_contains": ["chatgpt"]
+      "class_contains": ["chatgpt", "chat.openai", "chatgpt.com"]
+    },
+    {
+      "profile": "chatgpt",
+      "subprofile": "In App",
+      "instance_contains": ["chatgpt", "chat.openai", "chatgpt.com"]
+    },
+    {
+      "profile": "chatgpt",
+      "subprofile": "In App",
+      "app_id_contains": ["chatgpt", "chat.openai", "chatgpt.com"]
+    },
+    {
+      "profile": "chatgpt",
+      "subprofile": "In App",
+      "class_contains": [
+        "firefox",
+        "chromium",
+        "google-chrome",
+        "brave-browser",
+        "vivaldi",
+        "microsoft-edge"
+      ],
+      "title_contains": ["chatgpt", "chat.openai", "chatgpt.com"]
     },
     {
       "profile": "reddit",
@@ -127,6 +149,11 @@
       "profile": "libreoffice",
       "subprofile": "In App",
       "class_contains": ["libreoffice", "soffice"]
+    },
+    {
+      "profile": "freecad",
+      "subprofile": "In App",
+      "class_contains": ["freecad"]
     },
     {
       "profile": "blender",

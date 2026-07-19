@@ -47,6 +47,7 @@ def test_sync_round_trip_preserves_subprofiles(tmp_path):
     device = make_device(tmp_path / "CIRCUITPY")
     project = new_project()
     project["profiles"][0]["subprofile_name"] = "Primary"
+    project["profiles"][0]["keys"][0]["requires_confirmation"] = True
     project["profiles"][0]["subprofiles"] = [
         {
             "name": "Second",
@@ -61,6 +62,7 @@ def test_sync_round_trip_preserves_subprofiles(tmp_path):
     assert profile["subprofile_name"] == "Primary"
     assert [item["name"] for item in profile["subprofiles"]] == ["Second"]
     assert profile["subprofiles"][0]["brightness"] == 7
+    assert profile["keys"][0]["requires_confirmation"] is True
 
 
 def test_sync_commits_index_and_removes_stale_profile(tmp_path):

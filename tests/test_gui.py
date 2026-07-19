@@ -26,6 +26,8 @@ def test_main_window_profile_and_key_editing(qtbot, tmp_path, monkeypatch):
     window.lighting_enabled_checkbox.setChecked(False)
     assert window.current_profile()["keys"][3]["lighting_enabled"] is False
     assert not window.idle_color_button.isEnabled()
+    window.requires_confirmation_checkbox.setChecked(True)
+    assert window.current_profile()["keys"][3]["requires_confirmation"] is True
     window.unset_current_control()
     assert window.current_profile()["keys"][3]["name"] == "Unassigned"
     assert window.current_profile()["keys"][3]["oled_label"] == ""
@@ -109,6 +111,7 @@ def test_encoder_has_no_rgb_controls(qtbot, monkeypatch):
     assert not window.lighting_enabled_checkbox.isEnabled()
     assert not window.idle_color_button.isEnabled()
     assert not window.pressed_color_button.isEnabled()
+    assert not window.requires_confirmation_checkbox.isEnabled()
     window.dirty = False
 
 

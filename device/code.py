@@ -14,16 +14,19 @@ from adafruit_macropad import MacroPad
 
 from macropad_core import (
     DEFAULT_BRIGHTNESS,
+    DoublePressGuard,
     EncoderStepper,
     find_subprofile_index,
     MAX_PROFILES,
     MacroRunner,
     PersistentChoice,
+    PersistentToggle,
     SubprofileStore,
     accepts_automatic_profile,
     automatic_subprofile,
     clamp,
     color_tuple,
+    control_requires_confirmation,
     filter_profile_entries,
     normalize_hex_color,
     normalize_index,
@@ -47,8 +50,11 @@ ENCODER_OPTIONS_HOLD_SECONDS = 0.9
 PROFILE_CACHE_SIZE = 1
 NVM_SUBPROFILE_OFFSET = 1
 NVM_DECK_ROLE_INDEX = NVM_SUBPROFILE_OFFSET + MAX_PROFILES
+NVM_CONFIRMATION_SAFETY_INDEX = NVM_DECK_ROLE_INDEX + 1
+CONFIRMATION_TIMEOUT_SECONDS = 3.0
+CONFIRMATION_ARMED_COLOR = (255, 160, 0)
 LIVE_PROFILE_ID = "live-controls"
-FIRMWARE_VERSION = "1.11.0"
+FIRMWARE_VERSION = "1.12.0"
 
 try:
     supervisor.runtime.autoreload = False
@@ -125,6 +131,13 @@ deck_role_setting = PersistentChoice(
 )
 deck_role = deck_role_setting.load()
 automatic_switching_enabled = accepts_automatic_profile(deck_role)
+confirmation_safety_setting = PersistentToggle(
+    microcontroller.nvm,
+    NVM_CONFIRMATION_SAFETY_INDEX,
+    False,
+)
+confirmation_safety_enabled = confirmation_safety_setting.load()
+confirmation_guard = DoublePressGuard(CONFIRMATION_TIMEOUT_SECONDS)
 save_profile_at = None
 overlay_until = 0.0
 overlay_visible = False
@@ -235,6 +248,7 @@ def show_profile():
 def show_options():
     global options_active, overlay_visible
     runner.cancel()
+    confirmation_guard.clear()
     options_active = True
     overlay_visible = False
     macropad.pixels.brightness = 0.03
@@ -249,23 +263,23 @@ def show_options():
         color = colors[role_name]
         dimmed = (color[0] // 10, color[1] // 10, color[2] // 10)
         macropad.pixels[index] = color if deck_role == role_name else dimmed
+    macropad.pixels[3] = (
+        (0, 255, 64) if confirmation_safety_enabled else (128, 16, 16)
+    )
     role_labels = {
         "manual": "MANUAL DECK",
         "profile": "PROFILE DECK",
         "app": "APP DECK",
     }
-    descriptions = {
-        "manual": "Keeps parent + keys",
-        "profile": "Active app, saved keys",
-        "app": "Active app, In App",
-    }
     set_display_lines(
         [
-            "OPTIONS: DECK ROLE",
-            "Role: {}".format(role_labels[deck_role]),
-            descriptions[deck_role],
+            "OPTIONS",
+            "Deck: {}".format(role_labels[deck_role]),
+            "Safety: 2-PRESS {}".format(
+                "ON" if confirmation_safety_enabled else "OFF"
+            ),
             "K1 Man K2 Prof K3 App",
-            "Knob next; turn out",
+            "K4 Safety; knob role",
         ]
     )
 
@@ -304,6 +318,19 @@ def set_deck_role(role):
 
 def set_automatic_switching(enabled):
     set_deck_role("app" if enabled else "manual")
+
+
+def set_confirmation_safety(enabled):
+    global confirmation_safety_enabled
+    confirmation_safety_enabled = bool(enabled)
+    confirmation_safety_setting.save(confirmation_safety_enabled)
+    confirmation_guard.clear()
+    emit(
+        "confirmation_safety",
+        enabled=confirmation_safety_enabled,
+    )
+    if options_active:
+        show_options()
 
 
 def describe_step(step):
@@ -423,6 +450,7 @@ def activate_subprofile(index, announce=True):
         profile = profile_container
     else:
         profile = profile_container["subprofiles"][subprofile_index - 1]
+    confirmation_guard.clear()
     runner.cancel()
     apply_profile_lighting()
     if profile_container.get("id") == "options":
@@ -549,9 +577,47 @@ def set_visible_profiles(profile_ids):
     return old_ids != new_ids, new_ids
 
 
+def confirmation_token(number):
+    return (
+        profile_container.get("id"),
+        subprofile_index,
+        number,
+    )
+
+
+def show_confirmation(control, number):
+    global overlay_until, overlay_visible
+    set_display_lines([
+        profile_title(),
+        "! PRESS AGAIN",
+        control.get("name", "Control")[:20],
+        "Expires in 3 seconds",
+        "",
+    ])
+    overlay_until = confirmation_guard.deadline
+    overlay_visible = True
+    if 0 <= number < 12:
+        macropad.pixels[number] = CONFIRMATION_ARMED_COLOR
+
+
 def start_control(control, number):
     if runner.running:
         return
+    needs_confirmation = control_requires_confirmation(
+        confirmation_safety_enabled,
+        control,
+    )
+    if needs_confirmation:
+        if not confirmation_guard.check(confirmation_token(number), time.monotonic()):
+            show_confirmation(control, number)
+            emit(
+                "action_armed",
+                control=number,
+                name=control.get("name", ""),
+            )
+            return
+    else:
+        confirmation_guard.clear()
     show_action(control)
     runner.start(control.get("steps", []))
     emit("action", control=number, name=control.get("name", ""))
@@ -581,6 +647,7 @@ def handle_command(command):
                 subprofile_count=subprofile_count(),
                 automatic_switching=automatic_switching_enabled,
                 deck_role=deck_role,
+                confirmation_safety=confirmation_safety_enabled,
                 layout=active_layout,
                 encoder_divisor=getattr(getattr(macropad, "_encoder", None), "divisor", None),
                 encoder_guard_ms=int(ENCODER_GUARD_SECONDS * 1000),
@@ -700,6 +767,12 @@ def handle_command(command):
                 name,
                 enabled=automatic_switching_enabled,
                 deck_role=deck_role,
+            )
+        elif name == "set_confirmation_safety":
+            set_confirmation_safety(command.get("enabled", True) is not False)
+            serial_response(
+                name,
+                enabled=confirmation_safety_enabled,
             )
         elif name == "preview_lighting":
             apply_preview(command)
@@ -857,12 +930,15 @@ while True:
                 set_deck_role("profile")
             elif event.pressed and key_number == 2:
                 set_deck_role("app")
+            elif event.pressed and key_number == 3:
+                set_confirmation_safety(not confirmation_safety_enabled)
         elif 0 <= key_number < 12:
             control = profile["keys"][key_number]
             if event.pressed:
                 if not preview_active and control.get("lighting_enabled", True):
                     macropad.pixels[key_number] = color_tuple(control.get("pressed_color"), "#FFFFFF")
                 if profile_container.get("id") == LIVE_PROFILE_ID:
+                    confirmation_guard.clear()
                     live_key_pressed_at[key_number] = now
                 else:
                     start_control(control, key_number)
@@ -884,6 +960,8 @@ while True:
                     macropad.pixels[key_number] = color_tuple(
                         live_layout["colors"][key_number]
                     )
+                elif confirmation_guard.token == confirmation_token(key_number):
+                    macropad.pixels[key_number] = CONFIRMATION_ARMED_COLOR
                 else:
                     macropad.pixels[key_number] = (
                         color_tuple(control.get("idle_color"))
@@ -894,6 +972,9 @@ while True:
 
     refresh_display_step()
     runner.tick()
+    if confirmation_guard.expire(now):
+        apply_profile_lighting()
+        show_profile()
     if overlay_visible and not runner.running and now >= overlay_until:
         show_profile()
 

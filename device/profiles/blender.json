@@ -34,7 +34,7 @@
         {"name": "Constrain Z", "oled_label": "AXIS-Z", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
         {"name": "Add object", "oled_label": "ADD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "A"]}]},
         {"name": "Duplicate", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "D"]}]},
-        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}], "requires_confirmation": true},
         {"name": "Apply transform", "oled_label": "APPLY", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
         {"name": "Edit mode", "oled_label": "EDIT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
         {"name": "Mode pie menu", "oled_label": "MODE", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "TAB"]}]}
@@ -72,7 +72,7 @@
         {"name": "Constrain Z", "oled_label": "AXIS-Z", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["Z"]}]},
         {"name": "Add object", "oled_label": "ADD", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "A"]}]},
         {"name": "Duplicate", "oled_label": "DUP", "idle_color": "#00FF66", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["SHIFT", "D"]}]},
-        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}]},
+        {"name": "Delete", "oled_label": "DELETE", "idle_color": "#FF2020", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["X"]}], "requires_confirmation": true},
         {"name": "Apply transform", "oled_label": "APPLY", "idle_color": "#FF7A00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["CONTROL", "A"]}]},
         {"name": "Edit mode", "oled_label": "EDIT", "idle_color": "#FFD000", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["TAB"]}]},
         {"name": "Operator search", "oled_label": "SEARCH", "idle_color": "#B8FF00", "pressed_color": "#FFFFFF", "steps": [{"type": "hotkey", "keys": ["F3"]}]}

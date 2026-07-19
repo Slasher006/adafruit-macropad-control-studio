@@ -127,6 +127,11 @@
       "file": "libreoffice.json"
     },
     {
+      "id": "freecad",
+      "name": "FreeCAD",
+      "file": "freecad.json"
+    },
+    {
       "id": "blender",
       "name": "Blender",
       "file": "blender.json"

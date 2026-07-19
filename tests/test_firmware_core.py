@@ -4,6 +4,7 @@ from device.macropad_core import (
     PersistentToggle,
     SubprofileStore,
     color_tuple,
+    filter_profile_entries,
     find_subprofile_index,
     normalize_index,
     normalize_profile,
@@ -152,6 +153,24 @@ def test_key_aliases_and_profile_index():
     assert normalize_index({"profiles": [{"id": "one", "name": "One"}, {"id": "one"}, {"id": "bad id"}]}) == [
         {"id": "one", "name": "One", "file": "one.json"}
     ]
+
+
+def test_profile_filter_preserves_library_order_and_falls_back_safely():
+    entries = [
+        {"id": "editing"},
+        {"id": "firefox"},
+        {"id": "i3wm"},
+        {"id": "options"},
+    ]
+    assert [
+        entry["id"]
+        for entry in filter_profile_entries(
+            entries,
+            ["options", "firefox", "i3wm"],
+        )
+    ] == ["firefox", "i3wm", "options"]
+    assert filter_profile_entries(entries, []) == entries
+    assert filter_profile_entries(entries, ["missing"]) == entries
 
 
 def test_profile_fallback_and_color_conversion():

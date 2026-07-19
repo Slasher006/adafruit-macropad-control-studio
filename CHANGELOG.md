@@ -6,6 +6,10 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Firmware and profiles
 
+- Added a temporary visible-profile filter so encoder scrolling can be limited
+  to open applications without removing the full on-device library.
+- Kept profile and subprofile persistence keyed to stable library positions
+  while the visible profile set changes.
 - Added dedicated Reddit, YouTube, Instagram, Printables, Thingiverse, Nitter,
   and Prime Video profiles with contextual In App layouts.
 - Added Firefox-title rules so the App deck selects each website profile before
@@ -13,6 +17,8 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
 
 ### Desktop service
 
+- Added all-window discovery and configurable pinned profiles so app-open and
+  app-close events update the visible encoder list.
 - Made automatic profile switching recover after boot when systemd starts before
   the i3/Sway graphical environment variables are available.
 

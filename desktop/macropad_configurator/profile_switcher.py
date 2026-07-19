@@ -56,6 +56,28 @@ def find_focused_window(tree: Any) -> FocusedWindow | None:
     return None
 
 
+def find_open_windows(tree: Any) -> list[FocusedWindow]:
+    if not isinstance(tree, dict):
+        return []
+    windows: list[FocusedWindow] = []
+    stack = [tree]
+    while stack:
+        node = stack.pop()
+        properties = node.get("window_properties") or {}
+        if properties or node.get("app_id"):
+            windows.append(
+                FocusedWindow(
+                    title=str(properties.get("title") or node.get("name") or ""),
+                    window_class=str(properties.get("class") or ""),
+                    instance=str(properties.get("instance") or ""),
+                    app_id=str(node.get("app_id") or ""),
+                )
+            )
+        stack.extend(reversed(node.get("floating_nodes") or []))
+        stack.extend(reversed(node.get("nodes") or []))
+    return windows
+
+
 def _values(rule: dict[str, Any], key: str) -> list[str]:
     values = rule.get(key, [])
     if isinstance(values, str):
@@ -86,6 +108,19 @@ def choose_profile(config: dict[str, Any], window: FocusedWindow | None) -> str 
     return target.profile if target else None
 
 
+def choose_rule_target(
+    config: dict[str, Any],
+    window: FocusedWindow,
+) -> ProfileTarget | None:
+    for rule in config.get("rules", []):
+        if isinstance(rule, dict) and rule_matches(rule, window):
+            profile = str(rule.get("profile", "")).strip()
+            if profile:
+                subprofile = str(rule.get("subprofile", "")).strip() or None
+                return ProfileTarget(profile, subprofile)
+    return None
+
+
 def choose_target(
     config: dict[str, Any],
     window: FocusedWindow | None,
@@ -93,17 +128,45 @@ def choose_target(
     if window is None:
         value = config.get("desktop_profile")
         return ProfileTarget(str(value)) if value else None
-    for rule in config.get("rules", []):
-        if isinstance(rule, dict) and rule_matches(rule, window):
-            profile = str(rule.get("profile", "")).strip()
-            if profile:
-                subprofile = str(rule.get("subprofile", "")).strip() or None
-                return ProfileTarget(profile, subprofile)
+    target = choose_rule_target(config, window)
+    if target:
+        return target
     value = config.get("default_profile")
     if not value:
         return None
     subprofile = str(config.get("default_subprofile", "")).strip() or None
     return ProfileTarget(str(value), subprofile)
+
+
+def choose_visible_profiles(
+    config: dict[str, Any],
+    windows: list[FocusedWindow],
+    selected_profile: str | None = None,
+) -> tuple[str, ...]:
+    if config.get("filter_open_apps", False) is not True:
+        return ()
+    result: list[str] = []
+    pinned = config.get("pinned_profiles", [])
+    if not isinstance(pinned, list):
+        pinned = []
+    desktop_profile = str(config.get("desktop_profile", "")).strip()
+    for value in [desktop_profile, *pinned, selected_profile]:
+        if value is None:
+            continue
+        profile = str(value).strip()
+        if profile and profile not in result:
+            result.append(profile)
+    for rule in config.get("rules", []):
+        if not isinstance(rule, dict):
+            continue
+        profile = str(rule.get("profile", "")).strip()
+        if (
+            profile
+            and profile not in result
+            and any(rule_matches(rule, window) for window in windows)
+        ):
+            result.append(profile)
+    return tuple(result)
 
 
 def _i3_socket_candidates() -> list[Path]:
@@ -185,15 +248,12 @@ def parse_serial_json(line: str) -> dict[str, Any] | None:
     return value if isinstance(value, dict) else None
 
 
-def send_to_port(
+def send_command_to_port(
     port_name: str,
-    profile_id: str,
-    subprofile: str | None = None,
+    command: dict[str, Any],
+    expected_command: str,
     timeout: float = 2.0,
 ) -> dict[str, Any]:
-    command = {"cmd": "set_profile", "id": profile_id, "automatic": True}
-    if subprofile:
-        command["subprofile"] = subprofile
     deadline = time.monotonic() + timeout
     with serial.Serial(port_name, 115200, timeout=0.1, write_timeout=1.0) as connection:
         connection.reset_input_buffer()
@@ -203,11 +263,36 @@ def send_to_port(
             response = parse_serial_json(connection.readline().decode("utf-8", "replace").strip())
             if response is None:
                 continue
-            if response.get("event") == "response" and response.get("cmd") == "set_profile":
+            if response.get("event") == "response" and response.get("cmd") == expected_command:
                 if not response.get("ok"):
                     raise RuntimeError(str(response.get("error", "device command failed")))
                 return response
-    raise RuntimeError("device did not respond to set_profile")
+    raise RuntimeError(f"device did not respond to {expected_command}")
+
+
+def send_to_port(
+    port_name: str,
+    profile_id: str,
+    subprofile: str | None = None,
+    timeout: float = 2.0,
+) -> dict[str, Any]:
+    command = {"cmd": "set_profile", "id": profile_id, "automatic": True}
+    if subprofile:
+        command["subprofile"] = subprofile
+    return send_command_to_port(port_name, command, "set_profile", timeout)
+
+
+def send_visible_profiles_to_port(
+    port_name: str,
+    profile_ids: tuple[str, ...],
+    timeout: float = 2.0,
+) -> dict[str, Any]:
+    return send_command_to_port(
+        port_name,
+        {"cmd": "set_visible_profiles", "ids": list(profile_ids)},
+        "set_visible_profiles",
+        timeout,
+    )
 
 
 def macropad_ports():
@@ -223,15 +308,23 @@ class ActiveProfileService:
         self.config = config
         self.dry_run = dry_run
         self.sent_profiles: dict[str, ProfileTarget] = {}
+        self.sent_visible_profiles: dict[str, tuple[str, ...]] = {}
         self.retry_at: dict[str, float] = {}
         self.disabled_devices: set[str] = set()
         self.options_devices: set[str] = set()
         self.last_window_signature: tuple[str, str, str, str] | None = None
         self.last_desired: ProfileTarget | None = None
+        self.last_visible_profiles: tuple[str, ...] | None = None
 
     def tick(self) -> str | None:
-        window = find_focused_window(query_i3_tree())
+        tree = query_i3_tree()
+        window = find_focused_window(tree)
         desired = choose_target(self.config, window)
+        visible_profiles = choose_visible_profiles(
+            self.config,
+            find_open_windows(tree),
+            desired.profile if desired else None,
+        )
         signature = window.signature if window else ("", "", "", "")
         previous_identity = (
             self.last_window_signature[1:] if self.last_window_signature is not None else None
@@ -246,6 +339,10 @@ class ActiveProfileService:
             )
         self.last_window_signature = signature
         self.last_desired = desired
+        if visible_profiles != self.last_visible_profiles:
+            label = ", ".join(visible_profiles) if visible_profiles else "all"
+            print(f"visible profiles: {label}", flush=True)
+        self.last_visible_profiles = visible_profiles
         if not desired:
             return None
         if self.dry_run:
@@ -256,9 +353,32 @@ class ActiveProfileService:
         for port in macropad_ports():
             device_id = str(port.serial_number or port.device)
             live_devices.add(device_id)
-            if self.sent_profiles.get(device_id) == desired:
+            visible_changed = (
+                self.sent_visible_profiles.get(device_id) != visible_profiles
+            )
+            target_changed = self.sent_profiles.get(device_id) != desired
+            if not visible_changed and not target_changed:
                 continue
             if now < self.retry_at.get(device_id, 0.0):
+                continue
+            if visible_changed:
+                try:
+                    response = send_visible_profiles_to_port(
+                        port.device,
+                        visible_profiles,
+                    )
+                except (OSError, serial.SerialException, RuntimeError) as exc:
+                    self.retry_at[device_id] = now + 2.0
+                    print(f"device {device_id}: {exc}; retrying", flush=True)
+                    continue
+                self.sent_visible_profiles[device_id] = visible_profiles
+                print(
+                    f"device {device_id}: visible_profiles="
+                    f"{response.get('profile_count', len(visible_profiles))}",
+                    flush=True,
+                )
+            if not target_changed:
+                self.retry_at.pop(device_id, None)
                 continue
             try:
                 response = send_to_port(
@@ -300,8 +420,10 @@ class ActiveProfileService:
                 flush=True,
             )
 
-        for device_id in set(self.sent_profiles) - live_devices:
+        known_devices = set(self.sent_profiles) | set(self.sent_visible_profiles)
+        for device_id in known_devices - live_devices:
             self.sent_profiles.pop(device_id, None)
+            self.sent_visible_profiles.pop(device_id, None)
             self.retry_at.pop(device_id, None)
             self.disabled_devices.discard(device_id)
             self.options_devices.discard(device_id)

@@ -130,6 +130,19 @@ automatically changing in-application shortcut deck. Automatic rules select the
 fourth **In App** layout directly; this temporary contextual selection does not
 replace the subprofile remembered for manual use.
 
+While the desktop service is connected, both deck roles receive a temporary
+encoder filter containing profiles for open applications plus the pinned
+`i3wm`, `quicklaunch`, and `options` utilities. Profiles remain stored on the
+device and return after a reboot or when filtering is disabled. Each profile's
+remembered layout uses its stable library position, so app-open/app-close
+updates cannot transfer a saved layout to a different profile. Firefox website
+matching uses the selected tab title from each browser window; inactive tabs
+that are not selected in any window are not visible to i3/Sway.
+
+The installed `~/.config/macropad-profile-switcher.json` file controls this with
+`filter_open_apps` and `pinned_profiles`. Set `filter_open_apps` to `false` for
+the complete encoder list.
+
 ### Control editor
 
 The right panel edits the selected key or encoder press.

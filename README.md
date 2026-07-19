@@ -83,6 +83,15 @@ the matching parent plus its fourth **In App** layout. This automatic contextual
 selection does not overwrite the manually remembered layout used when that
 device acts as a Manual deck.
 
+The service also keeps the encoder list short on both deck roles. It scans all
+open i3/Sway windows and temporarily exposes only their matching profiles plus
+the pinned `i3wm`, `quicklaunch`, and `options` profiles. Opening or closing an
+application updates the list without deleting any stored profile. If filtering
+is disabled or the device restarts without the service, the complete library is
+available again. Firefox can report the selected tab title in each browser
+window, but not every inactive tab, so website profiles appear for currently
+selected website tabs.
+
 Install and start it with:
 
 ```bash
@@ -96,6 +105,9 @@ service:
 ```bash
 systemctl --user restart macropad-profile-switcher.service
 ```
+
+Set `"filter_open_apps": false` to retain the complete encoder list, or edit
+`"pinned_profiles"` to change which utility profiles always remain visible.
 
 Inspect its state and recent decisions with:
 

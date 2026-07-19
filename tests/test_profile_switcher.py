@@ -5,8 +5,10 @@ from macropad_configurator.profile_switcher import (
     FocusedWindow,
     ProfileTarget,
     choose_profile,
+    choose_visible_profiles,
     choose_target,
     find_focused_window,
+    find_open_windows,
     query_i3_tree,
     rule_matches,
 )
@@ -52,6 +54,41 @@ def test_find_focused_window_extracts_i3_properties():
     )
 
 
+def test_find_open_windows_extracts_tiled_floating_and_wayland_apps():
+    tree = {
+        "nodes": [
+            {
+                "nodes": [
+                    {
+                        "name": "Editor",
+                        "window_properties": {
+                            "class": "Code",
+                            "instance": "code-oss",
+                            "title": "project - Code",
+                        },
+                    },
+                    {"name": "Terminal", "app_id": "foot"},
+                ],
+                "floating_nodes": [
+                    {
+                        "name": "Video",
+                        "window_properties": {"class": "vlc"},
+                    }
+                ],
+            }
+        ]
+    }
+    assert find_open_windows(tree) == [
+        FocusedWindow(
+            title="project - Code",
+            window_class="Code",
+            instance="code-oss",
+        ),
+        FocusedWindow(title="Terminal", app_id="foot"),
+        FocusedWindow(title="Video", window_class="vlc"),
+    ]
+
+
 def test_query_i3_tree_discovers_socket_without_graphical_environment(
     tmp_path,
     monkeypatch,
@@ -90,6 +127,113 @@ def test_rules_use_first_match_so_web_apps_override_browser():
     assert choose_profile(CONFIG, window) == "comfyui"
     assert choose_profile(CONFIG, FocusedWindow(window_class="Firefox")) == "firefox"
     assert choose_target(CONFIG, window) == ProfileTarget("comfyui", "In App")
+
+
+def test_visible_profiles_include_pinned_and_all_matching_open_apps():
+    config = {
+        **CONFIG,
+        "filter_open_apps": True,
+        "pinned_profiles": ["quicklaunch", "options", "i3wm"],
+    }
+    windows = [
+        FocusedWindow(title="Video - YouTube", window_class="firefox"),
+        FocusedWindow(window_class="kitty"),
+        FocusedWindow(window_class="unknown"),
+    ]
+    assert choose_visible_profiles(config, windows) == (
+        "i3wm",
+        "quicklaunch",
+        "options",
+        "firefox",
+        "terminal-manjaro",
+    )
+
+
+def test_visible_profile_filter_can_be_disabled_to_restore_full_library():
+    assert choose_visible_profiles(CONFIG, [FocusedWindow(window_class="firefox")]) == ()
+
+
+def test_visible_profiles_keep_the_selected_default_for_an_unknown_app():
+    config = {
+        **CONFIG,
+        "filter_open_apps": True,
+        "pinned_profiles": ["options"],
+    }
+    assert choose_visible_profiles(
+        config,
+        [FocusedWindow(window_class="unknown")],
+        selected_profile="editing",
+    ) == ("i3wm", "options", "editing")
+
+
+def test_service_sends_filter_only_when_open_app_set_changes(monkeypatch):
+    config = {
+        **CONFIG,
+        "filter_open_apps": True,
+        "pinned_profiles": ["quicklaunch", "options"],
+    }
+    tree = {
+        "nodes": [
+            {
+                "focused": True,
+                "window_properties": {
+                    "class": "firefox",
+                    "title": "Documentation",
+                },
+            }
+        ]
+    }
+    port = SimpleNamespace(device="/dev/ttyACM0", serial_number="PAD1")
+    visible_calls = []
+    target_calls = []
+
+    monkeypatch.setattr(profile_switcher, "query_i3_tree", lambda: tree)
+    monkeypatch.setattr(profile_switcher, "macropad_ports", lambda: [port])
+
+    def send_visible(port_name, profile_ids):
+        visible_calls.append((port_name, profile_ids))
+        return {"profile_count": len(profile_ids)}
+
+    def send_target(port_name, profile_id, subprofile):
+        target_calls.append((port_name, profile_id, subprofile))
+        return {
+            "profile": profile_id,
+            "subprofile": subprofile,
+            "ignored": False,
+        }
+
+    monkeypatch.setattr(profile_switcher, "send_visible_profiles_to_port", send_visible)
+    monkeypatch.setattr(profile_switcher, "send_to_port", send_target)
+
+    service = profile_switcher.ActiveProfileService(config)
+    assert service.tick() == "firefox"
+    assert visible_calls == [
+        (
+            "/dev/ttyACM0",
+            ("i3wm", "quicklaunch", "options", "firefox"),
+        )
+    ]
+    assert target_calls == [("/dev/ttyACM0", "firefox", "In App")]
+
+    assert service.tick() == "firefox"
+    assert len(visible_calls) == 1
+    assert len(target_calls) == 1
+
+    tree["nodes"].append(
+        {
+            "focused": False,
+            "window_properties": {"class": "kitty", "title": "Shell"},
+        }
+    )
+    assert service.tick() == "firefox"
+    assert visible_calls[-1][1] == (
+        "i3wm",
+        "quicklaunch",
+        "options",
+        "firefox",
+        "terminal-manjaro",
+    )
+    assert len(target_calls) == 1
 
 
 def test_desktop_and_unknown_window_fallbacks():

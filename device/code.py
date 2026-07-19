@@ -22,6 +22,7 @@ from macropad_core import (
     SubprofileStore,
     clamp,
     color_tuple,
+    filter_profile_entries,
     normalize_hex_color,
     normalize_index,
     normalize_profile,
@@ -42,7 +43,7 @@ ENCODER_OPTIONS_HOLD_SECONDS = 0.9
 PROFILE_CACHE_SIZE = 1
 NVM_SUBPROFILE_OFFSET = 1
 NVM_AUTO_SWITCH_INDEX = NVM_SUBPROFILE_OFFSET + MAX_PROFILES
-FIRMWARE_VERSION = "1.8.0"
+FIRMWARE_VERSION = "1.9.0"
 
 try:
     supervisor.runtime.autoreload = False
@@ -100,6 +101,7 @@ except (AttributeError, ValueError):
 runner = MacroRunner(macropad, time.monotonic)
 display = macropad.display_text(title=None, text_scale=1)
 
+all_profile_entries = []
 profile_entries = []
 profile_cache = {}
 profile_cache_order = []
@@ -299,12 +301,23 @@ def apply_preview(command):
     preview_active = True
 
 
-def saved_subprofile_index(parent_index, count):
-    return subprofile_store.load(parent_index, count)
+def canonical_profile_index(profile_id=None):
+    wanted = profile_id or profile_container.get("id")
+    for index, entry in enumerate(all_profile_entries):
+        if entry["id"] == wanted:
+            return index
+    return 0
+
+
+def saved_subprofile_index(profile_id, count):
+    return subprofile_store.load(canonical_profile_index(profile_id), count)
 
 
 def save_subprofile_index():
-    subprofile_store.save(profile_index, subprofile_index)
+    subprofile_store.save(
+        canonical_profile_index(profile_container.get("id")),
+        subprofile_index,
+    )
 
 
 def activate_subprofile(index, announce=True):
@@ -368,7 +381,7 @@ def load_profile_at(index, announce=True):
         while len(profile_cache_order) > PROFILE_CACHE_SIZE:
             profile_cache.pop(profile_cache_order.pop(0), None)
     activate_subprofile(
-        saved_subprofile_index(profile_index, subprofile_count()),
+        saved_subprofile_index(entry["id"], subprofile_count()),
         False,
     )
     gc.collect()
@@ -393,16 +406,19 @@ def load_profile_at(index, announce=True):
 
 
 def load_all_config(preserve_id=None):
-    global profile_entries, profile_cache, profile_cache_order, last_revision
+    global all_profile_entries, profile_entries
+    global profile_cache, profile_cache_order, last_revision
     old_id = preserve_id or profile_container.get("id")
     try:
         index_data = read_json(INDEX_PATH)
         entries = normalize_index(index_data)
         if not entries:
             raise ValueError("profile index is empty")
-        profile_entries = entries
+        all_profile_entries = entries
+        profile_entries = list(entries)
     except (OSError, ValueError) as exc:
-        profile_entries = [{"id": "default", "name": "Config error"}]
+        all_profile_entries = [{"id": "default", "name": "Config error"}]
+        profile_entries = list(all_profile_entries)
         emit("config_error", error=str(exc))
     profile_cache = {}
     profile_cache_order = []
@@ -414,6 +430,28 @@ def load_all_config(preserve_id=None):
             break
     load_profile_at(selected, False)
     last_revision = read_text(REVISION_PATH, last_revision)
+
+
+def set_visible_profiles(profile_ids):
+    global profile_entries, profile_index
+    old_ids = [entry["id"] for entry in profile_entries]
+    old_id = profile_container.get("id")
+    profile_entries = filter_profile_entries(all_profile_entries, profile_ids)
+    selected = 0
+    preserved = False
+    for index, entry in enumerate(profile_entries):
+        if entry["id"] == old_id:
+            selected = index
+            preserved = True
+            break
+    if preserved:
+        profile_index = selected
+    else:
+        load_profile_at(selected, False)
+        if options_active:
+            show_options()
+    new_ids = [entry["id"] for entry in profile_entries]
+    return old_ids != new_ids, new_ids
 
 
 def start_control(control, number):
@@ -454,8 +492,24 @@ def handle_command(command):
                 profile_timing=last_profile_timing,
                 heap_free=gc.mem_free(),
                 profile_cache_size=len(profile_cache),
+                profile_count=len(profile_entries),
+                profile_library_count=len(all_profile_entries),
+                visible_profiles=[entry["id"] for entry in profile_entries],
                 firmware_version=FIRMWARE_VERSION,
                 revision=last_revision,
+            )
+        elif name == "set_visible_profiles":
+            profile_ids = command.get("ids", [])
+            if not isinstance(profile_ids, list):
+                raise ValueError("ids must be a list")
+            changed, visible_ids = set_visible_profiles(profile_ids)
+            serial_response(
+                name,
+                changed=changed,
+                profile=profile_container.get("id"),
+                visible_profiles=visible_ids,
+                profile_count=len(visible_ids),
+                profile_library_count=len(all_profile_entries),
             )
         elif name == "set_profile":
             requested_id = str(command.get("id", "")).strip()
@@ -493,7 +547,9 @@ def handle_command(command):
                     options_active = False
                     load_profile_at(target_index)
                     try:
-                        microcontroller.nvm[0] = profile_index
+                        microcontroller.nvm[0] = canonical_profile_index(
+                            profile_container.get("id")
+                        )
                     except Exception:
                         pass
                 if requested_subprofile is not None:
@@ -587,8 +643,11 @@ def poll_serial():
 def initial_profile_index():
     try:
         value = microcontroller.nvm[0]
-        if value < len(profile_entries):
-            return value
+        if value < len(all_profile_entries):
+            wanted = all_profile_entries[value]["id"]
+            for index, entry in enumerate(profile_entries):
+                if entry["id"] == wanted:
+                    return index
     except Exception:
         pass
     return 0
@@ -694,7 +753,9 @@ while True:
 
     if save_profile_at is not None and now >= save_profile_at:
         try:
-            microcontroller.nvm[0] = profile_index
+            microcontroller.nvm[0] = canonical_profile_index(
+                profile_container.get("id")
+            )
         except Exception:
             pass
         save_profile_at = None

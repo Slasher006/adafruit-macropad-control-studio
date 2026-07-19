@@ -1,5 +1,7 @@
 {
   "poll_interval": 0.5,
+  "filter_open_apps": true,
+  "pinned_profiles": ["i3wm", "quicklaunch", "options"],
   "desktop_profile": "i3wm",
   "default_profile": "editing",
   "default_subprofile": "In App",

@@ -1062,6 +1062,13 @@ def add_multiple_devices(story: list[Flowable]) -> None:
                 "parents on App decks. Firefox, VS Code, VLC, Discord, LM Studio, ComfyUI, Caja, Krita, "
                 "LibreOffice, Blender, and other included profiles have matching support."
             ),
+            p(
+                "On both deck roles, the same service keeps encoder scrolling short by exposing only "
+                "profiles for open applications plus the pinned i3wm, quicklaunch, and options profiles. "
+                "This is a temporary filter: every profile remains stored, and a restart without the "
+                "service restores the full library. Firefox website matching sees the selected tab title "
+                "in each browser window, not every inactive tab."
+            ),
             code_block(
                 ".venv/bin/python tools/install_profile_switcher.py\n"
                 "systemctl --user status macropad-profile-switcher.service\n"
@@ -1069,7 +1076,9 @@ def add_multiple_devices(story: list[Flowable]) -> None:
             ),
             p(
                 "Rules live in ~/.config/macropad-profile-switcher.json. Restart the user service after "
-                "editing them. Automatic In App selection does not overwrite the manually remembered layout."
+                "editing them. Set filter_open_apps to false for the complete encoder list, or edit "
+                "pinned_profiles to choose the utilities that always remain visible. Automatic In App "
+                "selection does not overwrite the manually remembered layout."
             ),
         ]
     )

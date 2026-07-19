@@ -302,6 +302,19 @@ def normalize_index(data):
     return result
 
 
+def filter_profile_entries(entries, profile_ids):
+    """Return requested profiles in library order, or the full library as a fallback."""
+    if not isinstance(profile_ids, list) or not profile_ids:
+        return list(entries)
+    wanted = set()
+    for profile_id in profile_ids:
+        value = str(profile_id).strip()
+        if value:
+            wanted.add(value)
+    filtered = [entry for entry in entries if entry.get("id") in wanted]
+    return filtered or list(entries)
+
+
 KEY_ALIASES = {
     "CTRL": "CONTROL",
     "CMD": "GUI",

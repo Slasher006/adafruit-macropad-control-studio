@@ -258,6 +258,26 @@ def test_rule_selectors_are_case_insensitive_and_combined():
     )
 
 
+def test_title_regex_is_combined_with_other_selectors_and_invalid_regex_is_safe():
+    rule = {
+        "profile": "comfyui",
+        "class_contains": ["firefox"],
+        "title_regex": [r"^\[\d+%\](?:\[\d+%\])?"],
+    }
+    assert rule_matches(
+        rule,
+        FocusedWindow(title="[9%][0%] KSampler — Mozilla Firefox", window_class="Firefox"),
+    )
+    assert not rule_matches(
+        rule,
+        FocusedWindow(title="[9%][0%] Download", window_class="Code"),
+    )
+    assert not rule_matches(
+        {"profile": "broken", "title_regex": ["["]},
+        FocusedWindow(title="anything"),
+    )
+
+
 def test_bundled_map_selects_desktop_application_profiles():
     import json
     from pathlib import Path
@@ -289,6 +309,7 @@ def test_bundled_map_selects_firefox_website_profiles_before_firefox():
         )
     )
     cases = {
+        "ChatGPT — Mozilla Firefox": "chatgpt",
         "A community on Reddit - Firefox": "reddit",
         "Video title - YouTube — Mozilla Firefox": "youtube",
         "Instagram — Mozilla Firefox": "instagram",
@@ -310,7 +331,33 @@ def test_bundled_map_selects_firefox_website_profiles_before_firefox():
     ) == ProfileTarget("firefox", "In App")
     assert choose_target(
         config,
-        FocusedWindow(title="YouTube notes", window_class="Code"),
+        FocusedWindow(title="ChatGPT and YouTube notes", window_class="Code"),
+    ) == ProfileTarget("vscode", "In App")
+
+
+def test_bundled_map_keeps_comfyui_during_dynamic_workflow_progress_titles():
+    import json
+    from pathlib import Path
+
+    config = json.loads(
+        (Path(__file__).resolve().parents[1] / "config" / "active-profile-map.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    for title in (
+        "[0%][0%] VAELoader — Mozilla Firefox",
+        "[4%][0%] CLIPLoader — Mozilla Firefox",
+        "[9%][0%] KSampler — Mozilla Firefox",
+        "[0%][0%] VRAMCleanup — Mozilla Firefox",
+    ):
+        assert choose_target(
+            config,
+            FocusedWindow(title=title, window_class="Firefox"),
+        ) == ProfileTarget("comfyui", "In App")
+
+    assert choose_target(
+        config,
+        FocusedWindow(title="[9%][0%] KSampler", window_class="Code"),
     ) == ProfileTarget("vscode", "In App")
 
 

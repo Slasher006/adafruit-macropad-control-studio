@@ -10,6 +10,7 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Media | Mute, Volume down, Volume up | Previous, Play/pause, Next | Mouse left, middle, right | Page up, Page down, Home | Next subprofile |
 | VS Code | Command palette, Quick open, Explorer | Project search, Source control, Save | Format, Definition, Rename | Debug, Breakpoint, Problems | Next subprofile |
 | Firefox | Back, Forward, Reload | New tab, Close tab, Restore tab | Previous tab, Next tab, Address bar | Find, Downloads, Fullscreen | Next subprofile |
+| ChatGPT | Search chats, Find conversation, Tools | Previous control, Send, Next control | New line, Stop, Copy | Undo, Paste, Redo | Next subprofile |
 | Reddit | Next, Previous, Copy link | Upvote, Save, Downvote | Reply, Collapse, Hide | Navigation, Create post, Help | Next subprofile |
 | YouTube | Rewind 10, Play/pause, Forward 10 | Previous video, Mute, Next video | Slower, Captions, Faster | Search, Miniplayer, Fullscreen | Next subprofile |
 | Instagram | Back, Previous control, Next control | Previous item, Activate, Next item | Page up, Toggle, Page down | Find, Escape, Reload | Next subprofile |
@@ -50,6 +51,7 @@ Key colors use one functional risk spectrum: green (`#00FF66`) for safe/start/cr
 | Media | Media | Navigation | Presentation | In App |
 | VS Code | General | Navigation | Code and Debug | In App |
 | Firefox | Browse | Tabs | Tools | In App |
+| ChatGPT | Chat | Prompt Editing | Browser | In App |
 | Reddit | Posts | Media | Browser | In App |
 | YouTube | Playback | Fine Playback | Browser | In App |
 | Instagram | Browse | Keyboard Access | Browser | In App |
@@ -111,6 +113,7 @@ System Control executes its reboot and shutdown commands after opening a termina
 
 - [VS Code default Linux shortcuts](https://code.visualstudio.com/docs/reference/default-keybindings)
 - [Firefox keyboard shortcuts](https://support.mozilla.org/en-US/kb/keyboard-shortcuts-perform-firefox-tasks-quickly)
+- [ChatGPT chat-history search](https://help.openai.com/en/articles/10056348-how-do-i-search-my-chat-history-in-chatgpt) and [Search tool](https://help.openai.com/en/articles/9237897-chatgpt-search)
 - [Reddit keyboard shortcuts](https://support.reddithelp.com/hc/en-us/articles/38744650091412-How-to-use-keyboard-shortcuts-hotkeys)
 - [YouTube keyboard shortcuts](https://support.google.com/youtube/answer/7631406)
 - [Prime Video keyboard shortcuts](https://www.primevideo.com/help?nodeId=GE4VW9VWJD7FM6DR)

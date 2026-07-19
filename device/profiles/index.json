@@ -22,6 +22,11 @@
       "file": "firefox.json"
     },
     {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "file": "chatgpt.json"
+    },
+    {
       "id": "reddit",
       "name": "Reddit",
       "file": "reddit.json"

@@ -15,9 +15,21 @@
       "title_contains": ["comfyui"]
     },
     {
+      "profile": "comfyui",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_regex": ["^\\[\\d+%\\](?:\\[\\d+%\\])?"]
+    },
+    {
       "profile": "ssh",
       "subprofile": "In App",
       "title_contains": [" ssh ", "ssh ", "ssh:", "user@", "root@"]
+    },
+    {
+      "profile": "chatgpt",
+      "subprofile": "In App",
+      "class_contains": ["firefox"],
+      "title_contains": ["chatgpt"]
     },
     {
       "profile": "reddit",

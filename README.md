@@ -77,7 +77,9 @@ survives restarts.
 The included systemd user service reads the focused i3/Sway window and switches
 every connected MacroPad to the matching parent profile. For example, focusing
 Firefox selects `firefox`, Code OSS selects `vscode`, and a Firefox tab whose
-title contains ComfyUI selects `comfyui`. Firefox tabs for Reddit, YouTube,
+title contains ComfyUI selects `comfyui`. The ComfyUI profile remains selected
+when a running workflow temporarily replaces the tab title with node progress.
+Firefox tabs for ChatGPT, Reddit, YouTube,
 Instagram, Printables, Thingiverse, Nitter, and Prime Video select their own
 website profiles before the generic Firefox fallback. Caja, Krita, LibreOffice,
 and Blender have dedicated matches as well. Profile and App decks both select

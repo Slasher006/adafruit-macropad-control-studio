@@ -18,11 +18,15 @@ All notable changes to the Adafruit MacroPad Configurator are documented here.
   while the visible profile set changes.
 - Added dedicated Reddit, YouTube, Instagram, Printables, Thingiverse, Nitter,
   and Prime Video profiles with contextual In App layouts.
+- Added a dedicated ChatGPT profile for chat navigation, prompt editing, and
+  browser controls, with automatic Firefox tab matching.
 - Added Firefox-title rules so the App deck selects each website profile before
   falling back to the generic Firefox layout.
 
 ### Desktop service
 
+- Kept the ComfyUI profile selected while workflow progress temporarily replaces
+  the Firefox tab title with the active node name.
 - Added persistent bidirectional serial sessions and live providers for status,
   open programs, per-app audio, window management, clipboard history,
   focus/meeting controls, system telemetry, and long-running jobs.

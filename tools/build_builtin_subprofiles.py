@@ -187,6 +187,36 @@ YOUTUBE_FINE_KEYS = [
     hotkey("Next chapter", "CHAP+", LIME, "CONTROL", "RIGHT_ARROW"),
 ]
 
+CHATGPT_KEYS = [
+    hotkey("Search chats", "SEARCH", GREEN, "CONTROL", "K"),
+    hotkey("Find in conversation", "FIND", LIME, "CONTROL", "F"),
+    hotkey("Open tools menu", "TOOLS", GREEN, "FORWARD_SLASH"),
+    hotkey("Previous control", "ITEM-", LIME, "SHIFT", "TAB"),
+    hotkey("Send or activate", "SEND", GREEN, "ENTER"),
+    hotkey("Next control", "ITEM+", LIME, "TAB"),
+    hotkey("Insert new line", "NEWLN", LIME, "SHIFT", "ENTER"),
+    hotkey("Stop or close", "STOP", RED, "ESCAPE"),
+    hotkey("Copy", "COPY", GREEN, "CONTROL", "C"),
+    hotkey("Undo", "UNDO", YELLOW, "CONTROL", "Z"),
+    hotkey("Paste", "PASTE", GREEN, "CONTROL", "V"),
+    hotkey("Redo", "REDO", YELLOW, "CONTROL", "SHIFT", "Z"),
+]
+
+CHATGPT_EDIT_KEYS = [
+    hotkey("Cursor left", "LEFT", LIME, "LEFT_ARROW"),
+    hotkey("Cursor up", "UP", LIME, "UP_ARROW"),
+    hotkey("Cursor right", "RIGHT", LIME, "RIGHT_ARROW"),
+    hotkey("Previous word", "WORD-", LIME, "CONTROL", "LEFT_ARROW"),
+    hotkey("Cursor down", "DOWN", LIME, "DOWN_ARROW"),
+    hotkey("Next word", "WORD+", LIME, "CONTROL", "RIGHT_ARROW"),
+    hotkey("Line start", "HOME", LIME, "HOME"),
+    hotkey("Select all", "ALL", YELLOW, "CONTROL", "A"),
+    hotkey("Line end", "END", LIME, "END"),
+    hotkey("Select previous word", "SEL-", YELLOW, "CONTROL", "SHIFT", "LEFT_ARROW"),
+    hotkey("Insert new line", "NEWLN", LIME, "SHIFT", "ENTER"),
+    hotkey("Select next word", "SEL+", YELLOW, "CONTROL", "SHIFT", "RIGHT_ARROW"),
+]
+
 GENERIC_WEBSITE_KEYS = [
     hotkey("Back", "BACK", LIME, "ALT", "LEFT_ARROW"),
     hotkey("Previous control", "ITEM-", LIME, "SHIFT", "TAB"),
@@ -218,6 +248,7 @@ PRIME_VIDEO_KEYS = [
 ]
 
 WEBSITE_META = {
+    "chatgpt": ("ChatGPT", "CG", CHATGPT_KEYS),
     "reddit": ("Reddit", "RD", REDDIT_KEYS),
     "youtube": ("YouTube", "YT", YOUTUBE_KEYS),
     "instagram": ("Instagram", "IG", GENERIC_WEBSITE_KEYS),
@@ -949,6 +980,13 @@ SPECS = {
             layout("Browser", "BR", browser_keys()),
         ],
     ),
+    "chatgpt": (
+        "Chat",
+        [
+            layout("Prompt Editing", "PE", CHATGPT_EDIT_KEYS),
+            layout("Browser", "BR", browser_keys()),
+        ],
+    ),
     "instagram": (
         "Browse",
         [
@@ -1278,6 +1316,7 @@ IN_APP_LAYOUTS = {
     ),
     "reddit": layout("In App", "IA", REDDIT_KEYS),
     "youtube": layout("In App", "IA", YOUTUBE_KEYS),
+    "chatgpt": layout("In App", "IA", CHATGPT_KEYS),
     "instagram": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
     "printables": layout("In App", "IA", GENERIC_WEBSITE_KEYS),
     "thingiverse": layout("In App", "IA", GENERIC_WEBSITE_KEYS),

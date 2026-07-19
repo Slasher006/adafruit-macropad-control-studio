@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import time
 from dataclasses import dataclass
@@ -101,6 +102,17 @@ def rule_matches(rule: dict[str, Any], window: FocusedWindow) -> bool:
             continue
         used = True
         if not any(value in actual for value in expected):
+            return False
+    title_patterns = _values(rule, "title_regex")
+    if title_patterns:
+        used = True
+        try:
+            if not any(
+                re.search(pattern, window.title, re.IGNORECASE)
+                for pattern in title_patterns
+            ):
+                return False
+        except re.error:
             return False
     return used
 

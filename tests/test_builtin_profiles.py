@@ -9,6 +9,7 @@ PROFILE_ROOT = ROOT / "device" / "profiles"
 REQUESTED_PROFILE_IDS = {
     "vscode",
     "firefox",
+    "chatgpt",
     "reddit",
     "youtube",
     "instagram",
@@ -38,6 +39,7 @@ AUTO_PROFILE_IDS = {
     "media",
     "vscode",
     "firefox",
+    "chatgpt",
     "reddit",
     "youtube",
     "instagram",
@@ -197,6 +199,7 @@ def test_desktop_application_profiles_have_expected_layouts():
 
 def test_website_profiles_have_expected_layouts_and_contextual_keys():
     expected = {
+        "chatgpt": ["Chat", "Prompt Editing", "Browser", "In App"],
         "reddit": ["Posts", "Media", "Browser", "In App"],
         "youtube": ["Playback", "Fine Playback", "Browser", "In App"],
         "instagram": ["Browse", "Keyboard Access", "Browser", "In App"],
@@ -214,9 +217,15 @@ def test_website_profiles_have_expected_layouts_and_contextual_keys():
         ] == layout_names
         assert profile["subprofiles"][-1]["keys"] == profile["keys"]
 
+    chatgpt = json.loads((PROFILE_ROOT / "chatgpt.json").read_text(encoding="utf-8"))
     reddit = json.loads((PROFILE_ROOT / "reddit.json").read_text(encoding="utf-8"))
     youtube = json.loads((PROFILE_ROOT / "youtube.json").read_text(encoding="utf-8"))
     prime = json.loads((PROFILE_ROOT / "prime-video.json").read_text(encoding="utf-8"))
+    assert [key["name"] for key in chatgpt["keys"][:3]] == [
+        "Search chats",
+        "Find in conversation",
+        "Open tools menu",
+    ]
     assert [key["name"] for key in reddit["keys"][:6]] == [
         "Next post or comment",
         "Previous post or comment",
